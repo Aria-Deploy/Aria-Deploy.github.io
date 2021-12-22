@@ -1,0 +1,39 @@
+// Misc.
+$misc: (z-index-base: 10000, max-features: 20, max-sidebar-links: 20);
+
+// Duration.
+$duration: (transition: 0.2s, activation: 1s);
+// Size.
+$size: (
+	border-radius: 0.25em,
+	border-width: 1px,
+	element-height: 2.75em,
+	element-margin: 2em,
+	sidebar-width: 18em,
+	sidebar-height: 3.5em,
+	inner-width: 75em
+);
+// Font.
+$font: (
+	family: (Poppins, Arial, Helvetica, sans-serif),
+	family-header: (Rubik, Arial, Helvetica, sans-serif) family-fixed: ('Courier New', monospace),
+	weight: normal,
+	weight-bold: bold,
+	kerning-alt: 0.25em
+);
+// Palette.
+$palette: (
+	bg: #314359,
+	bg-alt: darken(#314359, 5),
+	fg: rgba(0, 0, 0, 0.95),
+	fg-bold: #000000,
+	fg-light: rgba(0, 0, 0, 0.699),
+	border: rgba(0, 0, 0, 0.15),
+	border-bg: rgba(0, 0, 0, 0.05),
+	accent1: #f5f5f5,
+	accent1-alt: darken(#f5f5f5, 10),
+	accent2: #f45459,
+	accent2-alt: darken(#f45459, 10),
+	accent3: #0a3c4a,
+	accent3-alt: darken(#0a3c4a, 10)
+);
