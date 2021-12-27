@@ -35,7 +35,7 @@
 							<li>
 								<a href="#three">3. Choosing the Right Deployment</a>
 								<ul class="subsection">
-									<li><a href="#section31">3.1 Different Flavors of Canary Deployments</a></li>
+									<li><a href="#section31">3.1 Canary Analysis</a></li>
 									<li><a href="#section32">3.2 Survey of Existing Solutions</a></li>
 								</ul>
 							</li>
@@ -170,11 +170,31 @@
 						<section>
 							<div class="content">
 								<div class="inner">
-									<h2>3. Introducing Pioneer</h2>
-									<p>The limitations of the third-party solutions have led the Harvest Delivery team to pursue a new feature flag management system that fits their requirements perfectly: <b>Pioneer</b>.</p>
+									<h2>3. Choosing the Right Deployment Strategy</h2>
+                  <p>First and foremost, a deployment strategy should both align with and serve business goals. For example, a service owner may prioritize zero downtime when rolling out service updates because customers require access to medical information regardless of the time of day. Some of the other considerations may include; cost, engineering skill set, available testing tools, potential schema changes, and others. (Google SRE)</p>
+                  <p>Upon reviewing the above described deployment methods, disagreement arose between the ChartHealth developer teams. The team responsible for the Stats service favored the Big Bang approach. The team responsible for the Trends service felt that Blue/Green deployments were more suitable for the development and release cadence of their service. The medical records team, chiefly concerned with data integrity, rejected all deployment types except canary deployment.</p>
+                  <p>[INSERT THREE SERVICES PER DEPLOYMENT TYPE IMAGE]</p>
+                  <p>A major benefit of adopting a microservices architecture is the decoupling that can be achieved between services. Decoupling between services can be expressed in terms of how the service is developed, implemented, and deployed independent of one another (Indrasiri). Thus, although each of the ChartHealth development teams disagree on which deployment technique to utilize, each can be satisfied by adopting the deployment technique of their choosing.</p>
+                  <p>Upon reviewing common modern deployments, the ChartHealth EMR service development team elected to adopt canary deployments. The deciding factor was that medical record data integrity is paramount. The development team is first and foremost concerned about minimizing risk of issues being presented by new service revisions which could result in incorrect or missing patient medical data.</p>
 									<section id="section31">
-										<h3 id="three.one">3.1 What Is Pioneer?</h3>
-										<p>Pioneer is an open-source, self-hosted feature flag management service that aids in the transition from a monolithic to microservices architecture. Feature flags can be used to roll out new services to all users, or an assigned percentage of users, and can easily be toggled on/off with a single click. These feature flags, and any updates made to them, are propagated to the client application in real-time, in an asynchronous and fault-tolerant manner.</p>
+										<h3 id="three.one">3.1 Canary Analysis</h3>
+                    <p>The most encompassing definition of canary deployment may be:</p>
+                    <blockquote>deployment which consists of gradually shifting the network traffic [within the production environment] from the old application version to the new application version (Çeliku 13)</blockquote>
+                    <p>This language is very broad but may be the only definition which satisfies the myriad implementations across companies. Some organizations implement simplistic deployments which are little more than automated traffic splitters (Mitreski). Others divide HTTP traffic such that individual user sessions are handled by the canary or production service revision exclusively (Tucker). Some implementations combine canary release with other deployment techniques such as Blue/Green (Ehmke).</p>
+                    <p>While there are many axes over which canary deployments can be divided, there are two groupings based on historical progression of the technique (Çeliku 2) (CD Foundation). While no formal terminology exists for this variation in canary analysis techniques, these implementations can be referred to as manual canary analysis and automated canary analysis.</p>
+											<div class="inner">
+												<h4 id="three.one.one">3.1.1 Manual Analysis</h4>
+												<p>When a Pioneer SDK client is initialized, it sends an HTTP request to the Scout daemon to establish a server-sent events (SSE) connection. First, the Scout daemon authorizes the SDK client via an SDK key.</p>
+												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout1.svg" type="image/svg+xml"></object>
+												<p>Following SDK authorization, Scout will publish a message to NATS JetStream to request the latest feature flag dataset from Compass. This occurs by Scout publishing a message with the title, <code>DATA.FullRuleSetRequest</code>. NATS JetStream receives this message and if Compass is connected to NATS, the message will be sent to Compass.</p>
+												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout2.svg" type="image/svg+xml"></object>
+												<p>Compass receives the message from NATS because it is configured as a subscriber of messages sent with that specific title. Once Compass receives the message, it sends an <code>Ack</code> back to NATS to acknowledge message receipt. If Compass is not currently connected to NATS, the message will be stored by JetStream until Compass connects to NATS and is able to receive the message.</p>
+												<p>Once Compass has received the <code>DATA.FullRuleSetRequest</code> message, it will retrieve the latest feature flag data from Postgres. Following data retrieval, Compass will publish a NATS message with the title <code>DATA.FullRuleSet</code>. Furthermore, the body of the message will contain the flag data in JSON format. </p>
+												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout3.svg" type="image/svg+xml"></object>
+												<p>Scout subscribes to messages with the <code>DATA.FullRuleSet</code> title, and once Scout receives (and acknowledges) the NATS message, the flag data is parsed from the message body and is sent to all connected SDK clients, via SSE.</p>
+												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout4.svg" type="image/svg+xml"></object>
+												<p>The SSE connection between the SDK client and Scout will disconnect after 30 seconds of idle activity  (see <a href="four.three">section 4.3</a> for details), forcing the SDK to reconnect to Scout. The connection process described above occurs in the same manner both during initial SDK connections and reconnections.</p>
+											</div>
 									</section>
 								</div>
 								<div class="inner">
@@ -438,7 +458,7 @@
 							<div class="content">
 								<div class="inner">
 									<h2>8. Presentation</h2>
-									<div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://dkq85ftleqhzg.cloudfront.net/capstone_presentations/pioneer.mp4" style="left:0;position:absolute;top:0" width="100%"></iframe></div></div>
+									<!-- <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://dkq85ftleqhzg.cloudfront.net/capstone_presentations/pioneer.mp4" style="left:0;position:absolute;top:0" width="100%"></iframe></div></div> -->
 							</div>
 						</section>
 					</section>
