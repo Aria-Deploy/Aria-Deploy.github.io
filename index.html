@@ -35,7 +35,7 @@
 							<li>
 								<a href="#three">3. Choosing the Right Deployment</a>
 								<ul class="subsection">
-									<li><a href="#section31">3.1 Canary Analysis</a></li>
+									<li><a href="#section31">3.1 Different Flavors of Canary Deployments</a></li>
 									<li><a href="#section32">3.2 Survey of Existing Solutions</a></li>
 								</ul>
 							</li>
@@ -105,21 +105,19 @@
 									<section id="section11">
 										<h3>1.1 Hypothetical</h3>
 										<p>To better understand the use case for Aria, consider ChartHealth – a hypothetical company that provides an electronic medical record software. ChartHealth’s product manages sensitive patient information with a user base spanning hundreds of health care facilities nationally. The ChartHealth product includes features such as: reading/writing to electronic medical records (EMR), aggregation of patient statistics, and data science models used to identify trends across EMRs.</p>
-										<p>[ChartHealth picture here]</p>
+										<img class="image fit" src="./images/aria_visuals/pngs/charthealth.png" alt="Screenshot showing ChartHealth's homepage.">
 										<p>Recently, ChartHeath has expanded its business to include facilities in most US states spanning from Hawaii to Maine. Additionally, ChartHealth’s software product has grown in complexity due to feature additions as demanded by customers and evolving regulations. These additions have resulted in a rapid growth of both the number of developers employed by the company and size of the product codebase. As a result of expansion to facilities across five time zones, ChartHealth’s product must now have practically zero downtime in order to not lose business to competitors offering similar products.</p>
-										<img class="image fit" src="./images/aria_visuals/monolith_to_microservices.svg" alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
+										<img class="image fit" src="./images/aria_visuals/pngs/monolith_to_microservices.png" alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
 										<p>In order to meet these new challenges, ChartHealth has  decided to migrate their current on-site monolith architecture to a cloud-based microservice architecture. As a result of the planned migration, the company’s monolithic product codebase has been split into multiple services owned and operated by different teams of developers.</p>
 									</section>
 									<section id="section12">
 										<h3>1.2 The Problem with Traditional Deployments</h3>
-										<p></p>
-										<center>
-											<video width="452" height="339" autoplay loop>
-												<source src="./images/aria_visuals/traditional_deployment.mov">
+										<div class="text-animation">
+											<p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or large parts of an application in one operation. The inherent downsides to big-bang deployments include: exposure of all users to issues due to software changes, longer delays between deployments, extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able to manage these downsides prior to the recent expansion, when it’s smaller developer team could more easily manage and comprehend the entire codebase.</p>
+											<video width="309px" height="447px" autoplay loop>
+												<source src="./images/aria_visuals/movs/traditional_deployment.mov">
 											</video>
-										</center>
-										<p></p>
-										<p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or large parts of an application in one operation. The inherent downsides to big-bang deployments include: exposure of all users to issues due to software changes, longer delays between deployments, extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able to manage these downsides prior to the recent expansion, when it’s smaller developer team could more easily manage and comprehend the entire codebase.</p>
+										</div>
 										<p>In the context of ChartHealth’s planned service-based architecture, there are multiple reasons that the ‘big-bang’ approach is no longer appropriate. First, for example, the EMR management feature must be as high-integrity as possible to satisfy government regulations. Simply replacing the EMR service for all users in one ‘big-bang’ presents unreasonable risk which may result in inaccurate records capture or deletion. Second, even on a service-by-service basis, if issues with new revisions of a service are encountered, rolling back production to previous revisions of the service will likely result in undesired downtime (Skowronski et al).</p>
 										<p>With the understanding that their deployment technique must change, ChartHealth’s technical leadership undertakes a review of the modern deployment techniques and finds a plethora of options.</p>
 									</section>
@@ -136,29 +134,86 @@
 									<h2>2. Modern Deployments</h2>
 									<p>In the context of microservice architectures, the goal of modern deployment practices is to achieve small and frequent service revision releases which result in  zero downtime. While each of the many unique deployment techniques share this characteristic, the approaches can be distinguished by their tradeoffs.</p>
 									<p>With the understanding that a modern deployment strategy must be employed to facilitate deployment of revisions on a service-by-service basis, ChartHealth begins exploring the landscape of modern deployments. The company specifically seeks to understand which of the deployment types are most commonly employed. ChartHealth contacts multiple companies which provide deployment solution products and requests usage data from those suppliers.</p>
-									<p>[Vamp & Harness survey picture here]</p>
+									<center>	
+										<img style="padding-bottom: 20px;" width="547px" height="298px" src="./images/aria_visuals/pngs/vamp_and_harness_surveys.png" alt="Bar graph depicting Vamp and Harness modern deployment usage surveys.">
+									</center>
 									<p>The above chart was compiled from customer surveys conducted by two market-leading providers of Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that the four most common deployment techniques between the customer bases of both companies are: big bang, rolling, blue/green, and canary.</p>
 									<section id="section21">
 										<h3 id="two.one">2.1 Rolling Deployment</h3>
-										<p>[rolling deployment picture here]</p>
+										<video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay loop>
+											<source src="./images/aria_visuals/movs/rolling_deployment.mov">
+										</video>
 										<p>Rolling deployments introduce service revisions by incrementally replacing the current production service code on each of multiple nodes within the architecture. This type of deployment is only applicable if there are multiple instances of the same service operating in production. An interesting, and perhaps desirable, aspect of rolling deployments is that the current production and new revision of a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling deployments can also target specific user groups according to region, IP address, and a variety of other traffic differentiators.</p>
-										<p>[pros/cons picture here]</p>
+										<table class="proscons">
+											<tr>
+												<th>PROS</th>
+												<th>CONS</th>
+											</tr>
+											<tr>
+												<td>Rollout status transparency and control</td>
+												<td>Extended deployment timeframe</td>
+											</tr>
+											<tr>
+												<td>Risk limited to a subset of users</td>
+												<td>Not suitable for all-or-nothing changes</td>
+											</tr>
+										</table>
 									</section>
 								</div>
 								<div class="inner">
 									<section id="section22">
 										<h3 id="two.two">2.2 Blue/Green Deployment</h3>
-										<p>[blue/green deployment picture here]</p>
-										<p>Blue/green deployments require two environments: blue and green. The first environment, green within the above diagram, is the current production environment. The second blue environment is an almost exact replica of the green (production) environment. The only difference between their content is the revision of the target service.   After the newly introduced blue domain has completed initialization, a network switch or load balancer routes 100% of the incoming network traffic to either blue or green environments exclusively. As the deployment progresses, the traffic router redirects traffic to and from the blue or green domains on an as needed basis. At any point in time, only one of the deployments is processing incoming network traffic. The traffic router can maintain routing to the blue environment if the service revision performance is acceptable. At this point, the blue environment effectively achieves production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
-										<p>[pros/cons picture here]</p>
+										<div class="text-animation">
+											<p>Blue/green deployments require two environments: blue and green. The first environment, green within the above diagram, is the current production environment. The second blue environment is an almost exact replica of the green (production) environment. The only difference between their content is the revision of the target service.</p>
+											<video width="448px" height="380px" autoplay loop>
+												<source src="./images/aria_visuals/movs/blue_green_deployment.mov">
+											</video>
+										</div>
+										<p>After the newly introduced blue domain has completed initialization, a network switch or load balancer routes 100% of the incoming network traffic to either blue or green environments exclusively. As the deployment progresses, the traffic router redirects traffic to and from the blue or green domains on an as needed basis. At any point in time, only one of the deployments is processing incoming network traffic. The traffic router can maintain routing to the blue environment if the service revision performance is acceptable. At this point, the blue environment effectively achieves production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
+										<table class="proscons">
+											<tr>
+												<th>PROS</th>
+												<th>CONS</th>
+											</tr>
+											<tr>
+												<td>Instantaneous rollout and rollback</td>
+												<td>Duplicate production resources required</td>
+											</tr>
+											<tr>
+												<td>Simple disaster recovery</td>
+												<td>Entire user-base exposed to service revision issues</td>
+											</tr>
+										</table>
 									</section>
 								</div>
 								<div class="inner">
 									<section id="section23">
 										<h3 id="two.three">2.3 Canary Deployment</h3>
-										<p>[canary deployment picture here]</p>
-										<p>This technique involves introducing a revised instance of a service, referred to as the canary, into the same production environment as the current production version of the service. A load balancer routes a minority of the incoming network traffic to be served by the canary instance. During the canary deployment, a majority of the network traffic continues to be served by the production service. The instance is continually analyzed such that any newly introduced issues can be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming network traffic is directed to the canary instance initially, data on its performance is collected and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis (Sato). The load balancer can divide incoming traffic based on many different criteria including: sticky sessions, geographical region, packet addresses, packet headers, etc. This allows for the canary service to be targeted at specific users or user groups despite executing within the production environment.</p>
-										<p>[pros/cons picture here]</p>
+										<div class="text-animation">
+											<p>This technique involves introducing a revised instance of a service, referred to as the canary, into the same production environment as the current production version of the service. A load balancer routes a minority of the incoming network traffic to be served by the canary instance. During the canary deployment, a majority of the network traffic continues to be served by the production service. The instance is continually analyzed such that any newly introduced issues can be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming network traffic is directed to the canary instance initially, data on its performance is collected and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis (Sato).</p>
+											<video width="291px" height="481px" autoplay loop>
+												<source src="./images/aria_visuals/movs/canary_deployment.mov">
+											</video>
+										</div>
+										<p>The load balancer can divide incoming traffic based on many different criteria including: sticky sessions, geographical region, packet addresses, packet headers, etc. This allows for the canary service to be targeted at specific users or user groups despite executing within the production environment.</p>
+										<table class="proscons">
+											<tr>
+												<th>PROS</th>
+												<th>CONS</th>
+											</tr>
+											<tr>
+												<td>Minimal risk exposure to user-base</td>
+												<td>Onerous configuration</td>
+											</tr>
+											<tr>
+												<td>High-fidelity canary analysis</td>
+												<td>Extended deployment timeframe</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>Disaster recovery can be complex</td>
+											</tr>
+										</table>
 									</section>
 								</div>
 							</div>
@@ -531,8 +586,7 @@
 										<a href="https://github.com/emctackett">
 											<img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Elizabeth Tackett GitHub">
 										</a>
-										<a href="https://www.linkedin.com/in/emctackett
-">
+										<a href="https://www.linkedin.com/in/emctackett">
 											<img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Elizabeth Tackett LinkedIn">
 										</a>
 									</div>
