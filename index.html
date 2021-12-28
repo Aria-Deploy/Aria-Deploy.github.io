@@ -1,563 +1,899 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Aria - Canary Deployments</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="shortcut icon" href="./images/pioneer_branding/png/color/favicon.ico" type="image/x-icon" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
-		<!-- Sidebar -->
-			<section id="sidebar">
-				<div class="inner">
-					<nav>
-						<ul>
-							<li>
-								<h2><a href="#intro">aria</a></h2>
-							</li>
-							<li>
-								<a href="#one">1. Introduction and Use Case</a>
-								<ul class="subsection">
-									<li><a href="#section11">1.1 Hypothetical</a></li>
-									<li><a href="#section12">1.2 The Problem with Traditional Deployments</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#two">2. Modern Deployments</a>
-								<ul class="subsection">
-									<li><a href="#section21">2.1 Rolling Deployment</a></li>
-									<li><a href="#section22">2.2 Blue/Green Deployment</a></li>
-									<li><a href="#section23">2.3 Canary Deployment</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#three">3. Choosing the Right Deployment</a>
-								<ul class="subsection">
-									<li><a href="#section31">3.1 Canary Analysis</a></li>
-									<li><a href="#section32">3.2 Survey of Existing Solutions</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#four">4. Introducing Aria</a>
-								<ul class="subsection">
-									<li><a href="#section41">4.1 What is Aria?</a></li>
-									<li><a href="#section42">4.2 Why Choose Aria?</a></li>
-									<li><a href="#section43">4.3 Where does Aria fit?</a></li>
-									<li><a href="#section44">4.4 Using Aria</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#five">5. Technical Deep Dive</a>
-							</li>
-							<li>
-								<a href="#six">6. Engineering Decisions & Tradeoffs</a>
-							</li>
-							<li>
-								<a href="#seven">7. Future Work</a>
-							</li>
-							<li>
-								<a href="#eight">8. References</a>
-							</li>
-							<li>
-								<a href="#nine">9. Presentation</a>
-							</li>
-							<li>
-								<a href="#nine">10. Meet the Team</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-			</section>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
-				<a id="octocat" href="https://github.com/Aria-Deploy">
-					<img src="./images/GitHub-Mark/PNG/GitHub-Mark-64px.png" alt="">
-				</a>
-				<!-- Intro -->
-					<section id="intro" class="wrapper style1 fullscreen fade-up">
-						<img id="logo-banner" src="./images/aria_branding/png/color/aria__logo_color.png" alt="">
-						<div id="logo-intro" class="inner">
-							<p>Introducing the <em>fastest</em>, <em>easiest</em> way to move to microservices with simple, scalable feature flags.</p>
-							<p id="available">Available as an <strong>open-source</strong> project under the <a href="https://opensource.org/licenses/MIT">Open Source Initiative.</a></p>
-							<ul class="actions">
-								<li><a href="#one" class="button scrolly">Read the writeup</a></li>
-								<li><a href="/documentation" id="documentation" class="button scrolly">Documentation</a></li>
-							</ul>
-						</div>
+<head>
+  <title>Aria - Canary Deployments</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="shortcut icon" href="./images/pioneer_branding/png/color/favicon.ico" type="image/x-icon" />
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css" />
+  </noscript>
+</head>
 
-					</section>
+<body class="is-preload">
+  <!-- Sidebar -->
+  <section id="sidebar">
+    <div class="inner">
+      <nav>
+        <ul>
+          <li>
+            <h2><a href="#intro">aria</a></h2>
+          </li>
+          <li>
+            <a href="#one">1. Introduction and Use Case</a>
+            <ul class="subsection">
+              <li><a href="#section11">1.1 Hypothetical</a></li>
+              <li><a href="#section12">1.2 The Problem with Traditional Deployments</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#two">2. Modern Deployments</a>
+            <ul class="subsection">
+              <li><a href="#section21">2.1 Rolling Deployment</a></li>
+              <li><a href="#section22">2.2 Blue/Green Deployment</a></li>
+              <li><a href="#section23">2.3 Canary Deployment</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#three">3. Choosing the Right Deployment</a>
+            <ul class="subsection">
+              <li><a href="#section31">3.1 Canary Analysis</a></li>
+              <li><a href="#section32">3.2 Survey of Existing Solutions</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#four">4. Introducing Aria</a>
+            <ul class="subsection">
+              <li><a href="#section41">4.1 What is Aria?</a></li>
+              <li><a href="#section42">4.2 Why Choose Aria?</a></li>
+              <li><a href="#section43">4.3 Where does Aria fit?</a></li>
+              <li><a href="#section44">4.4 Using Aria</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#five">5. Technical Deep Dive</a>
+          </li>
+          <li>
+            <a href="#six">6. Engineering Decisions & Tradeoffs</a>
+          </li>
+          <li>
+            <a href="#seven">7. Future Work</a>
+          </li>
+          <li>
+            <a href="#eight">8. References</a>
+          </li>
+          <li>
+            <a href="#nine">9. Presentation</a>
+          </li>
+          <li>
+            <a href="#nine">10. Meet the Team</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
 
+  <!-- Wrapper -->
+  <div id="wrapper">
+    <a id="octocat" href="https://github.com/Aria-Deploy">
+      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-64px.png" alt="">
+    </a>
+    <!-- Intro -->
+    <section id="intro" class="wrapper style1 fullscreen fade-up">
+      <img id="logo-banner" src="./images/aria_branding/png/color/aria__logo_color.png" alt="">
+      <div id="logo-intro" class="inner">
+        <p>Introducing the <em>fastest</em>, <em>easiest</em> way to move to microservices with simple, scalable feature
+          flags.</p>
+        <p id="available">Available as an <strong>open-source</strong> project under the <a
+            href="https://opensource.org/licenses/MIT">Open Source Initiative.</a></p>
+        <ul class="actions">
+          <li><a href="#one" class="button scrolly">Read the writeup</a></li>
+          <li><a href="/documentation" id="documentation" class="button scrolly">Documentation</a></li>
+        </ul>
+      </div>
 
-				<!-- One -->
-					<section id="one" class="wrapper style1 spotlights">
-						<section>
-							<div class="content">
-								<div class="inner">
-									<h2>1. Introduction & Use Case</h2>
-									<p>Canary deployment is a technique that allows revisions of an application or service, referred to as the canary, to be analyzed using a subset of the real network traffic. This deployment technique minimizes potential errors and risks for the majority of users by targeting a minority of the user base. (Çeliku 1) Canary deployments are sophisticated, require considerable configuration, and can be time consuming to both implement and analyze.</p>
-									<p>Aria is a tool which allows users to simplify the creation, configuration, and analysis of canary deployments. Aria automates much of the onerous infrastructure management while providing the user with the safety and data analysis benefits of canary deploys. Thus, Aria allows the user to focus on configuration which meaningfully impacts analysis of changes to production software.</p>
-									
-								</div>
-								<div class="inner">
-									<section id="section11">
-										<h3>1.1 Hypothetical</h3>
-										<p>To better understand the use case for Aria, consider ChartHealth – a hypothetical company that provides an electronic medical record software. ChartHealth’s product manages sensitive patient information with a user base spanning hundreds of health care facilities nationally. The ChartHealth product includes features such as: reading/writing to electronic medical records (EMR), aggregation of patient statistics, and data science models used to identify trends across EMRs.</p>
-										<p>[ChartHealth picture here]</p>
-										<p>Recently, ChartHeath has expanded its business to include facilities in most US states spanning from Hawaii to Maine. Additionally, ChartHealth’s software product has grown in complexity due to feature additions as demanded by customers and evolving regulations. These additions have resulted in a rapid growth of both the number of developers employed by the company and size of the product codebase. As a result of expansion to facilities across five time zones, ChartHealth’s product must now have practically zero downtime in order to not lose business to competitors offering similar products.</p>
-										<img class="image fit" src="./images/aria_visuals/monolith_to_microservices.svg" alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
-										<p>In order to meet these new challenges, ChartHealth has  decided to migrate their current on-site monolith architecture to a cloud-based microservice architecture. As a result of the planned migration, the company’s monolithic product codebase has been split into multiple services owned and operated by different teams of developers.</p>
-									</section>
-									<section id="section12">
-										<h3>1.2 The Problem with Traditional Deployments</h3>
-										<p></p>
-										<center>
-											<video width="452" height="339" autoplay loop>
-												<source src="./images/aria_visuals/traditional_deployment.mov">
-											</video>
-										</center>
-										<p></p>
-										<p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or large parts of an application in one operation. The inherent downsides to big-bang deployments include: exposure of all users to issues due to software changes, longer delays between deployments, extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able to manage these downsides prior to the recent expansion, when it’s smaller developer team could more easily manage and comprehend the entire codebase.</p>
-										<p>In the context of ChartHealth’s planned service-based architecture, there are multiple reasons that the ‘big-bang’ approach is no longer appropriate. First, for example, the EMR management feature must be as high-integrity as possible to satisfy government regulations. Simply replacing the EMR service for all users in one ‘big-bang’ presents unreasonable risk which may result in inaccurate records capture or deletion. Second, even on a service-by-service basis, if issues with new revisions of a service are encountered, rolling back production to previous revisions of the service will likely result in undesired downtime (Skowronski et al).</p>
-										<p>With the understanding that their deployment technique must change, ChartHealth’s technical leadership undertakes a review of the modern deployment techniques and finds a plethora of options.</p>
-									</section>
-								</div>
-							</div>
-						</section>
-					</section>
-
-				<!-- Two -->
-					<section id="two" class="wrapper style1 spotlights">
-						<section>
-							<div class="content">
-								<div class="inner">
-									<h2>2. Modern Deployments</h2>
-									<p>In the context of microservice architectures, the goal of modern deployment practices is to achieve small and frequent service revision releases which result in  zero downtime. While each of the many unique deployment techniques share this characteristic, the approaches can be distinguished by their tradeoffs.</p>
-									<p>With the understanding that a modern deployment strategy must be employed to facilitate deployment of revisions on a service-by-service basis, ChartHealth begins exploring the landscape of modern deployments. The company specifically seeks to understand which of the deployment types are most commonly employed. ChartHealth contacts multiple companies which provide deployment solution products and requests usage data from those suppliers.</p>
-									<p>[Vamp & Harness survey picture here]</p>
-									<p>The above chart was compiled from customer surveys conducted by two market-leading providers of Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that the four most common deployment techniques between the customer bases of both companies are: big bang, rolling, blue/green, and canary.</p>
-									<section id="section21">
-										<h3 id="two.one">2.1 Rolling Deployment</h3>
-										<p>[rolling deployment picture here]</p>
-										<p>Rolling deployments introduce service revisions by incrementally replacing the current production service code on each of multiple nodes within the architecture. This type of deployment is only applicable if there are multiple instances of the same service operating in production. An interesting, and perhaps desirable, aspect of rolling deployments is that the current production and new revision of a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling deployments can also target specific user groups according to region, IP address, and a variety of other traffic differentiators.</p>
-										<p>[pros/cons picture here]</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section22">
-										<h3 id="two.two">2.2 Blue/Green Deployment</h3>
-										<p>[blue/green deployment picture here]</p>
-										<p>Blue/green deployments require two environments: blue and green. The first environment, green within the above diagram, is the current production environment. The second blue environment is an almost exact replica of the green (production) environment. The only difference between their content is the revision of the target service.   After the newly introduced blue domain has completed initialization, a network switch or load balancer routes 100% of the incoming network traffic to either blue or green environments exclusively. As the deployment progresses, the traffic router redirects traffic to and from the blue or green domains on an as needed basis. At any point in time, only one of the deployments is processing incoming network traffic. The traffic router can maintain routing to the blue environment if the service revision performance is acceptable. At this point, the blue environment effectively achieves production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
-										<p>[pros/cons picture here]</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section23">
-										<h3 id="two.three">2.3 Canary Deployment</h3>
-										<p>[canary deployment picture here]</p>
-										<p>This technique involves introducing a revised instance of a service, referred to as the canary, into the same production environment as the current production version of the service. A load balancer routes a minority of the incoming network traffic to be served by the canary instance. During the canary deployment, a majority of the network traffic continues to be served by the production service. The instance is continually analyzed such that any newly introduced issues can be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming network traffic is directed to the canary instance initially, data on its performance is collected and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis (Sato). The load balancer can divide incoming traffic based on many different criteria including: sticky sessions, geographical region, packet addresses, packet headers, etc. This allows for the canary service to be targeted at specific users or user groups despite executing within the production environment.</p>
-										<p>[pros/cons picture here]</p>
-									</section>
-								</div>
-							</div>
-						</section>
-					</section>
-
-				<!-- Three -->
-					<section id="three" class="wrapper style1 spotlights">
-						<section>
-							<div class="content">
-								<div class="inner">
-									<h2>3. Choosing the Right Deployment Strategy</h2>
-                  <p>First and foremost, a deployment strategy should both align with and serve business goals. For example, a service owner may prioritize zero downtime when rolling out service updates because customers require access to medical information regardless of the time of day. Some of the other considerations may include; cost, engineering skill set, available testing tools, potential schema changes, and others. (Google SRE)</p>
-                  <p>Upon reviewing the above described deployment methods, disagreement arose between the ChartHealth developer teams. The team responsible for the Stats service favored the Big Bang approach. The team responsible for the Trends service felt that Blue/Green deployments were more suitable for the development and release cadence of their service. The medical records team, chiefly concerned with data integrity, rejected all deployment types except canary deployment.</p>
-                  <p>[INSERT THREE SERVICES PER DEPLOYMENT TYPE IMAGE]</p>
-                  <p>A major benefit of adopting a microservices architecture is the decoupling that can be achieved between services. Decoupling between services can be expressed in terms of how the service is developed, implemented, and deployed independent of one another (Indrasiri). Thus, although each of the ChartHealth development teams disagree on which deployment technique to utilize, each can be satisfied by adopting the deployment technique of their choosing.</p>
-                  <p>Upon reviewing common modern deployments, the ChartHealth EMR service development team elected to adopt canary deployments. The deciding factor was that medical record data integrity is paramount. The development team is first and foremost concerned about minimizing risk of issues being presented by new service revisions which could result in incorrect or missing patient medical data.</p>
-									<section id="section31">
-										<h3 id="three.one">3.1 Canary Analysis</h3>
-                    <p>The most encompassing definition of canary deployment may be:</p>
-                    <blockquote>deployment which consists of gradually shifting the network traffic [within the production environment] from the old application version to the new application version (Çeliku 13)</blockquote>
-                    <p>This language is very broad but may be the only definition which satisfies the myriad implementations across companies. Some organizations implement simplistic deployments which are little more than automated traffic splitters (Mitreski). Others divide HTTP traffic such that individual user sessions are handled by the canary or production service revision exclusively (Tucker). Some implementations combine canary release with other deployment techniques such as Blue/Green (Ehmke).</p>
-                    <p>While there are many axes over which canary deployments can be divided, there are two groupings based on historical progression of the technique (Çeliku 2) (CD Foundation). While no formal terminology exists for this variation in canary analysis techniques, these implementations can be referred to as manual canary analysis and automated canary analysis.</p>
-											<div class="inner">
-												<h4 id="three.one.one">3.1.1 Manual Analysis</h4>
-												<p>When a Pioneer SDK client is initialized, it sends an HTTP request to the Scout daemon to establish a server-sent events (SSE) connection. First, the Scout daemon authorizes the SDK client via an SDK key.</p>
-												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout1.svg" type="image/svg+xml"></object>
-												<p>Following SDK authorization, Scout will publish a message to NATS JetStream to request the latest feature flag dataset from Compass. This occurs by Scout publishing a message with the title, <code>DATA.FullRuleSetRequest</code>. NATS JetStream receives this message and if Compass is connected to NATS, the message will be sent to Compass.</p>
-												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout2.svg" type="image/svg+xml"></object>
-												<p>Compass receives the message from NATS because it is configured as a subscriber of messages sent with that specific title. Once Compass receives the message, it sends an <code>Ack</code> back to NATS to acknowledge message receipt. If Compass is not currently connected to NATS, the message will be stored by JetStream until Compass connects to NATS and is able to receive the message.</p>
-												<p>Once Compass has received the <code>DATA.FullRuleSetRequest</code> message, it will retrieve the latest feature flag data from Postgres. Following data retrieval, Compass will publish a NATS message with the title <code>DATA.FullRuleSet</code>. Furthermore, the body of the message will contain the flag data in JSON format. </p>
-												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout3.svg" type="image/svg+xml"></object>
-												<p>Scout subscribes to messages with the <code>DATA.FullRuleSet</code> title, and once Scout receives (and acknowledges) the NATS message, the flag data is parsed from the message body and is sent to all connected SDK clients, via SSE.</p>
-												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout4.svg" type="image/svg+xml"></object>
-												<p>The SSE connection between the SDK client and Scout will disconnect after 30 seconds of idle activity  (see <a href="four.three">section 4.3</a> for details), forcing the SDK to reconnect to Scout. The connection process described above occurs in the same manner both during initial SDK connections and reconnections.</p>
-											</div>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section32">
-										<h3 id="three.two">3.2 Revisiting the Problem</h3>
-										<p>Pioneer is a lightweight software that will allow Harvest Delivery to test and migrate their new microservices in a production environment under increasing load, without having to make any additional changes to their infrastructure, such as cloning the production environment.</p>
-										<p>Using Pioneer to aid in the transition from a monolith to microservices architecture will reduce risk by allowing for immediate rollback without requiring a re-deployment or any additional downtime for the application. Services can be developed in parallel and rolled out at an independent rate because toggling a flag on or off, or changing its rollout percentage, does not impact any other functionality in the application. This will allow the small engineering team at Harvest Delivery to experiment in an agile manner with confidence.</p>
-										<p>Pioneer is specifically built to support the evaluation of flags by returning a boolean value based on either their toggle status or their associated rollout percentage. As every flag will ultimately return a boolean value, they are an excellent fit for the use case in which requests should be routed in one direction or the other, either to a new external microservice or an existing feature internal to the monolith.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section33">
-										<h3 id="three.three">3.3 Using Pioneer</h3>
-										<p>Pioneer has a simple feature set, which minimizes the set-up costs associated with configuring a new tool. This enables Pioneer users to quickly start a migration towards a microservices architecture. Below, we outline how Pioneer can be used to get started with this migration.</p>
-										<p>Users that wish to use Pioneer out-of-the-box can simply clone the <a href="https://github.com/pioneer-io/pioneer">Pioneer GitHub repository</a> and start up the application with a single command, <code>docker-compose up</code>. This functionality is possible because we provide a <code>docker-compose.yml</code> and <code>.env</code> file that will configure and launch Pioneer in a Docker network.</p>
-										<img class="image fit" src="./images/docker/docker_network.png" alt="all components in a docker network with cute whales">
-										<p>The Pioneer application is composed of several components: Compass, Scout, and NATS JetStream. Compass is the primary application and offers a graphical user interface (GUI) built on React, as well as an API and Postgres database on the backend. Compass communicates directly with a NATS JetStream server, which relays messages to the Scout daemon. Scout communicates with all connected SDK clients in a unidirectional manner to provide up-to-date feature flag data.</p>
-										<p>Feature flag data lives in the Compass application. Users can create, read, update, or delete flags via the Compass UI or the Compass API. Compass also provides the user with an SDK key, which is required for SDK client authorization (discussed in <a href="four.four">section 4.4</a>).</p>
-										<img class="image fit" src="./images/pioneer_visuals/gifs/compass gifs/filter_flags.gif" alt="the pioneer ui shows how it is easy to view and filter all flags">
-										<p>Feature flags are evaluated in the user’s codebase via our server-side SDKs. Pioneer currently offers SDKs written in Node.js, Ruby, and Golang. Once an SDK has been installed, the user must provide the aforementioned SDK key to successfully receive data. On application startup, authorized SDKs will connect to the Scout daemon as a server-sent events (SSE) client. All SDK clients connected to Scout will receive the feature flag data, and any subsequent changes to it, in real-time.</p>
-										<p>A Pioneer user utilizes the feature flag data by incorporating conditional branching logic into their application code and evaluating the boolean status of a feature flag. For example, if a user wishes to migrate to a new microservice for payment processing, they could create a new flag on the Compass GUI called <code>payment_processor</code> and toggle the flag to “on”. Within their application code, they would add an <code>if/else</code> statement, which evaluates the status of the <code>payment_processor</code> flag and executes the appropriate code. When the <code>payment_processor</code> flag is toggled on, evaluating the flag will return <code>true</code> and the code responsible for managing the payment processing via calling the new microservice will be executed. If the Pioneer user decides not to use the microservice anymore, the <code>payment_processor</code> flag can be toggled “off” on the Compass GUI. The next time <code>payment_processor</code> is evaluated by the SDK, it will return <code>false</code> and the monolith code will be executed.</p>
-										<img class="image fit" src="./images/code_blocks/microservice_if_else.png" alt="if else conditional code block">
-										<p>Pioneer offers an accessible, real-time feature flag service integrated with a user’s codebase and getting started takes just minutes. Because Pioneer is completely open-source, organizations with specific needs that fall outside of the default configuration can add their own customizations to make Pioneer fit their specific requirements.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section34">
-										<h3 id="three.four">3.4 Where Pioneer Fits</h3>
-										<p>When thinking about third-party feature flagging solutions, it is important to consider them with certain criteria. We believe that when comparing existing options, there are four pivotal criteria to consider.</p>
-										<ul class="alt">
-											<li>The first is <b>flexibility</b>. A flexible solution will allow users to have greater control over the product itself. Open-source solutions are more flexible because they allow an organization to modify the software to suit their specific needs. Proprietary software does not provide this same flexibility.</li>
-											<li>The next is <b>accessibility</b>. Solutions with high accessibility are easy to set up and easy to use. Less-accessible products may require user account setups, complex permissions, and dense documentation that a user must parse through to achieve the appropriate configuration.</li>
-											<li><b>Affordability</b> is also an important criteria. Small and mid-sized teams may not have the financial resources needed to comfortably afford third-party solutions with a significant monetary cost.  Low-cost or no-cost options are more affordable, but may lack features and support. Higher-cost options mean paying for the services, but may also come with a more robust feature set and highly available support services.</li>
-											<li>The last criteria to consider is <b>simplicity</b>. Simpler solutions will have a less robust feature set, but instead, focus on a core set of features tailored to a specific use case. Because proprietary software does not allow users to customize the software themselves, they may offer a larger feature set to fit a wider variety of use cases. However, this can result in bloated products that have many features the user does not require. For this reason, we consider simplicity to be a benefit, not a drawback.</li>
-											<li>
-												<img class="image fit" src="./images/pioneer_visuals/comp_chart.png" alt="chart showing pioneer is flexible, affordable, and accessible, but doesn't offer a rich featureset">
-												<p>With these criteria in mind, we can see that Pioneer is the only option that is <b>flexible</b>, <b>accessible</b>, and <b>affordable</b>. It does not provide a robust feature set, but <em>this simplicity makes it the best choice</em> for organizations who want a solution that they can use to manage their feature flags straight away with no extra work.</p>
-											</li>
-										</ul>
-									</section>
-								</div>
-							</div>
-						</section>
-
-				<!-- Four -->
-					<section id="four" class="wrapper style1 spotlights">
-						<section>
-							<div class="content">
-								<div class="inner">
-									<h2>4. Techinical Deep Dive</h2>
-									<p>Pioneer consists of three main components: Compass, NATS JetStream, and Scout, all of which are run within a Docker network. Additionally, there is an SDK embedded in the user’s application.</p>
-									<img class="image fit" src="./images/pioneer_visuals/architecture.svg" alt="diagram showing pioneer's architecture; there are 4 components: Compass, NATS, Scout, and SDKs">
-									<p>Below we will discuss each component’s role in the Pioneer architecture. For more information regarding the engineering decisions that led to this architecture, refer to <a href=”five.five”>section 5</a>.</p>
-								</div>
-								<div class="inner">
-									<section id="section41">
-										<h3 id="four.one">4.1 NATS</h3>
-										<p>NATS JetStream is an open-source message streaming service <sup><a href="https://nats.io/">9</a></sup>. Pioneer utilizes a NATS JetStream server to facilitate communication between the Compass and Scout servers due to its ability to provide asynchronous, fault-tolerant messaging with guaranteed delivery. The benefit of Scout and Compass communicating via NATS JetStream, rather than directly, is that if Scout or Compass goes down, NATS JetStream will store the most recently transmitted message until the server comes back online and acknowledges receipt of the message. This mitigates the problems posed by an unreliable network. </p>
-										<p>NATS JetStream groups messages by topics that are referred to as streams. The messages sent within Pioneer are only concerned with the request for, or transmission of, data; therefore, Pioneer uses a single NATS stream called <code>DATA</code>. In addition to the stream name, messages published to NATS JetStream have a subject. The subject enables clients connected to NATS to only receive specific messages within a stream. Messages sent to NATS JetStream are assigned a title with the syntax <code>STREAM NAME.subject</code>. Clients connected to NATS Jetstream can both publish and receive messages from NATS stream, referred to as publishers and subscribers respectively.</p>
-										<p>In Pioneer, messages are published to NATS JetStream in response to two events - when an SDK client connects to Scout and when a change occurs to the feature flag dataset, either via the Compass GUI or API.</p>
-											<div class="inner">
-												<h4 id="four.one.one">4.1.1 Connection of an SDK Client</h4>
-												<p>When a Pioneer SDK client is initialized, it sends an HTTP request to the Scout daemon to establish a server-sent events (SSE) connection. First, the Scout daemon authorizes the SDK client via an SDK key.</p>
-												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout1.svg" type="image/svg+xml"></object>
-												<p>Following SDK authorization, Scout will publish a message to NATS JetStream to request the latest feature flag dataset from Compass. This occurs by Scout publishing a message with the title, <code>DATA.FullRuleSetRequest</code>. NATS JetStream receives this message and if Compass is connected to NATS, the message will be sent to Compass.</p>
-												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout2.svg" type="image/svg+xml"></object>
-												<p>Compass receives the message from NATS because it is configured as a subscriber of messages sent with that specific title. Once Compass receives the message, it sends an <code>Ack</code> back to NATS to acknowledge message receipt. If Compass is not currently connected to NATS, the message will be stored by JetStream until Compass connects to NATS and is able to receive the message.</p>
-												<p>Once Compass has received the <code>DATA.FullRuleSetRequest</code> message, it will retrieve the latest feature flag data from Postgres. Following data retrieval, Compass will publish a NATS message with the title <code>DATA.FullRuleSet</code>. Furthermore, the body of the message will contain the flag data in JSON format. </p>
-												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout3.svg" type="image/svg+xml"></object>
-												<p>Scout subscribes to messages with the <code>DATA.FullRuleSet</code> title, and once Scout receives (and acknowledges) the NATS message, the flag data is parsed from the message body and is sent to all connected SDK clients, via SSE.</p>
-												<object data="./images/pioneer_visuals/svgs/sdk_to_scout/sdk_to_scout4.svg" type="image/svg+xml"></object>
-												<p>The SSE connection between the SDK client and Scout will disconnect after 30 seconds of idle activity  (see <a href="four.three">section 4.3</a> for details), forcing the SDK to reconnect to Scout. The connection process described above occurs in the same manner both during initial SDK connections and reconnections.</p>
-											</div>
-											<div class="inner">
-												<h4 id="four.one.two">4.1.2 Transmitting Updated Feature Flag Data</h4>
-												<object data="./images/pioneer_visuals/svgs/toggle_flag/toggle_flag_diagram.svg" type="image/svg+xml"></object>
-												<p>When a Pioneer user creates, deletes, or updates a feature flag, the flag dataset needs to be updated in the SDK. The transmission of updated data occurs via NATS JetStream. Any changes to the feature flag dataset result in Compass retrieving the latest data from Postgres and publishing a <code>DATA.FullRuleSet</code> message, with the flag data in the message body. Scout is a subscriber for messages with this title, as described in <a href="four.one.one">section 4.1.1</a>. Upon receipt of a <code>DATA.FullRuleSet</code> message, Scout will parse the flag data from the body and transmit the data to all connected SDK clients via SSE.</p>
-											</div>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section42">
-										<h3 id="four.two">4.2 Compass</h3>
-										<p>Compass is Pioneer’s primary application for managing feature flags. The front-end of the application is built on React and allows users to view, create, update, and delete feature flags. Each flag has a title, an optional description, an assigned rollout percentage, and may be toggled on or off with a single click. Users may also use the Compass UI to view event logs regarding a flag’s history and to retrieve a valid SDK key for use in their own application.</p>
-										<img class="image fit" src="./images/pioneer_visuals/gifs/compass gifs/toggle_flag.gif" alt="web application frontpage; a toggle button is clicked">
-										<p>The Compass API is built with Node.js and Express. The provided RESTful API allows users to perform CRUD operations on the feature flag data, as well as retrieve the event logs for all flags from the Postgres database.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section43">
-										<h3 id="four.three">4.3 Scout</h3>
-										<p>Scout is a daemon that acts as the interface between Compass and the SDK embedded in a clients’ application. A persistent HTTP connection is formed between Scout and the SDK, through which Scout sends feature flag data as server-sent events (SSE).</p>
-										<p>SDK clients connect to Scout by sending an HTTP request to the <code>/features</code> endpoint. Scout will publish a message requesting feature flag data from Compass (see <a href="four.one">section 4.1</a>). It will also verify that the SDK attempting to connect has provided a valid SDK key in the <code>Authorization</code> header of the request. If the SDK key was determined to be valid, Scout will open the SSE connection and transmit updated feature flag information to the SDK. This is to prevent malicious agents from gaining access to feature flag data, which may contain confidential information.</p>
-										<img class="image fit" src="./images/pioneer_visuals/scout_simplified.svg" alt="web application frontpage; a toggle button is clicked">
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section44">
-										<h3 id="four.four">4.4 SDKs</h3>
-										<p>Pioneer currently offers server-sent SDKs in three languages -- <a href="https://www.npmjs.com/package/pioneer-javascript-sdk">Node.js</a>, <a href="https://rubygems.org/gems/pioneer_ruby_sdk">Ruby</a>, and <a href="https://pkg.go.dev/github.com/pioneer-io/go_sdk">Golang</a>. The user should install the appropriate SDK in their application code. After doing so, the SDK  can attempt to connect to Scout as an SSE client by providing Scout’s server address and a valid SDK key. The SDK will then automatically receive feature flag data updates each time there has been an update to a feature flag. The SDK stores the current feature flag data in memory and uses it to evaluate flags.</p>
-										<p>The Pioneer user’s application code should use the provided SDK interface to evaluate feature flags. This evaluation will likely be part of a conditional expression. For example, if a flag is toggled on, we may wish to direct a request to a new microservice. If a flag is off, we should not direct any requests to that feature.</p>
-										<p>Pioneer also allows flags to be evaluated within the context of a unique identifier when using rollout percentages. The provided identifier should be something unique to each of the application’s end-users, such as a UUID or an IP address. If the flag is toggled on, Pioneer’s rollout algorithm will evaluate the provided context against the current rollout percentage to determine whether or not the feature should be served to the application’s end-user.</p>
-										<p>After integrating the SDK into their codebase and connecting with Scout, Pioneer’s users can be confident that changes to the data will be propagated down to their application in real-time behind the scenes. SSE connections may drop, but will automatically reconnect autonomously. SDKs are also integrated with Google Analytics, allowing end-users to more easily monitor the activities of the end-users based on the feature toggle.</p>
-									</section>
-								</div>
-							</div>
-						</section>
-					</section>
-
-				<!-- Five -->
-					<section id="five" class="wrapper style1 spotlights">
-						<section>
-							<div class="content">
-								<div class="inner">
-									<h2>5. Engineering Decisions and Tradeoffs</h2>
-									<section id="section51">
-										<h3 id="five.one">5.1 Hosted vs. Self-hosted</h3>
-										<p>One of the first questions we needed to answer surrounded the delivery of Pioneer. We considered whether it would be best for our team to set up private cloud infrastructure on which we would host Pioneer, offering it as a service, or whether we should build it so that it could be hosted entirely by the user.</p>
-										<p>We decided to provide Pioneer as a self-hosted application rather than hosting it ourselves for several reasons.</p>
-										<p>Firstly, it means that the user can deploy Pioneer on their infrastructure of choice, whether that’s on an AWS VPC, a DigitalOcean Droplet, or their own on-prem server.</p>
-										<p>Allowing user organizations to self-host Pioneer reduces the security concerns that an organization may have with a multi-tenancy architecture hosted by an external organization. In that situation, users may not have full knowledge of the security measures taken to protect their data. Because Pioneer is self-hosted, users will maintain full control of their data and can implement whatever security measures they feel are necessary.</p>
-										<p>Distributing Pioneer as an open-source and self-hosted application means that users of Pioneer can fully adapt the application to their own unique needs, increasing flexibility. If the out-of-the-box configuration isn’t matching a user’s requirements, they have the freedom to change whatever isn’t working for them or to add whatever components might suit them better.</p>
-										<p>In addition, self-hosting is affordable because Pioneer is intended for companies with a modest feature flag ruleset, obviating the need for storing large amounts of data and computing resources.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section52">
-										<h3 id="five.two">5.2 Inter-application Communication</h3>
-										<p>Our messaging service of choice, NATS JetStream, allows for decoupled messaging. Naively, we could have enabled the Scout daemon to communicate directly with the Compass API. However, Compass would then have the additional responsibility of tracking all listening Scout instances and ensuring message delivery. Using a third-party messaging tool to handle message delivery allows for a better separation of concerns, and allows Compass to only worry about publishing the correct message. We chose not to pursue Kafka because its complexity and larger infrastructure were unnecessary for our use case. NATS has a smaller infrastructure and provides all of the features that Pioneer requires.</p>
-										<p>NATS streaming allows for many-to-one communication. This means that as an organization scales, they could choose to also horizontally scale the number of Scout daemons sending updates to SDK clients. Any Scout daemon subscribed to the NATS stream would receive feature flag updates as usual. Alternatively, a logging service could also subscribe to the NATS stream and preserve messages for later analysis.</p>
-										<p>We intentionally chose to use NATS JetStream over its predecessor, Core NATS, because JetStream allows for <em>guaranteed message delivery</em>.</p>
-										<p>Take for example a situation in which the Scout daemon may temporarily go down and is not able to receive communications from the NATS server:</p>
-										<object data="./images/pioneer_visuals/svgs/transition/transition1.svg" type="image/svg+xml"></object>
-										<p>If a flag is toggled, or some other change is made that results in an updated ruleset being disseminated, the new ruleset will be sent to the NATS server. With JetStream, the message containing the updated ruleset will be queued.</p>
-										<object data="./images/pioneer_visuals/svgs/transition/transition2.svg" type="image/svg+xml"></object>
-										<p>When the Scout daemon comes back up and communication with the NATS server is reestablished, the message will then be delivered, and Scout can then pass the updated ruleset down to connected SDKs.</p>
-										<object data="./images/pioneer_visuals/svgs/transition/transition3.svg" type="image/svg+xml"></object>
-										<p>This alleviates concerns of missed messages due to network partitions resulting in stale feature flag data.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section53">
-										<h3 id="five.three">5.3 Providing Feature Flag Data to User Applications via SSE</h3>
-										<ul class="alt">
-											<li>
-												<p>A fundamental decision in our architecture was determining the best way to send feature flag updates from Pioneer to the SDK installed in the user’s application. Options we considered included: API polling, webhooks, WebSockets, and streaming.</p>
-											</li>
-											<li>
-												<p>While API polling seemed to be the simplest approach, it would require SDK clients to periodically poll the Scout daemon for an update, rather than receiving flag data updates right away. This would eliminate the real-time benefits of streaming, and may also result in unnecessary network traffic.</p>
-												<object data="./images/pioneer_visuals/svgs/connection_types/polling.svg" type="image/svg+xml"></object>
-											</li>
-											<li>
-												<p>Webhooks was another alternative we considered. Webhooks are more suitable than API polling due to their event-driven nature. While API polling is triggered by time, irrespective of whether or not a data change has occurred, with webhooks an HTTP request would only be sent in response to an event. However, this approach would require an additional HTTP endpoint to be exposed on the client application, requiring user configuration. Ultimately, we found it preferable to minimize interference with the client application.</p>
-												<object data="./images/pioneer_visuals/svgs/connection_types/webhooks.svg" type="image/svg+xml"></object>
-											</li>
-											<li>
-												<p>Data could also be sent from Pioneer to SDKs via WebSockets. WebSockets are primarily used for bi-directional communication. Although the SDK client initially sends an HTTP request to Scout to initialize an SSE connection, all subsequent messages are sent from Scout to the SDK; therefore, only unidirectional communication is required. Thus, there is no need for the bi-directional capabilities of WebSockets.</p>
-												<object data="./images/pioneer_visuals/svgs/connection_types/websockets.svg" type="image/svg+xml"></object>
-											</li>
-											<li>
-												<p>Ultimately, we decided to use Server-Sent Events to enable efficient Scout-to-SDK streaming of feature flag data. This approach is an excellent tool for handling real-time data, as the single, long-lived connection provides low latency data delivery. Upon receiving a new SSE event, the SDK will parse the newly provided data and use it to evaluate feature flags.</p>
-												<object data="./images/pioneer_visuals/svgs/connection_types/sse.svg" type="image/svg+xml"></object>
-											</li>
-											<li>
-												<p>One additional concern that we discussed was how to authorize SSE clients, in order to protect data within the feature flag ruleset. We decided to provide an SDK key to users via the Compass UI. Users must provide this SDK key when integrating an SDK into their application code to connect to Scout and receive feature flag data. If no valid key is provided, Scout will reject the SDK’s request to connect as an SSE client.</p>
-												<p>A potential disadvantage of using SSE is the fact that connections will close if they have been idle for more than ~30 seconds. This is due to the default behavior of the EventSource API which handles the connection. We could have configured a longer timeout period; however, the intent of the connection closing is to prevent stale and phantom connections, which is something we want to avoid. The closing of connections due to the 30-second timeout is handled automatically by the EventSource API which will reconnect after a short interval. One concern we had was how to handle unsuccessful connection requests from an SDK to Scout. We wanted the SDK to retry the connection, but to avoid swamping the daemon with requests by sending infinite unsuccessful requests to connect. We addressed this issue by adding a reconnection attempt limit to all three of our SDKs. Once the reconnection attempt limit has been reached an error message will be logged and the SSE connection will be closed.</p>
-											</li>
-										</ul>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section54">
-										<h3 id="five.four">5.4 Redis Cache</h3>
-										<p>Initially, we considered if Pioneer would require a Redis cache to offload read requests from the Compass Postgres database when Scout requests flag data through NATS JetStream. The proposed cache would request data from the Compass API to initially populate, and listen for subsequent feature flag updates.</p>
-										<object data="./images/pioneer_visuals/architecture_with_redis.svg" type="image/svg+xml"></object>
-										<p>After further analysis, we determined that adding a cache to our application was not appropriate for our use case and would unnecessarily increase the complexity of Pioneer’s architecture. Because Pioneer’s intended use case involves small- or medium-sized organizations, the number of read operations on Compass’ Postgres database should be manageable without a cache.</p>
-										<p>Furthermore, due to the open-source nature of Pioneer, user organizations have the freedom to add their own cache if required.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section55">
-										<h3 id="five.five">5.5 Sending Feature Flag Updates - Piecemeal vs Whole</h3>
-										<p>A decision needed to be made regarding the content of messages that were distributed throughout the system in response to a change to the feature flag data. One option was to send information pertaining only to the modified flag (piecemeal). The other option was to transmit the entire up-to-date set of feature flag data (whole).</p>
-										<p>The decision was made to implement Pioneer such that the entirety of the up-to-date feature flag data would be sent, regardless of the operation performed. This method of distribution offers several advantages. The first is that by transmitting the full data set, we can ensure that every SDK has the most up-to-date information available at all times.</p>
-										<p>The alternative solution of sending individual feature updates had a few drawbacks. Potentially, an SDK could miss an update from Scout due to network issues. This would result in an SDK evaluating flags using outdated feature flag data. The discrepancy would persist until the next update related to that particular flag was made, resulting in conflicts between the data sets of individual SDK clients. By sending the full feature flag data set, we can significantly reduce the possibility of SDKs serving outdated feature flag data.</p>
-										<p>An additional benefit to sending the entirety of the feature flag data is that it allows the code on both ends of the communication to be simple and elegant. The SDK merely has to save the newly received data as a whole. This approach avoids introducing additional surface area for bugs by excluding the need for complex logic required to parse feature flag data, update specific elements, and handle every type of CRUD operation that might occur.</p>
-										<p>The obvious tradeoff of sending the entirety of the feature flag data is the increased size of messages and the impact on network bandwidth that might have. Pioneer is designed to be used by relatively small teams to migrate to microservices from a monolith. We reasoned that the standard use case would not likely exceed 20-30 distinct flags at a time.</p>
-										<p>To test Pioneer’s capacity, we tested a data set composed of 100 distinct flags. Even at this seemingly inflated data set size, the total size of the data transmission from Scout to each connected SDK client was almost exactly 20KB. With an expected rate of 10 requests/second, we felt the impact of 2MB/second should fall well within the limits of any modern network. Because Pioneer is open-source software, if an organization does find that they need to transmit very large amounts of feature flag data they can add logic that will compress data before it is sent and decompress data when it is received by the SDK.</p>
-										<p>Therefore, we concluded that the tradeoff of increased transmission size for sending full feature flag datasets was acceptable given the benefits in ensuring that SDKs evaluate up-to-date data.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section56">
-										<h3 id="five.six">5.6 Load Testing</h3>
-										<p>One area with which we wanted to take extra consideration was understanding and testing the limitations regarding the number of SDK clients that can connect to Scout simultaneously and be served feature flag data efficiently. Though our intended use case implies that a high number of SDKs are unlikely to be connected to Scout, we still wanted to explore how the system performs under increasing levels of load in theory.</p>
-										<p>With this use case in mind, we reasoned that a rate of 10 new connections to Scout every second would cover most usage scenarios. Beyond that, testing a higher number of connections would only reaffirm the robustness of the Scout daemon for our intended use case.</p>
-										<p>Our goal for these tests was to simulate the process of an SDK client establishing an SSE connection with Scout and subsequently receiving the feature flag data. For these tests, we used the relatively large 100-flag data set previously mentioned in <a href="five.five">section 5.5</a>. Recall that the data itself along with HTTP headers resulted in the transmission of nearly 20KB of data.</p>
-										<p>For testing purposes, we chose to isolate the process of connecting and transmitting an initial set of feature flag data. In order to achieve this, we temporarily modified the Scout daemon to close SSE connections after the initial flag data had been sent to the SDK. If each SSE client connection remained open indefinitely, the performance tolerances of the Scout daemon would most certainly perform differently. However, we felt that because SSE connections are likely to be dropped and added somewhat regularly as the client application spins up new instances and terminates others, it is reasonable to test Scout without leaving every connection open in perpetuity.</p>
-										<p>Our testing was performed via Artillery.io <sup><a href="http://www.split.io/glossary/canary-deployment/">7</a></sup>, using a configuration file that ran several different phases for extended periods of time. We incrementally increased the load on Scout by a factor of 10, beginning at 1 request per second and peaking at 1000 requests per second before ramping back down.</p>
-										<p>The results of our tests demonstrated a few things. First, the Scout daemon can easily handle the expected case of 10 requests per second. Second, under a usage load of 100 requests per second, Scout’s median response time increased by about 450 milliseconds, but the system could still serve all of the data payloads successfully. Lastly, we observed a degradation of performance under a load of 1000 requests per second.</p>
-										<p>Ultimately, our tests were successful in demonstrating that Pioneer’s system is more than capable of handling the anticipated load. If an organization using Pioneer were approaching a load of 1000 connection requests per second, they may consider implementing an additional instance of Scout to share the load to prevent performance degradation.</p>
-									</section>
-								</div>
-							</div>
-						</section>
-					</section>
-
-				<!-- Six -->
-					<section id="six" class="wrapper style1 spotlights">
-						<section>
-							<div class="content">
-								<div class="inner">
-									<h2>6. Future Work</h2>
-									<section id="section61">
-										<h3 id="six.one">6.1 Accommodate Multiple Applications</h3>
-										<p>Currently, an instance of Pioneer supports a single application. More specifically, Pioneer broadcasts the entire set of flag data to all connected SSE clients in an application-agnostic manner. If an organization would like to use Pioneer with additional applications that require different feature flag data, they will need to spin up an additional instance of Pioneer to communicate with that application. This is a natural consequence of Pioneer’s simplicity and ease of use. However, in the future, we may consider adding support for multiple sets of flag data handled by a single instance of Pioneer.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section62">
-										<h3 id="six.two">6.2 Additional Rollout Strategies</h3>
-										<p>Offering additional rollout strategies that allow the organization to target particular users would allow for more granular control over the initial users of a new feature. Some special users that we may choose to accommodate in the future are users internal to the organization, a predetermined group of beta-testers, or particular segments of the market.</p>
-									</section>
-								</div>
-								<div class="inner">
-									<section id="section63">
-										<h3 id="six.three">6.3 Flag Expiration</h3>
-										<p>Because Pioneer is meant to be used to roll out new services, the conditional logic related to a feature flag for a service likely shouldn’t live in the codebase indefinitely. Flag expiration would allow engineers to set an expiration date on a flag after which the flag will throw an exception or log a warning message if it is evaluated in the codebase. The motivation behind flag expiration is to avoid technical debt. When a feature flag is no longer necessary, the flag and the application logic that evaluates the flag should both be removed from the codebase.</p>
-										<p>Another benefit to offering flag expiration is that it provides a simple and clear-cut rollout window in which to collect analytics and user feedback on a new feature.  Engineers could determine the appropriate duration to test a new feature and set the flag expiration accordingly. Pioneer would handle expiring the feature flag at the assigned time, and the organization’s engineers could review the data collected later to decide how to proceed with the new feature.</p>
-									</section>
-								</div>
-							</div>
-						</section>
-					</section>
-
-		<!-- Seven -->
-					<section id="seven" class="wrapper style1 spotlights">
-						<section>
-							<div class="content">
-								<div class="inner">
-									<h2>7. References</h2>
-									<ol>
-										<li><a href="https://www.split.io/glossary/canary-deployment/">“Canary Deployment - Split Glossary.” Split, Split.io, 3 Oct. 2020</a></li>
-										<li><a href="https://www.smashingmagazine.com/2018/02/sse-websockets-data-flow-http2/">Chaov, Martin. “Using SSE Instead of WebSockets for Unidirectional Data Flow OVER HTTP/2.” Smashing Magazine, 12 Feb. 2018, www.smashingmagazine.com/2018/02/sse-websockets-data-flow-http2/.</a></li>
-										<li><a href="https://www.featureflags.io/feature-flags/">“Feature Flags.” Feature Flags, Toggles, Controls, Featureflags.io, 13 Dec. 2015, featureflags.io/feature-flags/.</a></li>
-										<li><a href="http://www.semaphoreci.com/blog/what-is-canary-deployment">Fernandez, Tomas. “What Is Canary Deployment?” Semaphore, Semaphoreci.com, 22 Apr. 2021, semaphoreci.com/blog/what-is-canary-deployment.</a></li>
-										<li><a href="http://www.martinfowler.com/bliki/FeatureToggle.html">Fowler, Martin. “Bliki: FeatureToggle.” Martinfowler.com, Martin Fowler, 29 Oct. 2010, martinfowler.com/bliki/FeatureToggle.html.</a></li>
-										<li><a href="http://www.split.io/blog/canary-release-feature-flags/">Karow, Dave. “Pros and Cons of Canary Releases vs Feature Flag Releases.” Split, Split.io, 3 Oct. 2020, www.split.io/blog/canary-release-feature-flags/.</a></li>
-										<li><a href="https://artillery.io">“Load & Smoke Testing.” Artillery.io | Load & Smoke Testing, Artillery.io, artillery.io/.</a></li>
-										<li><a href="http://www.ably.com/blog/websockets-vs-sse">Martin, Eve. “WebSockets vs Server-Sent Events.” Ably Blog: Data in Motion, Ably.com, 21 May 2021, ably.com/blog/websockets-vs-sse.</a></li>
-										<li><a href="https://nats.io">“Nats.io.” NATS.io, 26 July 2021, nats.io/.</a></li>
-										<li><a href="http://www.martinfowler.com/bliki/CanaryRelease.html">Sato, Danilo. “Bliki: Canary Release.” Martinfowler.com, Martin Fowler, 25 June 2014, martinfowler.com/bliki/CanaryRelease.html.</a></li>
-									</ol>
-							</div>
-						</section>
-					</section>
-
-		<!-- Eight -->
-					<section id="eight" class="wrapper style1 spotlights">
-						<section>
-							<div class="content">
-								<div class="inner">
-									<h2>8. Presentation</h2>
-									<!-- <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://dkq85ftleqhzg.cloudfront.net/capstone_presentations/pioneer.mp4" style="left:0;position:absolute;top:0" width="100%"></iframe></div></div> -->
-							</div>
-						</section>
-					</section>
+    </section>
 
 
-		<!-- Nine -->
-			<section id="nine" class="wrapper style1 spotlights">
-				<section>
-					<div class="content">
-						<div class="inner">
-							<h2>9. Meet the Team</h2>
-							<p>Pioneer was built by a small team of dedicated individuals.</p>
-							<p>While our team has since moved on to other opportunities, if you are interested in the project and want to chat with us about it, please reach out!</p>
+    <!-- One -->
+    <section id="one" class="wrapper style1 spotlights">
+      <section>
+        <div class="content">
+          <div class="inner">
+            <h2>1. Introduction & Use Case</h2>
+            <p>Canary deployment is a technique that allows revisions of an application or service, referred to as the
+              canary, to be analyzed using a subset of the real network traffic. This deployment technique minimizes
+              potential errors and risks for the majority of users by targeting a minority of the user base. (Çeliku 1)
+              Canary deployments are sophisticated, require considerable configuration, and can be time consuming to
+              both implement and analyze.</p>
+            <p>Aria is a tool which allows users to simplify the creation, configuration, and analysis of canary
+              deployments. Aria automates much of the onerous infrastructure management while providing the user with
+              the safety and data analysis benefits of canary deploys. Thus, Aria allows the user to focus on
+              configuration which meaningfully impacts analysis of changes to production software.</p>
 
-						</div>
-						<div class="box alt">
-							<div class="row gtr-uniform">
-								<div class="col-3 center">
-									<img class="image fit align" src="./images/team_photos/jimmy-resize.png" alt="Jimmy Zheng" />
-									<p>Jimmy Zheng</p>
-									<div class="row center">
-										<a href="mailto:jimzhe842@gmail.com">
-											<img src="./images/email_icon-32.png" alt="">
-										</a>
-										<a href="https://github.com/jimzhe842">
-											<img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Jimmy Zheng GitHub">
-										</a>
-										<a href="https://www.linkedin.com/in/jimmy-zheng-977a821a3">
-											<img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Jimmy Zheng LinkedIn">
-										</a>
-									</div>
-								</div>
-								<div class="col-3 center">
-									<img class="image fit align" src="./images/team_photos/laura.jpg" alt="Laura Davies" />
-									<p>Laura Davies</p>
-									<div class="row center">
-										<a href="mailto:drljdavies@gmail.com">
-											<img src="./images/email_icon-32.png" alt="">
-										</a>
-										<a href="https://github.com/l-jdavies">
-											<img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Laura Davies Github">
-										</a>
-										<a href="https://www.linkedin.com/in/laura-davies-3a5b1913a/">
-											<img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Laura Davies LinkedIn">
-										</a>
-									</div>
-								</div>
-								<div class="col-3 center">
-									<img class="image fit align" src="./images/team_photos/kyle.jpg" alt="Kyle Ledoux" />
-									<p>Kyle Ledoux</p>
-									<div class="row center">
-										<a href="mailto:kaledoux@gmail.com">
-											<img src="./images/email_icon-32.png" alt="Kyle Ledoux email">
-										</a>
-										<a href="https://github.com/kaledoux">
-											<img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Kyle Ledoux GitHub">
-										</a>
-										<a href="https://www.linkedin.com/in/kaledoux">
-											<img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Kyle Ledoux LinkedIn">
-										</a>
-									</div>
-								</div>
-								<div class="col-3 center">
-									<img class="image fit align" src="./images/team_photos/liz.png" alt="Elizabeth Tackett" />
-									<p>Elizabeth Tackett</p>
-									<div class="row center">
-										<a href="mailto:emctackett@gmail.com">
-											<img src="./images/email_icon-32.png" alt="Elizabeth Tackett email">
-										</a>
-										<a href="https://github.com/emctackett">
-											<img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Elizabeth Tackett GitHub">
-										</a>
-										<a href="https://www.linkedin.com/in/emctackett
+          </div>
+          <div class="inner">
+            <section id="section11">
+              <h3>1.1 Hypothetical</h3>
+              <p>To better understand the use case for Aria, consider ChartHealth – a hypothetical company that provides
+                an electronic medical record software. ChartHealth’s product manages sensitive patient information with
+                a user base spanning hundreds of health care facilities nationally. The ChartHealth product includes
+                features such as: reading/writing to electronic medical records (EMR), aggregation of patient
+                statistics, and data science models used to identify trends across EMRs.</p>
+              <p>[ChartHealth picture here]</p>
+              <p>Recently, ChartHeath has expanded its business to include facilities in most US states spanning from
+                Hawaii to Maine. Additionally, ChartHealth’s software product has grown in complexity due to feature
+                additions as demanded by customers and evolving regulations. These additions have resulted in a rapid
+                growth of both the number of developers employed by the company and size of the product codebase. As a
+                result of expansion to facilities across five time zones, ChartHealth’s product must now have
+                practically zero downtime in order to not lose business to competitors offering similar products.</p>
+              <img class="image fit" src="./images/aria_visuals/monolith_to_microservices.svg"
+                alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
+              <p>In order to meet these new challenges, ChartHealth has decided to migrate their current on-site
+                monolith architecture to a cloud-based microservice architecture. As a result of the planned migration,
+                the company’s monolithic product codebase has been split into multiple services owned and operated by
+                different teams of developers.</p>
+            </section>
+            <section id="section12">
+              <h3>1.2 The Problem with Traditional Deployments</h3>
+              <p></p>
+              <center>
+                <video width="452" height="339" autoplay loop>
+                  <source src="./images/aria_visuals/traditional_deployment.mov">
+                </video>
+              </center>
+              <p></p>
+              <p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a
+                traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or
+                large parts of an application in one operation. The inherent downsides to big-bang deployments include:
+                exposure of all users to issues due to software changes, longer delays between deployments, extensive
+                testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able to manage these
+                downsides prior to the recent expansion, when it’s smaller developer team could more easily manage and
+                comprehend the entire codebase.</p>
+              <p>In the context of ChartHealth’s planned service-based architecture, there are multiple reasons that the
+                ‘big-bang’ approach is no longer appropriate. First, for example, the EMR management feature must be as
+                high-integrity as possible to satisfy government regulations. Simply replacing the EMR service for all
+                users in one ‘big-bang’ presents unreasonable risk which may result in inaccurate records capture or
+                deletion. Second, even on a service-by-service basis, if issues with new revisions of a service are
+                encountered, rolling back production to previous revisions of the service will likely result in
+                undesired downtime (Skowronski et al).</p>
+              <p>With the understanding that their deployment technique must change, ChartHealth’s technical leadership
+                undertakes a review of the modern deployment techniques and finds a plethora of options.</p>
+            </section>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Two -->
+    <section id="two" class="wrapper style1 spotlights">
+      <section>
+        <div class="content">
+          <div class="inner">
+            <h2>2. Modern Deployments</h2>
+            <p>In the context of microservice architectures, the goal of modern deployment practices is to achieve small
+              and frequent service revision releases which result in zero downtime. While each of the many unique
+              deployment techniques share this characteristic, the approaches can be distinguished by their tradeoffs.
+            </p>
+            <p>With the understanding that a modern deployment strategy must be employed to facilitate deployment of
+              revisions on a service-by-service basis, ChartHealth begins exploring the landscape of modern deployments.
+              The company specifically seeks to understand which of the deployment types are most commonly employed.
+              ChartHealth contacts multiple companies which provide deployment solution products and requests usage data
+              from those suppliers.</p>
+            <p>[Vamp & Harness survey picture here]</p>
+            <p>The above chart was compiled from customer surveys conducted by two market-leading providers of
+              Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that the
+              four most common deployment techniques between the customer bases of both companies are: big bang,
+              rolling, blue/green, and canary.</p>
+            <section id="section21">
+              <h3 id="two.one">2.1 Rolling Deployment</h3>
+              <p>[rolling deployment picture here]</p>
+              <p>Rolling deployments introduce service revisions by incrementally replacing the current production
+                service code on each of multiple nodes within the architecture. This type of deployment is only
+                applicable if there are multiple instances of the same service operating in production. An interesting,
+                and perhaps desirable, aspect of rolling deployments is that the current production and new revision of
+                a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling deployments can also
+                target specific user groups according to region, IP address, and a variety of other traffic
+                differentiators.</p>
+              <p>[pros/cons picture here]</p>
+            </section>
+          </div>
+          <div class="inner">
+            <section id="section22">
+              <h3 id="two.two">2.2 Blue/Green Deployment</h3>
+              <p>[blue/green deployment picture here]</p>
+              <p>Blue/green deployments require two environments: blue and green. The first environment, green within
+                the above diagram, is the current production environment. The second blue environment is an almost exact
+                replica of the green (production) environment. The only difference between their content is the revision
+                of the target service. After the newly introduced blue domain has completed initialization, a network
+                switch or load balancer routes 100% of the incoming network traffic to either blue or green environments
+                exclusively. As the deployment progresses, the traffic router redirects traffic to and from the blue or
+                green domains on an as needed basis. At any point in time, only one of the deployments is processing
+                incoming network traffic. The traffic router can maintain routing to the blue environment if the service
+                revision performance is acceptable. At this point, the blue environment effectively achieves production
+                status and the ‘older’ green domain can be destroyed. (Fowler)</p>
+              <p>[pros/cons picture here]</p>
+            </section>
+          </div>
+          <div class="inner">
+            <section id="section23">
+              <h3 id="two.three">2.3 Canary Deployment</h3>
+              <p>[canary deployment picture here]</p>
+              <p>This technique involves introducing a revised instance of a service, referred to as the canary, into
+                the same production environment as the current production version of the service. A load balancer routes
+                a minority of the incoming network traffic to be served by the canary instance. During the canary
+                deployment, a majority of the network traffic continues to be served by the production service. The
+                instance is continually analyzed such that any newly introduced issues can be detected without impacting
+                the majority of the user base (Çeliku 13). A small amount of incoming network traffic is directed to the
+                canary instance initially, data on its performance is collected and analyzed, and the amount of traffic
+                diverted may be increased or decreased based on the analysis (Sato). The load balancer can divide
+                incoming traffic based on many different criteria including: sticky sessions, geographical region,
+                packet addresses, packet headers, etc. This allows for the canary service to be targeted at specific
+                users or user groups despite executing within the production environment.</p>
+              <p>[pros/cons picture here]</p>
+            </section>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Three -->
+    <section id="three" class="wrapper style1 spotlights">
+      <section>
+        <iv class="content">
+          <div class="inner">
+            <h2>3. Choosing the Right Deployment Strategy</h2>
+            <p>First and foremost, a deployment strategy should both align with and serve business goals. For example, a
+              service owner may prioritize zero downtime when rolling out service updates because customers require
+              access to medical information regardless of the time of day. Some of the other considerations may include;
+              cost, engineering skill set, available testing tools, potential schema changes, and others. (Google SRE)
+            </p>
+            <p>Upon reviewing the above described deployment methods, disagreement arose between the ChartHealth
+              developer teams. The team responsible for the Stats service favored the Big Bang approach. The team
+              responsible for the Trends service felt that Blue/Green deployments were more suitable for the development
+              and release cadence of their service. The medical records team, chiefly concerned with data integrity,
+              rejected all deployment types except canary deployment.</p>
+            <p>[INSERT THREE SERVICES PER DEPLOYMENT TYPE IMAGE]</p>
+            <p>A major benefit of adopting a microservices architecture is the decoupling that can be achieved between
+              services. Decoupling between services can be expressed in terms of how the service is developed,
+              implemented, and deployed independent of one another (Indrasiri). Thus, although each of the ChartHealth
+              development teams disagree on which deployment technique to utilize, each can be satisfied by adopting the
+              deployment technique of their choosing.</p>
+            <p>Upon reviewing common modern deployments, the ChartHealth EMR service development team elected to adopt
+              canary deployments. The deciding factor was that medical record data integrity is paramount. The
+              development team is first and foremost concerned about minimizing risk of issues being presented by new
+              service revisions which could result in incorrect or missing patient medical data.</p>
+            <section id="section31">
+              <h3 id="three.one">3.1 Canary Analysis</h3>
+              <p>The most encompassing definition of canary deployment may be:</p>
+              <blockquote>deployment which consists of gradually shifting the network traffic [within the production
+                environment] from the old application version to the new application version (Çeliku 13)</blockquote>
+              <p>This language is very broad but may be the only definition which satisfies the myriad implementations
+                across companies. Some organizations implement simplistic deployments which are little more than
+                automated traffic splitters (Mitreski). Others divide HTTP traffic such that individual user sessions
+                are handled by the canary or production service revision exclusively (Tucker). Some implementations
+                combine canary release with other deployment techniques such as Blue/Green (Ehmke).</p>
+              <p>While there are many axes over which canary deployments can be divided, there are two groupings based
+                on historical progression of the technique (Çeliku 2) (CD Foundation). While no formal terminology
+                exists for this variation in canary analysis techniques, these implementations can be referred to as
+                manual canary analysis and automated canary analysis.</p>
+              <div class="inner">
+                <h4 id="three.one.one">3.1.1 Manual Analysis</h4>
+                <object style="width: 100%;" data="./images/aria_visuals/svgs/Manual_Analysis.svg"
+                  type="image/svg+xml"></object>
+                <p>From inception, canary deployment required human intervention at one or more stages of the process.
+                  This manual approach required engineer review of data representing the health of the deployment. In
+                  order to achieve this ‘manual analysis’ approach, tools which summarize canary performance metrics
+                  and/or event logs for human consumption are required. After review, the engineer determines whether to
+                  continue or halt the canary deployment. Considering this approach as manual canary analysis, the
+                  method was the only available until recently.</p>
+                <h4 id="three.one.two">3.1.2 Automated Analysis</h4>
+                <p>Eventually, statistical techniques improved such that continuous delivery of canary deployments could
+                  be achieved without human intervention (Graff). While automation of manual canary analysis had simply
+                  been a matter of implementation, the statistical techniques had lacked the fidelity to properly
+                  determine if a canary deployment was operating at a tolerable level of risk.</p>
+                <object style="width: 100%; margin-bottom: 1rem;"
+                  data="./images/aria_visuals/svgs/Automated_Analysis.svg" type="image/svg+xml"></object>
+                <p>Automated canary analysis utilizes an automated judge. The judge performs statistical analysis of
+                  canary performance metrics stored as time-series data. The judge computes an overall score based on a
+                  comparison of the metric data against specified priorities, weights, and thresholds. The overall score
+                  is then compared against a predefined threshold to determine if the canary instance is fit to replace
+                  the current service revision. The upside of automated canary analysis is a fully automated delivery
+                  pipeline.</p>
+                <p>However, the ChartHealth EMR service developer team recognizes that automated canary analysis
+                  requires a high-degree of trust in the automated system. Given that their priority is focused on
+                  complete fidelity of medical records management, the developer team elects not to utilize automated
+                  canary analysis. However, the team is wants to leverage the advanced statistical techniques utilized
+                  by automated canary analysis to more precisely understand the performance impacts of new revisions
+                  (Vamp).</p>
+              </div>
+            </section>
+          </div>
+          <div class="inner">
+            <section id="section32">
+              <h2 id="three.two">3.2 Survey of Existing Solutions</h2>
+              <p>Armed with a more detailed understanding of the type of canary deployment it is seeking, ChartHealth
+                then takes inventory of the products and open source solutions which facilitate canary deployments.</p>
+              <object style="width: 100%;" data="./images/aria_visuals/svgs/3ProductCategories.svg"
+                type="image/svg+xml"></object>
+              <p>ChartHealth discovers that the existing solutions can be divided into three categories which can be
+                referred to as: platform services, orchestrator plugins, and standalone solutions.</p>
+              <p>Platform services are solutions constructed from managed services offered by infrastructure providers.
+                While the infrastructure services provider abstracts away the low level details of infrastructure
+                creation and management, it is the responsibility of the user (in this instance a ChartHealth engineer)
+                to define and manage the infrastructure at a high level. The user composes and deploys the instances
+                which house the canary service(s) and performance observability products. Of the three categories,
+                platform services require ChartHealth’s EMR services developer team to have a DevOps skill set in
+                addition to software engineering. Examples of canary deployments which utilize platform services include
+                implementations by companies such as HolidayCheck (McAllister), and Klarna (Mitreski).
+              <p>Orchestrator plugins are another category of solutions. These are third-party plugins such as
+                Serverless, Argo Rollouts, and Kong Canary Release. These plugins are designed to integrate into
+                control-plane orchestration products such as Kubernetes or Istio. The options for tailoring a canary
+                deployments using plugin products are constrained by the limitations of the control plane itself,
+                usually resulting in more primitive canary deployments. ChartHealth immediately recognizes that one of
+                the major limitations of these solutions is the inherent requirement that the control plane product must
+                be utilized as well. Control plane products are high in overhead, especially considering ChartHealth’s
+                microservice architecture is not as complex as the environments that control planes are meant to manage.
+              </p>
+              <p>The standalone category refers to software-as-a-service (SaaS) or open-source platforms. These products
+                can integrate with control plane orchestrators but can also perform canary deployments independently.
+                Canary releases are not the focus of but rather one of many features offered by these products. Some
+                products, such as those offered by Octopus Deploy and Vamp, are paid-for SaaS solutions. The open-source
+                solution in this category is Spinnaker. Like its SaaS equivalents, Spinnaker is a comprehensive product
+                which offers many more features than canary deployments but requires a significant time investment to
+                setup and maintain. Within this category, Spinnaker and Vamp are unique products in that both offer
+                automated canary analysis.</p>
+              <h4 id="three.two.one">Evaluating Exisitng Solutions</h4>
+              <p>After surveying available canary deployment solutions, the ChartHeath EMR service developer team has
+                decided that none are quite the right fit for their needs. They are not interested in platform services
+                products because ChartHeath’s software engineering organization lacks DevOps experience. ChartHealth
+                does not stand alone in this regard. A DevOps survey conducted by Atlassian and CITE Research found that
+                46% of companies have 3 years or less of DevOps experience, and that 37% of companies reported that the
+                barrier to DevOps implementation is due to a lack of employee skills (Atlassian). For these reasons,
+                ChartHealth does not believe its engineering staff is currently capable of managing a platform service
+                solution.</p>
+              <p>The development team also decided against orchestrator plugin solutions due to the overhead of
+                implementing a control plane product. ChartHealth’s planned three service architecture does not justify
+                a control product more complex than the microservice architecture itself.</p>
+              <p>Ideally, the development team would choose to implement Spinnaker in order to further reduce deployment
+                risk by utilizing the Kayenta automated canary analysis package. Spinnaker allows for configuration of
+                canary deployments via a streamlined UI. However, similar to the orchestrator plugin solutions, the
+                standalone solutions are too complex relative to the task of deploying the lone EMR service within a
+                wider architecture.</p>
+              <p>While none of the other existing solutions satisfy ChartHealth’s EMR service development team, this use
+                case is precisely that which Aria is meant to address.</p>
+            </section>
+          </div>
+      </section>
+
+      <!-- Four -->
+      <section id="four" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>4. Introducing Aria</h2>
+              <p>Because the existing third-party solutions don't fit the needs of the ChartHealth engineering team,
+                they have chosen to use Aria, a canary deployment & infrastructure management tool.</p>
+              <div class="inner">
+                <section id="section41">
+                  <h3 id="four.one">4.1 What is Aria?</h3>
+                  <p>Aria is an open-source, self-hosted canary deployment tool that helps developers quickly manage the
+                    lifecycle of canary deployments. Aria focuses the user on application specific configuration to
+                    achieve a high fidelity automated analysis of the deployment performance.</p>
+                  <p>Each Aria managed deployment is composed of three instances: canary, baseline, and monitor. A
+                    specified subset of incoming production traffic is redirected from the production infrastructure to
+                    the canary and baseline instances. The monitoring instance contains tooling for both performance
+                    metrics and canary specific analysis enabling side-by-side comparison of the current and a revision
+                    to the production application.</p>
+                  <p>Aria provides a user-interface (UI) based application that allows engineers to easily configure,
+                    deploy, review status of, and destroy the above described resources within their production or
+                    staging environment of choice. As of the first iteration of the tool, Aria inserts the canary
+                    analysis infrastructure to Virtual Private Clouds (VPCs) provided by Amazon Web Services (AWS). More
+                    specifically, Aria inserts infrastructure such that network traffic is routed by an existing
+                    application load balancer (ALB) to be served by the Aria defined canary instances.</p>
+                </section>
+              </div>
+              <div class="inner">
+                <section id="section42">
+                  <h3 id="four.two">4.2 Why Choose Aria?</h3>
+                  <p>Deploying infrastructure and configuration in support of advanced statistical analysis of canary
+                    deployments is both tedious and complex. To implement this approach, developers must be concerned
+                    with traffic splitting rules; how to configure the traffic weights, and how to set up traffic
+                    monitoring and analysis. In addition to configuration, engineering teams must also provision the
+                    infrastructure associated with the deployment and setup observability tools in concert with that
+                    infrastructure. With Aria, infrastructure creation and tedious configuration is automated and
+                    abstracted behind an intuitive UI. Furthermore, if any issues arise with the canary instance,
+                    traffic can be easily removed from the canary, rolling back to the previous pre-canary stable
+                    environment. With these tasks addressed by Aria, developers are more willing to try canary
+                    deployments and can benefit from its data analysis features.</p>
+                  <p>Aria was built specifically to lower the barrier for developers that want to try canary deployments
+                    and analysis tools. It is simple to configure the canary settings and to use Aria’s straightforward
+                    UI in order to meaningfully configure and manage canary deployment infrastructure. Rolling back is
+                    easy if the new service revision is performing poorly -- with just a click of a button.</p>
+                </section>
+              </div>
+              <div class="inner">
+                <section id="section43">
+                  <h3 id="four.three">4.3 Where Aria Fits</h3>
+                  <p>When comparing Aria with other alternatives like existing 3rd-party solutions and platform
+                    services, Aria stands out in multiple ways.</p>
+                  <p>First , Aria shines by self-provisioning all the necessary resources needed to achieve advanced
+                    statistical analysis utilizing Kayenta. Furthermore, Aria deploys monitoring services Prometheus and
+                    Grafana, allowing users a clear view into the current state of the deployment.</p>
+                  <p>Second, Aria was built with accessibility in mind. As opposed to other canary deployment tools that
+                    have an overwhelming amount of configuration and unclear documentation, Aria displays a simple
+                    single page UI that facilitates deployment creation and configuration. The UI focuses on meaningful
+                    configuration analysis and select targeting of a subset of the user-base per deployment. </p>
+                  <p>Third, Aria is open-source and free to use. Companies that want to experiment with canary
+                    deployments may not want to invest in third-party solutions which can be quite costly.</p>
+                  <p>Taking all these together, Aria, being easy to use, free, and abstracting much of the complexity
+                    that comes with a canary deployment, is a perfect fit for a small company like ChartHealth that
+                    wants to get its feet wet with canary deployments and advanced canary analysis. Being able to create
+                    and destroy all of the resources necessary to deploy a canary with just a few clicks allows
+                    developers to explore canary deployment and analysis without having to invest too much effort and
+                    time.</p>
+                </section>
+              </div>
+              <div class="inner">
+                <section id="section44">
+                  <h3 id="four.four">4.4 Using Aria</h3>
+                  <p>Aria use can be broken down into three main UI interactions which correspond to the lifecycle of an
+                    Aria canary deployment. First, a user configures the infrastructure to be deployed to the accessible
+                    environment (VPC) of their choice. Once the application has been deployed, the user has the ability
+                    to view the status and health of individual Aria deployments. Lastly, with one click, the user can
+                    tear down the Aria canary deployment such that the initial state of the environment is restored.</p>
+                  <h4 id="four.four.one">Local Environment Setup</h4>
+                  <p>In order to interface with AWS services, Aria requires that the user’s local development
+                    environment include the AWS CDK Toolkit, AWS CLI, and their AWS account credentials. Aria is
+                    launched by invoking `npm start`terminal command which subsequently launches the UI and the backend
+                    API processes.
+                    Upon launching the Aria UI, the user is prompted to select one of the locally defined AWS profiles.
+                    Aria automatically fetches all relevant AWS resource data, Aria deployments, and status information
+                    accessible by the selected AWS profile.</p>
+                  <h4 id="four.four.two">Configuration & Creation</h4>
+                  <p>Along with giving the canary a title and description. The user is presented with a Aria deployment
+                    creation form. Within the form, traffic splitting can be configured by selecting a traffic weight
+                    and rule priority. Optional settings, such as sticky sessions which enables re-routing of users to
+                    the same target group on subsequent requests, can also be toggled on/off. The user can also specify
+                    under what conditions traffic will be forwarded to the new canary and baseline target groups.
+                    Finally, the user provides the docker image and docker-compose files that specify how the Docker
+                    containers should be run on the new instances. The canary can then be deployed with one click. </p>
+                  <h4 id="four.four.three">Management</h4>
+                  <p>Once deployed, the user can view the statuses of the provisioned instances along with their event
+                    logs in a simple and streamlined dashboard. This information can be accessed via the ‘Status’ menu
+                    item in the sidebar. The displayed table conveys the state, status, and target health of all the
+                    three provisioned instances that were created for each of the Aria deployments. Each entry within
+                    the status table also contains a link to view the event logs of that instance.</p>
+                  <p>Within the summary of each deployment, accessible via the ’Deployment’ sidebar menu item, are links
+                    to the Prometheus, Grafana, Kayenta and Referee monitoring tools. These tools are automatically
+                    configured and created by Aria when the canary is provisioned, and are automatically set-up to
+                    monitor the canary and baseline instances. </p>
+                  <h4 id="four.four.four">Teardown</h4>
+                  <p>When the user is satisfied with the canary deployment progress, the canary, baseline, and
+                    monitoring instances can be torn down with one easy click of the ‘Destroy’ button. This button can
+                    be accessed within the deployment specific summary. After destroying an Aria deployment, the
+                    production environment is restored to its previous state wherein all incoming network traffic is
+                    routed to the current production service.</p>
+                </section>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Five -->
+      <section id="five" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>5. Engineering Decisions and Tradeoffs</h2>
+              <section id="section51">
+                <h3 id="five.one">5.1 Hosted vs. Self-hosted</h3>
+                <p>One of the first questions we needed to answer surrounded the delivery of Pioneer. We considered
+                  whether it would be best for our team to set up private cloud infrastructure on which we would host
+                  Pioneer, offering it as a service, or whether we should build it so that it could be hosted entirely
+                  by the user.</p>
+                <p>We decided to provide Pioneer as a self-hosted application rather than hosting it ourselves for
+                  several reasons.</p>
+                <p>Firstly, it means that the user can deploy Pioneer on their infrastructure of choice, whether that’s
+                  on an AWS VPC, a DigitalOcean Droplet, or their own on-prem server.</p>
+                <p>Allowing user organizations to self-host Pioneer reduces the security concerns that an organization
+                  may have with a multi-tenancy architecture hosted by an external organization. In that situation,
+                  users may not have full knowledge of the security measures taken to protect their data. Because
+                  Pioneer is self-hosted, users will maintain full control of their data and can implement whatever
+                  security measures they feel are necessary.</p>
+                <p>Distributing Pioneer as an open-source and self-hosted application means that users of Pioneer can
+                  fully adapt the application to their own unique needs, increasing flexibility. If the out-of-the-box
+                  configuration isn’t matching a user’s requirements, they have the freedom to change whatever isn’t
+                  working for them or to add whatever components might suit them better.</p>
+                <p>In addition, self-hosting is affordable because Pioneer is intended for companies with a modest
+                  feature flag ruleset, obviating the need for storing large amounts of data and computing resources.
+                </p>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section52">
+                <h3 id="five.two">5.2 Inter-application Communication</h3>
+                <p>Our messaging service of choice, NATS JetStream, allows for decoupled messaging. Naively, we could
+                  have enabled the Scout daemon to communicate directly with the Compass API. However, Compass would
+                  then have the additional responsibility of tracking all listening Scout instances and ensuring message
+                  delivery. Using a third-party messaging tool to handle message delivery allows for a better separation
+                  of concerns, and allows Compass to only worry about publishing the correct message. We chose not to
+                  pursue Kafka because its complexity and larger infrastructure were unnecessary for our use case. NATS
+                  has a smaller infrastructure and provides all of the features that Pioneer requires.</p>
+                <p>NATS streaming allows for many-to-one communication. This means that as an organization scales, they
+                  could choose to also horizontally scale the number of Scout daemons sending updates to SDK clients.
+                  Any Scout daemon subscribed to the NATS stream would receive feature flag updates as usual.
+                  Alternatively, a logging service could also subscribe to the NATS stream and preserve messages for
+                  later analysis.</p>
+                <p>We intentionally chose to use NATS JetStream over its predecessor, Core NATS, because JetStream
+                  allows for <em>guaranteed message delivery</em>.</p>
+                <p>Take for example a situation in which the Scout daemon may temporarily go down and is not able to
+                  receive communications from the NATS server:</p>
+                <object data="./images/pioneer_visuals/svgs/transition/transition1.svg" type="image/svg+xml"></object>
+                <p>If a flag is toggled, or some other change is made that results in an updated ruleset being
+                  disseminated, the new ruleset will be sent to the NATS server. With JetStream, the message containing
+                  the updated ruleset will be queued.</p>
+                <object data="./images/pioneer_visuals/svgs/transition/transition2.svg" type="image/svg+xml"></object>
+                <p>When the Scout daemon comes back up and communication with the NATS server is reestablished, the
+                  message will then be delivered, and Scout can then pass the updated ruleset down to connected SDKs.
+                </p>
+                <object data="./images/pioneer_visuals/svgs/transition/transition3.svg" type="image/svg+xml"></object>
+                <p>This alleviates concerns of missed messages due to network partitions resulting in stale feature flag
+                  data.</p>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section53">
+                <h3 id="five.three">5.3 Providing Feature Flag Data to User Applications via SSE</h3>
+                <ul class="alt">
+                  <li>
+                    <p>A fundamental decision in our architecture was determining the best way to send feature flag
+                      updates from Pioneer to the SDK installed in the user’s application. Options we considered
+                      included: API polling, webhooks, WebSockets, and streaming.</p>
+                  </li>
+                  <li>
+                    <p>While API polling seemed to be the simplest approach, it would require SDK clients to
+                      periodically poll the Scout daemon for an update, rather than receiving flag data updates right
+                      away. This would eliminate the real-time benefits of streaming, and may also result in unnecessary
+                      network traffic.</p>
+                    <object data="./images/pioneer_visuals/svgs/connection_types/polling.svg"
+                      type="image/svg+xml"></object>
+                  </li>
+                  <li>
+                    <p>Webhooks was another alternative we considered. Webhooks are more suitable than API polling due
+                      to their event-driven nature. While API polling is triggered by time, irrespective of whether or
+                      not a data change has occurred, with webhooks an HTTP request would only be sent in response to an
+                      event. However, this approach would require an additional HTTP endpoint to be exposed on the
+                      client application, requiring user configuration. Ultimately, we found it preferable to minimize
+                      interference with the client application.</p>
+                    <object data="./images/pioneer_visuals/svgs/connection_types/webhooks.svg"
+                      type="image/svg+xml"></object>
+                  </li>
+                  <li>
+                    <p>Data could also be sent from Pioneer to SDKs via WebSockets. WebSockets are primarily used for
+                      bi-directional communication. Although the SDK client initially sends an HTTP request to Scout to
+                      initialize an SSE connection, all subsequent messages are sent from Scout to the SDK; therefore,
+                      only unidirectional communication is required. Thus, there is no need for the bi-directional
+                      capabilities of WebSockets.</p>
+                    <object data="./images/pioneer_visuals/svgs/connection_types/websockets.svg"
+                      type="image/svg+xml"></object>
+                  </li>
+                  <li>
+                    <p>Ultimately, we decided to use Server-Sent Events to enable efficient Scout-to-SDK streaming of
+                      feature flag data. This approach is an excellent tool for handling real-time data, as the single,
+                      long-lived connection provides low latency data delivery. Upon receiving a new SSE event, the SDK
+                      will parse the newly provided data and use it to evaluate feature flags.</p>
+                    <object data="./images/pioneer_visuals/svgs/connection_types/sse.svg" type="image/svg+xml"></object>
+                  </li>
+                  <li>
+                    <p>One additional concern that we discussed was how to authorize SSE clients, in order to protect
+                      data within the feature flag ruleset. We decided to provide an SDK key to users via the Compass
+                      UI. Users must provide this SDK key when integrating an SDK into their application code to connect
+                      to Scout and receive feature flag data. If no valid key is provided, Scout will reject the SDK’s
+                      request to connect as an SSE client.</p>
+                    <p>A potential disadvantage of using SSE is the fact that connections will close if they have been
+                      idle for more than ~30 seconds. This is due to the default behavior of the EventSource API which
+                      handles the connection. We could have configured a longer timeout period; however, the intent of
+                      the connection closing is to prevent stale and phantom connections, which is something we want to
+                      avoid. The closing of connections due to the 30-second timeout is handled automatically by the
+                      EventSource API which will reconnect after a short interval. One concern we had was how to handle
+                      unsuccessful connection requests from an SDK to Scout. We wanted the SDK to retry the connection,
+                      but to avoid swamping the daemon with requests by sending infinite unsuccessful requests to
+                      connect. We addressed this issue by adding a reconnection attempt limit to all three of our SDKs.
+                      Once the reconnection attempt limit has been reached an error message will be logged and the SSE
+                      connection will be closed.</p>
+                  </li>
+                </ul>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section54">
+                <h3 id="five.four">5.4 Redis Cache</h3>
+                <p>Initially, we considered if Pioneer would require a Redis cache to offload read requests from the
+                  Compass Postgres database when Scout requests flag data through NATS JetStream. The proposed cache
+                  would request data from the Compass API to initially populate, and listen for subsequent feature flag
+                  updates.</p>
+                <object data="./images/pioneer_visuals/architecture_with_redis.svg" type="image/svg+xml"></object>
+                <p>After further analysis, we determined that adding a cache to our application was not appropriate for
+                  our use case and would unnecessarily increase the complexity of Pioneer’s architecture. Because
+                  Pioneer’s intended use case involves small- or medium-sized organizations, the number of read
+                  operations on Compass’ Postgres database should be manageable without a cache.</p>
+                <p>Furthermore, due to the open-source nature of Pioneer, user organizations have the freedom to add
+                  their own cache if required.</p>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section55">
+                <h3 id="five.five">5.5 Sending Feature Flag Updates - Piecemeal vs Whole</h3>
+                <p>A decision needed to be made regarding the content of messages that were distributed throughout the
+                  system in response to a change to the feature flag data. One option was to send information pertaining
+                  only to the modified flag (piecemeal). The other option was to transmit the entire up-to-date set of
+                  feature flag data (whole).</p>
+                <p>The decision was made to implement Pioneer such that the entirety of the up-to-date feature flag data
+                  would be sent, regardless of the operation performed. This method of distribution offers several
+                  advantages. The first is that by transmitting the full data set, we can ensure that every SDK has the
+                  most up-to-date information available at all times.</p>
+                <p>The alternative solution of sending individual feature updates had a few drawbacks. Potentially, an
+                  SDK could miss an update from Scout due to network issues. This would result in an SDK evaluating
+                  flags using outdated feature flag data. The discrepancy would persist until the next update related to
+                  that particular flag was made, resulting in conflicts between the data sets of individual SDK clients.
+                  By sending the full feature flag data set, we can significantly reduce the possibility of SDKs serving
+                  outdated feature flag data.</p>
+                <p>An additional benefit to sending the entirety of the feature flag data is that it allows the code on
+                  both ends of the communication to be simple and elegant. The SDK merely has to save the newly received
+                  data as a whole. This approach avoids introducing additional surface area for bugs by excluding the
+                  need for complex logic required to parse feature flag data, update specific elements, and handle every
+                  type of CRUD operation that might occur.</p>
+                <p>The obvious tradeoff of sending the entirety of the feature flag data is the increased size of
+                  messages and the impact on network bandwidth that might have. Pioneer is designed to be used by
+                  relatively small teams to migrate to microservices from a monolith. We reasoned that the standard use
+                  case would not likely exceed 20-30 distinct flags at a time.</p>
+                <p>To test Pioneer’s capacity, we tested a data set composed of 100 distinct flags. Even at this
+                  seemingly inflated data set size, the total size of the data transmission from Scout to each connected
+                  SDK client was almost exactly 20KB. With an expected rate of 10 requests/second, we felt the impact of
+                  2MB/second should fall well within the limits of any modern network. Because Pioneer is open-source
+                  software, if an organization does find that they need to transmit very large amounts of feature flag
+                  data they can add logic that will compress data before it is sent and decompress data when it is
+                  received by the SDK.</p>
+                <p>Therefore, we concluded that the tradeoff of increased transmission size for sending full feature
+                  flag datasets was acceptable given the benefits in ensuring that SDKs evaluate up-to-date data.</p>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section56">
+                <h3 id="five.six">5.6 Load Testing</h3>
+                <p>One area with which we wanted to take extra consideration was understanding and testing the
+                  limitations regarding the number of SDK clients that can connect to Scout simultaneously and be served
+                  feature flag data efficiently. Though our intended use case implies that a high number of SDKs are
+                  unlikely to be connected to Scout, we still wanted to explore how the system performs under increasing
+                  levels of load in theory.</p>
+                <p>With this use case in mind, we reasoned that a rate of 10 new connections to Scout every second would
+                  cover most usage scenarios. Beyond that, testing a higher number of connections would only reaffirm
+                  the robustness of the Scout daemon for our intended use case.</p>
+                <p>Our goal for these tests was to simulate the process of an SDK client establishing an SSE connection
+                  with Scout and subsequently receiving the feature flag data. For these tests, we used the relatively
+                  large 100-flag data set previously mentioned in <a href="five.five">section 5.5</a>. Recall that the
+                  data itself along with HTTP headers resulted in the transmission of nearly 20KB of data.</p>
+                <p>For testing purposes, we chose to isolate the process of connecting and transmitting an initial set
+                  of feature flag data. In order to achieve this, we temporarily modified the Scout daemon to close SSE
+                  connections after the initial flag data had been sent to the SDK. If each SSE client connection
+                  remained open indefinitely, the performance tolerances of the Scout daemon would most certainly
+                  perform differently. However, we felt that because SSE connections are likely to be dropped and added
+                  somewhat regularly as the client application spins up new instances and terminates others, it is
+                  reasonable to test Scout without leaving every connection open in perpetuity.</p>
+                <p>Our testing was performed via Artillery.io <sup><a
+                      href="http://www.split.io/glossary/canary-deployment/">7</a></sup>, using a configuration file
+                  that ran several different phases for extended periods of time. We incrementally increased the load on
+                  Scout by a factor of 10, beginning at 1 request per second and peaking at 1000 requests per second
+                  before ramping back down.</p>
+                <p>The results of our tests demonstrated a few things. First, the Scout daemon can easily handle the
+                  expected case of 10 requests per second. Second, under a usage load of 100 requests per second,
+                  Scout’s median response time increased by about 450 milliseconds, but the system could still serve all
+                  of the data payloads successfully. Lastly, we observed a degradation of performance under a load of
+                  1000 requests per second.</p>
+                <p>Ultimately, our tests were successful in demonstrating that Pioneer’s system is more than capable of
+                  handling the anticipated load. If an organization using Pioneer were approaching a load of 1000
+                  connection requests per second, they may consider implementing an additional instance of Scout to
+                  share the load to prevent performance degradation.</p>
+              </section>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Six -->
+      <section id="six" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>6. Future Work</h2>
+              <section id="section61">
+                <h3 id="six.one">6.1 Accommodate Multiple Applications</h3>
+                <p>Currently, an instance of Pioneer supports a single application. More specifically, Pioneer
+                  broadcasts the entire set of flag data to all connected SSE clients in an application-agnostic manner.
+                  If an organization would like to use Pioneer with additional applications that require different
+                  feature flag data, they will need to spin up an additional instance of Pioneer to communicate with
+                  that application. This is a natural consequence of Pioneer’s simplicity and ease of use. However, in
+                  the future, we may consider adding support for multiple sets of flag data handled by a single instance
+                  of Pioneer.</p>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section62">
+                <h3 id="six.two">6.2 Additional Rollout Strategies</h3>
+                <p>Offering additional rollout strategies that allow the organization to target particular users would
+                  allow for more granular control over the initial users of a new feature. Some special users that we
+                  may choose to accommodate in the future are users internal to the organization, a predetermined group
+                  of beta-testers, or particular segments of the market.</p>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section63">
+                <h3 id="six.three">6.3 Flag Expiration</h3>
+                <p>Because Pioneer is meant to be used to roll out new services, the conditional logic related to a
+                  feature flag for a service likely shouldn’t live in the codebase indefinitely. Flag expiration would
+                  allow engineers to set an expiration date on a flag after which the flag will throw an exception or
+                  log a warning message if it is evaluated in the codebase. The motivation behind flag expiration is to
+                  avoid technical debt. When a feature flag is no longer necessary, the flag and the application logic
+                  that evaluates the flag should both be removed from the codebase.</p>
+                <p>Another benefit to offering flag expiration is that it provides a simple and clear-cut rollout window
+                  in which to collect analytics and user feedback on a new feature. Engineers could determine the
+                  appropriate duration to test a new feature and set the flag expiration accordingly. Pioneer would
+                  handle expiring the feature flag at the assigned time, and the organization’s engineers could review
+                  the data collected later to decide how to proceed with the new feature.</p>
+              </section>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Seven -->
+      <section id="seven" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>7. References</h2>
+              <ol>
+                <li><a href="https://www.split.io/glossary/canary-deployment/">“Canary Deployment - Split Glossary.”
+                    Split, Split.io, 3 Oct. 2020</a></li>
+                <li><a href="https://www.smashingmagazine.com/2018/02/sse-websockets-data-flow-http2/">Chaov, Martin.
+                    “Using SSE Instead of WebSockets for Unidirectional Data Flow OVER HTTP/2.” Smashing Magazine, 12
+                    Feb. 2018, www.smashingmagazine.com/2018/02/sse-websockets-data-flow-http2/.</a></li>
+                <li><a href="https://www.featureflags.io/feature-flags/">“Feature Flags.” Feature Flags, Toggles,
+                    Controls, Featureflags.io, 13 Dec. 2015, featureflags.io/feature-flags/.</a></li>
+                <li><a href="http://www.semaphoreci.com/blog/what-is-canary-deployment">Fernandez, Tomas. “What Is
+                    Canary Deployment?” Semaphore, Semaphoreci.com, 22 Apr. 2021,
+                    semaphoreci.com/blog/what-is-canary-deployment.</a></li>
+                <li><a href="http://www.martinfowler.com/bliki/FeatureToggle.html">Fowler, Martin. “Bliki:
+                    FeatureToggle.” Martinfowler.com, Martin Fowler, 29 Oct. 2010,
+                    martinfowler.com/bliki/FeatureToggle.html.</a></li>
+                <li><a href="http://www.split.io/blog/canary-release-feature-flags/">Karow, Dave. “Pros and Cons of
+                    Canary Releases vs Feature Flag Releases.” Split, Split.io, 3 Oct. 2020,
+                    www.split.io/blog/canary-release-feature-flags/.</a></li>
+                <li><a href="https://artillery.io">“Load & Smoke Testing.” Artillery.io | Load & Smoke Testing,
+                    Artillery.io, artillery.io/.</a></li>
+                <li><a href="http://www.ably.com/blog/websockets-vs-sse">Martin, Eve. “WebSockets vs Server-Sent
+                    Events.” Ably Blog: Data in Motion, Ably.com, 21 May 2021, ably.com/blog/websockets-vs-sse.</a></li>
+                <li><a href="https://nats.io">“Nats.io.” NATS.io, 26 July 2021, nats.io/.</a></li>
+                <li><a href="http://www.martinfowler.com/bliki/CanaryRelease.html">Sato, Danilo. “Bliki: Canary
+                    Release.” Martinfowler.com, Martin Fowler, 25 June 2014,
+                    martinfowler.com/bliki/CanaryRelease.html.</a></li>
+              </ol>
+            </div>
+        </section>
+      </section>
+
+      <!-- Eight -->
+      <section id="eight" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>8. Presentation</h2>
+              <!-- <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://dkq85ftleqhzg.cloudfront.net/capstone_presentations/pioneer.mp4" style="left:0;position:absolute;top:0" width="100%"></iframe></div></div> -->
+            </div>
+        </section>
+      </section>
+
+
+      <!-- Nine -->
+      <section id="nine" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>9. Meet the Team</h2>
+              <p>Pioneer was built by a small team of dedicated individuals.</p>
+              <p>While our team has since moved on to other opportunities, if you are interested in the project and want
+                to chat with us about it, please reach out!</p>
+
+            </div>
+            <div class="box alt">
+              <div class="row gtr-uniform">
+                <div class="col-3 center">
+                  <img class="image fit align" src="./images/team_photos/jimmy-resize.png" alt="Jimmy Zheng" />
+                  <p>Jimmy Zheng</p>
+                  <div class="row center">
+                    <a href="mailto:jimzhe842@gmail.com">
+                      <img src="./images/email_icon-32.png" alt="">
+                    </a>
+                    <a href="https://github.com/jimzhe842">
+                      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Jimmy Zheng GitHub">
+                    </a>
+                    <a href="https://www.linkedin.com/in/jimmy-zheng-977a821a3">
+                      <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Jimmy Zheng LinkedIn">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-3 center">
+                  <img class="image fit align" src="./images/team_photos/laura.jpg" alt="Laura Davies" />
+                  <p>Laura Davies</p>
+                  <div class="row center">
+                    <a href="mailto:drljdavies@gmail.com">
+                      <img src="./images/email_icon-32.png" alt="">
+                    </a>
+                    <a href="https://github.com/l-jdavies">
+                      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Laura Davies Github">
+                    </a>
+                    <a href="https://www.linkedin.com/in/laura-davies-3a5b1913a/">
+                      <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Laura Davies LinkedIn">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-3 center">
+                  <img class="image fit align" src="./images/team_photos/kyle.jpg" alt="Kyle Ledoux" />
+                  <p>Kyle Ledoux</p>
+                  <div class="row center">
+                    <a href="mailto:kaledoux@gmail.com">
+                      <img src="./images/email_icon-32.png" alt="Kyle Ledoux email">
+                    </a>
+                    <a href="https://github.com/kaledoux">
+                      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Kyle Ledoux GitHub">
+                    </a>
+                    <a href="https://www.linkedin.com/in/kaledoux">
+                      <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Kyle Ledoux LinkedIn">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-3 center">
+                  <img class="image fit align" src="./images/team_photos/liz.png" alt="Elizabeth Tackett" />
+                  <p>Elizabeth Tackett</p>
+                  <div class="row center">
+                    <a href="mailto:emctackett@gmail.com">
+                      <img src="./images/email_icon-32.png" alt="Elizabeth Tackett email">
+                    </a>
+                    <a href="https://github.com/emctackett">
+                      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Elizabeth Tackett GitHub">
+                    </a>
+                    <a href="https://www.linkedin.com/in/emctackett
 ">
-											<img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Elizabeth Tackett LinkedIn">
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-			</section>
-		</div>
+                      <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Elizabeth Tackett LinkedIn">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+  </div>
 
-		<!-- Footer -->
-			<footer id="footer" class="wrapper style1-alt">
-				<div class="inner">
-				</div>
-			</footer>
+  <!-- Footer -->
+  <footer id="footer" class="wrapper style1-alt">
+    <div class="inner">
+    </div>
+  </footer>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
 
-	</body>
+</body>
+
 </html>
