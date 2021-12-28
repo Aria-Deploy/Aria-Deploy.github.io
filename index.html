@@ -141,7 +141,7 @@
 									<section id="section21">
 										<h3 id="two.one">2.1 Rolling Deployment</h3>
 										<video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay loop>
-											<source src="./images/aria_visuals/videos/rolling_deployment.mov">
+											<source src="./images/aria_visuals/videos/rolling_deployment.mp4">
 										</video>
 										<p>Rolling deployments introduce service revisions by incrementally replacing the current production service code on each of multiple nodes within the architecture. This type of deployment is only applicable if there are multiple instances of the same service operating in production. An interesting, and perhaps desirable, aspect of rolling deployments is that the current production and new revision of a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling deployments can also target specific user groups according to region, IP address, and a variety of other traffic differentiators.</p>
 										<table class="proscons">
@@ -192,7 +192,7 @@
 										<div class="text-animation">
 											<p>This technique involves introducing a revised instance of a service, referred to as the canary, into the same production environment as the current production version of the service. A load balancer routes a minority of the incoming network traffic to be served by the canary instance. During the canary deployment, a majority of the network traffic continues to be served by the production service. The instance is continually analyzed such that any newly introduced issues can be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming network traffic is directed to the canary instance initially, data on its performance is collected and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis (Sato).</p>
 											<video width="291px" height="481px" autoplay loop>
-												<source src="./images/aria_visuals/videos/canary_deployment.mov">
+												<source src="./images/aria_visuals/videos/canary_deployment.mp4">
 											</video>
 										</div>
 										<p>The load balancer can divide incoming traffic based on many different criteria including: sticky sessions, geographical region, packet addresses, packet headers, etc. This allows for the canary service to be targeted at specific users or user groups despite executing within the production environment.</p>
