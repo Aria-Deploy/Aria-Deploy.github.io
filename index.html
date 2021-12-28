@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Pioneer - Feature Flags</title>
+		<title>Aria - Canary Deployments</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -21,61 +21,50 @@
 								<a href="#one">1. Introduction and Use Case</a>
 								<ul class="subsection">
 									<li><a href="#section11">1.1 Hypothetical</a></li>
+									<li><a href="#section12">1.2 The Problem with Traditional Deployments</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="#two">2. Potential Solutions</a>
+								<a href="#two">2. Modern Deployments</a>
 								<ul class="subsection">
-									<li><a href="#section21">2.1 Canary Deployment</a></li>
-									<li><a href="#section22">2.2 Feature Flags</a></li>
-									<li><a href="#section23">2.3 Feature Flags as a Solution</a></li>
+									<li><a href="#section21">2.1 Rolling Deployment</a></li>
+									<li><a href="#section22">2.2 Blue/Green Deployment</a></li>
+									<li><a href="#section23">2.3 Canary Deployment</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="#three">3. Introducing Aria</a>
+								<a href="#three">3. Choosing the Right Deployment</a>
 								<ul class="subsection">
-									<li><a href="#section31">3.1 What Is Aria?</a></li>
-									<li><a href="#section32">3.2 Revisiting the Problem</a></li>
-									<li><a href="#section33">3.3 Using Aria</a></li>
-									<li><a href="#section34">3.4 Where Aria Fits</a></li>
+									<li><a href="#section31">3.1 Different Flavors of Canary Deployments</a></li>
+									<li><a href="#section32">3.2 Survey of Existing Solutions</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="#four">4. Technical Deep Dive</a>
+								<a href="#four">4. Introducing Aria</a>
 								<ul class="subsection">
-									<li><a href="#section41">4.1 NATS</a></li>
-									<li><a href="#section42">4.2 Compass</a></li>
-									<li><a href="#section43">4.3 Scout</a></li>
-									<li><a href="#section44">4.4 SDKs</a></li>
+									<li><a href="#section41">4.1 What is Aria?</a></li>
+									<li><a href="#section42">4.2 Why Choose Aria?</a></li>
+									<li><a href="#section43">4.3 Where does Aria fit?</a></li>
+									<li><a href="#section44">4.4 Using Aria</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="#five">5. Engineering Decisions and Tradeoffs</a>
-								<ul class="subsection">
-									<li><a href="#section51">5.1 Hosted vs. Self-hosted</a></li>
-									<li><a href="#section52">5.2 Inter-application Communication</a></li>
-									<li><a href="#section53">5.3 Providing Feature Flag Data to User Applications via SSE</a></li>
-									<li><a href="#section54">5.4 Redis Cache</a></li>
-									<li><a href="#section55">5.5 Sending Feature Flag Updates - Piecemeal vs Whole</a></li>
-									<li><a href="#section56">5.6 Load Testing</a></li>
-								</ul>
+								<a href="#five">5. Technical Deep Dive</a>
 							</li>
 							<li>
-								<a href="#six">6. Future Work</a>
-								<ul class="subsection">
-									<li><a href="#section61">6.1 Accommodate Multiple Applications</a></li>
-									<li><a href="#section62">6.2 Additional Rollout Strategies</a></li>
-									<li><a href="#section63">6.3 Flag Expiration</a></li>
-								</ul>
+								<a href="#six">6. Engineering Decisions & Tradeoffs</a>
 							</li>
 							<li>
-								<a href="#seven">7. References</a>
+								<a href="#seven">7. Future Work</a>
 							</li>
 							<li>
-								<a href="#eight">8. Presentation</a>
+								<a href="#eight">8. References</a>
 							</li>
 							<li>
-								<a href="#nine">9. Meet the Team</a>
+								<a href="#nine">9. Presentation</a>
+							</li>
+							<li>
+								<a href="#nine">10. Meet the Team</a>
 							</li>
 						</ul>
 					</nav>
@@ -84,7 +73,7 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-				<a id="octocat" href="https://github.com/pioneer-io">
+				<a id="octocat" href="https://github.com/Aria-Deploy">
 					<img src="./images/GitHub-Mark/PNG/GitHub-Mark-64px.png" alt="">
 				</a>
 				<!-- Intro -->
@@ -108,23 +97,29 @@
 							<div class="content">
 								<div class="inner">
 									<h2>1. Introduction & Use Case</h2>
-									<p>Pioneer is a feature management service built to handle an organization’s migration from a monolithic architecture to a microservices architecture.</p>
-									<img class="image fit" src="./images/pioneer_visuals/monolith_to_microservices.png" alt="a monolith before and after services are split out">
-									<p>As an application grows and demands on the system increase, an organization may find that they need to begin scaling their application. A monolithic architecture may naturally lead to tightly coupled code that is difficult to scale. Conversely, a microservices architecture is more loosely coupled and can be independently scaled & deployed. A small team can also organize a microservices architecture around business capabilities.</p>
-									<p>When transitioning from a monolith to a microservices-oriented architecture, an organization may initially want to expose the new service to a small number of users while it collects analytics and user feedback, and analyze how the service performs under various loads. By using feature flags with Pioneer to handle this transition, any change can be quickly rolled back in real-time simply by toggling the flag off; no redeployment is necessary.</p>
+									<p>Canary deployment is a technique that allows revisions of an application or service, referred to as the canary, to be analyzed using a subset of the real network traffic. This deployment technique minimizes potential errors and risks for the majority of users by targeting a minority of the user base. (Çeliku 1) Canary deployments are sophisticated, require considerable configuration, and can be time consuming to both implement and analyze.</p>
+									<p>Aria is a tool which allows users to simplify the creation, configuration, and analysis of canary deployments. Aria automates much of the onerous infrastructure management while providing the user with the safety and data analysis benefits of canary deploys. Thus, Aria allows the user to focus on configuration which meaningfully impacts analysis of changes to production software.</p>
+									
 								</div>
 								<div class="inner">
 									<section id="section11">
 										<h3>1.1 Hypothetical</h3>
-										<p>To better understand this use case, we can consider a hypothetical situation involving a <i>company</i>, <b>Harvest Delivery</b>; we can use this hypothetical scenario to illustrate what the catalysts for a conversion from a monolith to microservices might be for a small team, to consider the challenges that this organization will be facing before undertaking such a project, and to examine some of the potential options that are available in this space.</p>
-										<p>Harvest Delivery is a regional shopping service that allows users to order groceries online. A locally-contracted shopper purchases the requested groceries and delivers them to the doorstep of the user. Harvest Delivery’s web application receives a variable amount of user traffic, with peak traffic occurring in the days leading up to major holidays.</p>
-										<img class="image fit" src="./images/harvest_delivery/harvest_delivery_landing.png" alt="the landing page of harvest delivery">
-										<p>The architecture of Harvest Delivery’s web application is currently a monolith. As the organization grows, the monolithic architecture begins to cause a strain on the engineering team. One such strain is that the team has become reluctant to add new features to the monolithic codebase. Currently, different components of the code are highly dependent on one another and changing one component means an engineer also has to update multiple other components, increasing their workload. This issue also makes the codebase difficult to maintain, as fixing one bug has the tendency to introduce new problems.</p>
-										<p>Another issue the team has encountered is the inability to scale each business component  (like payment processors or catalog) of their architecture independently. The team has found that during periods of high traffic, users are experiencing long delays during the payment stage. Harvest Delivery would like to scale the payment processing component independently from the rest of the codebase, but this isn’t possible with the current monolith. If the code responsible for payments was abstracted into a microservice, not only would this enable independent scaling, it would also cultivate a team solely dedicated to this payment service. The payment team could carry out their development and deployment pipeline independently to the rest of the monolith, resulting in faster improvements to payment processing.</p>
-										<p>The final issue the Harvest Delivery team is encountering with their monolith pertains to availability. Currently, if a bug triggers an outage, then the entire application becomes unavailable. The team would like to ensure that even if one component of the application is unavailable, for example creating a new user account, users not using the affected component can still perform their desired actions.</p>
-										<p>In response to these issues, the CTO has decided that they should migrate the application code towards a microservices architecture. The CTO has instructed the team to develop a system architecture organized around Harvest Delivery’s business concerns, with the shopping catalog, payment processing, and shopper communication all abstracted into individual microservices.</p>
-										<p>Modifying the system architecture of Harvest Delivery is a significant undertaking; additionally, it’s important to avoid any impact on user experience. The holidays are coming up and Harvest Delivery does not want to lose any customers to system outages.</p>
-										<p>Harvest Delivery plans to collect analytics and perform load testing on the new services to ensure that they can handle the load of holiday shopping sprees. They also plan to solicit user feedback from a percentage of users before rolling these new services out to the entire customer base.</p>
+										<p>To better understand the use case for Aria, consider ChartHealth – a hypothetical company that provides an electronic medical record software. ChartHealth’s product manages sensitive patient information with a user base spanning hundreds of health care facilities nationally. The ChartHealth product includes features such as: reading/writing to electronic medical records (EMR), aggregation of patient statistics, and data science models used to identify trends across EMRs.</p>
+										<img class="image fit" src="./images/aria_visuals/pngs/charthealth.png" alt="Screenshot showing ChartHealth's homepage.">
+										<p>Recently, ChartHeath has expanded its business to include facilities in most US states spanning from Hawaii to Maine. Additionally, ChartHealth’s software product has grown in complexity due to feature additions as demanded by customers and evolving regulations. These additions have resulted in a rapid growth of both the number of developers employed by the company and size of the product codebase. As a result of expansion to facilities across five time zones, ChartHealth’s product must now have practically zero downtime in order to not lose business to competitors offering similar products.</p>
+										<img class="image fit" src="./images/aria_visuals/pngs/monolith_to_microservices.png" alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
+										<p>In order to meet these new challenges, ChartHealth has  decided to migrate their current on-site monolith architecture to a cloud-based microservice architecture. As a result of the planned migration, the company’s monolithic product codebase has been split into multiple services owned and operated by different teams of developers.</p>
+									</section>
+									<section id="section12">
+										<h3>1.2 The Problem with Traditional Deployments</h3>
+										<div class="text-animation">
+											<p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or large parts of an application in one operation. The inherent downsides to big-bang deployments include: exposure of all users to issues due to software changes, longer delays between deployments, extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able to manage these downsides prior to the recent expansion, when it’s smaller developer team could more easily manage and comprehend the entire codebase.</p>
+											<video width="309px" height="447px" autoplay loop>
+												<source src="./images/aria_visuals/movs/traditional_deployment.mov">
+											</video>
+										</div>
+										<p>In the context of ChartHealth’s planned service-based architecture, there are multiple reasons that the ‘big-bang’ approach is no longer appropriate. First, for example, the EMR management feature must be as high-integrity as possible to satisfy government regulations. Simply replacing the EMR service for all users in one ‘big-bang’ presents unreasonable risk which may result in inaccurate records capture or deletion. Second, even on a service-by-service basis, if issues with new revisions of a service are encountered, rolling back production to previous revisions of the service will likely result in undesired downtime (Skowronski et al).</p>
+										<p>With the understanding that their deployment technique must change, ChartHealth’s technical leadership undertakes a review of the modern deployment techniques and finds a plethora of options.</p>
 									</section>
 								</div>
 							</div>
@@ -136,60 +131,89 @@
 						<section>
 							<div class="content">
 								<div class="inner">
-									<h2>2. Potential Solutions</h2>
-									<p>The Harvest Delivery team needs to develop a strategy that enables them to achieve two primary goals - migrate to a microservices architecture and avoid system outages during the migration. This section discusses the available options to achieve these goals.</p>
+									<h2>2. Modern Deployments</h2>
+									<p>In the context of microservice architectures, the goal of modern deployment practices is to achieve small and frequent service revision releases which result in  zero downtime. While each of the many unique deployment techniques share this characteristic, the approaches can be distinguished by their tradeoffs.</p>
+									<p>With the understanding that a modern deployment strategy must be employed to facilitate deployment of revisions on a service-by-service basis, ChartHealth begins exploring the landscape of modern deployments. The company specifically seeks to understand which of the deployment types are most commonly employed. ChartHealth contacts multiple companies which provide deployment solution products and requests usage data from those suppliers.</p>
+									<center>	
+										<img style="padding-bottom: 20px;" width="547px" height="298px" src="./images/aria_visuals/pngs/vamp_and_harness_surveys.png" alt="Bar graph depicting Vamp and Harness modern deployment usage surveys.">
+									</center>
+									<p>The above chart was compiled from customer surveys conducted by two market-leading providers of Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that the four most common deployment techniques between the customer bases of both companies are: big bang, rolling, blue/green, and canary.</p>
 									<section id="section21">
-										<h3 id="two.one">2.1 Canary Deployment</h3>
-										<p>Harvest Delivery could consider a canary deployment, also known as side-by-side deployment, which involves creating a clone of the application’s production environment. A load balancer is used to initially send all traffic to one version while new functionality is built in the other version (the canary). When the new service is deployed, some percentage of users are directed to the canary deployment. If no issues arise, the service can be gradually rolled out to more users until the new version is used by everyone. If there are problems, deployments can be rolled back, and the majority of users will not be impacted <sup><a href="http://www.split.io/glossary/canary-deployment/">1</a></sup>.</p>
-										<img class="image fit" src="./images/pioneer_visuals/canary_deployment.png" alt="a load balancer sits in front of two deployments: monolith and microservice extracted monolith">
-										<p>While this is a potential solution for Harvest Delivery, there are significant drawbacks to a canary deployment. Canary deployments result in an additional layer of complexity. The engineering team would need to deal with multiple production environments, monitor an additional system, and migrate users <sup><a href="http://www.split.io/glossary/canary-deployment/">1</a></sup>. A canary deployment would also require Harvest Delivery to maintain additional infrastructure.</p>
-										<p>Canary deployments operate at the deployment level; therefore, if an issue arises the most recent deployment will need to be rolled back entirely. Unexpected deployment rollbacks can result in additional downtime, degrading user experience for those users who were previously routed to the canary deployment. Additionally, the engineers responsible for incident management must be able to fully respond to incidents immediately to prevent problems from having a significant impact. Such incidents are likely to result in lost revenue and a damaged reputation for the company.</p>
-										<p>Another drawback related to canary deployments is that engineers still lack the granular control to develop features in parallel and roll them out to users independently of one another. A user is either routed to the canary deployment or the original deployment. Therefore, only one percentage rollout can dictate the routing of users. For example, imagine that one feature or service within the canary is ready for a 70% rollout, but another is only ready to be rolled out to 5% of users. This discrepancy limits us to directing only 5% of users to the canary deployment. If there is a significant problem with a feature and we need to make sure that no users are exposed to that feature, we must either roll back a deployment or route 0% of users to the canary deployment until the problem has been fixed. Again, this magnifies the impact of each issue that the engineering team encounters during the transition from a monolith to a microservices architecture.</p>
-										<p>The above limitations are problematic for the CTO of Harvest Delivery who wants to migrate to using several microservices over a period of time. The team needs the ability to roll out or rollback each microservice independently. Therefore, canary deployment isn’t suitable for Harvest Delivery due to their requirement for a solution that provides granular control over each individual microservice and its rollout status.</p>
+										<h3 id="two.one">2.1 Rolling Deployment</h3>
+										<video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay loop>
+											<source src="./images/aria_visuals/movs/rolling_deployment.mov">
+										</video>
+										<p>Rolling deployments introduce service revisions by incrementally replacing the current production service code on each of multiple nodes within the architecture. This type of deployment is only applicable if there are multiple instances of the same service operating in production. An interesting, and perhaps desirable, aspect of rolling deployments is that the current production and new revision of a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling deployments can also target specific user groups according to region, IP address, and a variety of other traffic differentiators.</p>
+										<table class="proscons">
+											<tr>
+												<th>PROS</th>
+												<th>CONS</th>
+											</tr>
+											<tr>
+												<td>Rollout status transparency and control</td>
+												<td>Extended deployment timeframe</td>
+											</tr>
+											<tr>
+												<td>Risk limited to a subset of users</td>
+												<td>Not suitable for all-or-nothing changes</td>
+											</tr>
+										</table>
 									</section>
 								</div>
 								<div class="inner">
 									<section id="section22">
-										<h3 id="two.two">2.2 Feature Flags</h3>
-										<p>The requirement for granular control over individual microservices has led Harvest Delivery to consider feature flags. Feature flags allow for one feature to be rolled out or rolled back completely independently of another, without a hotfix or redeployment <sup><a href="http://www.martinfowler.com/bliki/FeatureToggle.html/">5</a></sup>. Feature flags work by incorporating conditional branching logic into the application code and evaluating the boolean status of a feature flag. For example, if Harvest Delivery wishes to test a new payment processing microservice then they need to add a conditional statement to the monolith, at the point where the current monolithic payment processing code is invoked. The conditional statement will return a boolean value indicating whether the flag is toggled “on” (true) or “off” (false). If the feature flag is toggled on, then a call to the microservice is executed and the subsequent response is handled. If the feature flag is off, the original monolithic code is executed.</p>
-										<img class="image fit" src="./images/pioneer_visuals/feature_flags_diagram.png" alt="a toggle changes the control flow of the monolith">
-										<p>In addition to enabling independent control over the rollout status of each microservice, feature flags also eliminate the need for frequent redeployment as seen with a canary deployment approach. This is because whilst a canary deployment lives in the infrastructure networking layer, feature flags live within the application and are evaluated in real-time <sup><a href="http://www.martinfowler.com/bliki/FeatureToggle.html/">5</a></sup>. When rollout-related incidents occur and feature flags are employed, a microservice can be toggled off immediately and the original monolith code can be executed, rather than waiting for a potentially time-consuming redeployment. This makes incident management easier and provides the engineering team the time required to track down a bug and develop a robust solution to the cause of the incident. Moreover, disruption to the user experience is minimized, preventing an outage resulting in a loss of revenue.</p>
-										<p>The ability to “switch off” new features in response to an issue means feature flags substantially mitigate the risk of engineering teams releasing immature functionality <sup><a href="http://www.featureflags.io/feature-flags/">3</a></sup>. This low-risk experimentation allows small teams to maximize developer efficiency and release new functionality with confidence, knowing that they have the option of quickly reversing course without affecting the rest of the application.</p>
-										<p>Feature flags also enable microservices to be rolled out to a certain percentage of users. This occurs by using a unique identifier for each individual user, such as an IP address or user ID. The identifier is used by a hashing algorithm in the feature flag logic, which determines if that individual user falls within the current percentage rollout strategy (i.e. if a feature flag is being rolled out to 10% of users, does this individual user fall within that 10%?). Features that are toggled “off” will never be served, regardless of rollout percentage. If a feature flag is toggled “on”, the hashing algorithm of the  Software Development Kit (SDK) will determine whether the user’s unique identifier falls within the rollout percentage. If so, the flag will evaluate as `true`, and the feature will be served to the user.</p>
-										<p>In conclusion, feature flags meet the requirement of the Harvest Delivery team to have control over the rollout status of each microservice independently. If issues arise from a new microservice, then feature flags enable the microservice to be “switched off” in real-time, without the need for redeployment. This allows Harvest Delivery to minimize any user disruption during the architectural changes, which reduces revenue losses and reputation impact. Moreover, Harvest Delivery can rollout microservices to a specified percentage of users, enabling analytics on the new service to be collected.</p>
+										<h3 id="two.two">2.2 Blue/Green Deployment</h3>
+										<div class="text-animation">
+											<p>Blue/green deployments require two environments: blue and green. The first environment, green within the above diagram, is the current production environment. The second blue environment is an almost exact replica of the green (production) environment. The only difference between their content is the revision of the target service.</p>
+											<video width="448px" height="380px" autoplay loop>
+												<source src="./images/aria_visuals/movs/blue_green_deployment.mov">
+											</video>
+										</div>
+										<p>After the newly introduced blue domain has completed initialization, a network switch or load balancer routes 100% of the incoming network traffic to either blue or green environments exclusively. As the deployment progresses, the traffic router redirects traffic to and from the blue or green domains on an as needed basis. At any point in time, only one of the deployments is processing incoming network traffic. The traffic router can maintain routing to the blue environment if the service revision performance is acceptable. At this point, the blue environment effectively achieves production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
+										<table class="proscons">
+											<tr>
+												<th>PROS</th>
+												<th>CONS</th>
+											</tr>
+											<tr>
+												<td>Instantaneous rollout and rollback</td>
+												<td>Duplicate production resources required</td>
+											</tr>
+											<tr>
+												<td>Simple disaster recovery</td>
+												<td>Entire user-base exposed to service revision issues</td>
+											</tr>
+										</table>
 									</section>
 								</div>
 								<div class="inner">
 									<section id="section23">
-										<h3 id="two.three">2.3 Feature Flags as a Solution</h3>
-										<p>Harvest Delivery has decided to move forward with using feature flags to assist in their migration from a monolith to a microservices architecture. This section outlines how Harvest Delivery could integrate feature flags into their existing system.</p>
-										<div class="inner">
-											<h4 id="two.three.one">2.3.1 Developing a Feature Flag Service In-house</h4>
-											<p>Harvest Delivery could choose to develop its own feature flag service. One naive approach would be to maintain a simple feature flag rule set within their application code as a configuration file. However, this would require re-deployment any time the team wished to toggle a feature on or off, or update the rollout percentage. Ultimately, this would negate the benefit of using feature flags.</p>
-											<p>A more robust solution would be for the Harvest Delivery engineering team to build a true feature flag management system that would allow flags to be updated and dynamically evaluated without re-deploying any code. However, this would require engineering hours to build, test, and maintain the service. Harvest Delivery is a small team without excess engineering resources to devote to such a project. Additionally, the CTO prefers to move quickly into the transition to microservices, rather than waiting for an additional tool to be developed. A third-party solution that will work out-of-the-box is a better fit for the small, fast-moving team.</p>
+										<h3 id="two.three">2.3 Canary Deployment</h3>
+										<div class="text-animation">
+											<p>This technique involves introducing a revised instance of a service, referred to as the canary, into the same production environment as the current production version of the service. A load balancer routes a minority of the incoming network traffic to be served by the canary instance. During the canary deployment, a majority of the network traffic continues to be served by the production service. The instance is continually analyzed such that any newly introduced issues can be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming network traffic is directed to the canary instance initially, data on its performance is collected and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis (Sato).</p>
+											<video width="291px" height="481px" autoplay loop>
+												<source src="./images/aria_visuals/movs/canary_deployment.mov">
+											</video>
 										</div>
-										<div class="inner">
-											<h4 id="two.three.two">2.3.2 Existing Third-Party Solutions</h4>
-											<p>Harvest Delivery requires an easy-to-use solution for their fast-moving team. The existing third-party solutions are evaluated below.</p>
-											<ul class="alt">
-												<li>
-													<b>Launch Darkly</b>
-													<p>LaunchDarkly is an enterprise-level feature management service. It’s a feature-rich, hosted service that includes a wide variety of features. However, because it is proprietary software, it comes at a monetary cost. For Harvest Delivery, LaunchDarkly’s plethora of features is beyond their needs.</p>
-												</li>
-												<li>
-													<b>Cloud Bees</b>
-													<p>CloudBees is another hosted service with proprietary software. It provides end-to-end DevOps features, which may be a great fit for larger teams with a focus on DevOps. Unfortunately, Harvest Delivery is a small team and is not concerned with the wide variety of DevOps tools CloudBees provides.</p>
-												</li>
-												<li>
-													<b>FeatureHub</b>
-													<p>FeatureHub is an open-source, self-hosted service. Because it is open-source, it can be customized to fit the unique needs of the team. FeatureHub focuses on feature flags for both client-side and server-side features. It offers an array of different flag types, along with complex logic allowing for organizations, users, and a variety of feature sets; the robust features and permissions management make it less accessible for a small team like Harvest Delivery.</p>
-												</li>
-												<li>
-													<h4 id="two.three.three">2.3.3 Thoughts on Existing Third-Party Solutions</h4>
-													<p>Enterprise solutions have a large array of financially costly DevOps services that may strain a small, regional organization like Harvest Delivery. Existing open-source solutions are complicated by focusing on client-side features evaluated in the browser and a litany of complex features including user permissions and service accounts. A small business like Harvest Delivery doesn’t need the extra expenses of an enterprise service or the unnecessary complexity that other offerings entail.</p>
-												</li>
-											</ul>
-										</div>
+										<p>The load balancer can divide incoming traffic based on many different criteria including: sticky sessions, geographical region, packet addresses, packet headers, etc. This allows for the canary service to be targeted at specific users or user groups despite executing within the production environment.</p>
+										<table class="proscons">
+											<tr>
+												<th>PROS</th>
+												<th>CONS</th>
+											</tr>
+											<tr>
+												<td>Minimal risk exposure to user-base</td>
+												<td>Onerous configuration</td>
+											</tr>
+											<tr>
+												<td>High-fidelity canary analysis</td>
+												<td>Extended deployment timeframe</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>Disaster recovery can be complex</td>
+											</tr>
+										</table>
 									</section>
 								</div>
 							</div>
