@@ -115,7 +115,7 @@
 										<div class="text-animation">
 											<p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or large parts of an application in one operation. The inherent downsides to big-bang deployments include: exposure of all users to issues due to software changes, longer delays between deployments, extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able to manage these downsides prior to the recent expansion, when it’s smaller developer team could more easily manage and comprehend the entire codebase.</p>
 											<video width="309px" height="447px" autoplay loop>
-												<source src="./images/aria_visuals/movs/traditional_deployment.mov">
+												<source src="./images/aria_visuals/videos/traditional_deployment.mov">
 											</video>
 										</div>
 										<p>In the context of ChartHealth’s planned service-based architecture, there are multiple reasons that the ‘big-bang’ approach is no longer appropriate. First, for example, the EMR management feature must be as high-integrity as possible to satisfy government regulations. Simply replacing the EMR service for all users in one ‘big-bang’ presents unreasonable risk which may result in inaccurate records capture or deletion. Second, even on a service-by-service basis, if issues with new revisions of a service are encountered, rolling back production to previous revisions of the service will likely result in undesired downtime (Skowronski et al).</p>
@@ -141,7 +141,7 @@
 									<section id="section21">
 										<h3 id="two.one">2.1 Rolling Deployment</h3>
 										<video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay loop>
-											<source src="./images/aria_visuals/movs/rolling_deployment.mov">
+											<source src="./images/aria_visuals/videos/rolling_deployment.mov">
 										</video>
 										<p>Rolling deployments introduce service revisions by incrementally replacing the current production service code on each of multiple nodes within the architecture. This type of deployment is only applicable if there are multiple instances of the same service operating in production. An interesting, and perhaps desirable, aspect of rolling deployments is that the current production and new revision of a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling deployments can also target specific user groups according to region, IP address, and a variety of other traffic differentiators.</p>
 										<table class="proscons">
@@ -166,7 +166,7 @@
 										<div class="text-animation">
 											<p>Blue/green deployments require two environments: blue and green. The first environment, green within the above diagram, is the current production environment. The second blue environment is an almost exact replica of the green (production) environment. The only difference between their content is the revision of the target service.</p>
 											<video width="448px" height="380px" autoplay loop>
-												<source src="./images/aria_visuals/movs/blue_green_deployment.mov">
+												<source src="./images/aria_visuals/videos/blue_green_deployment.mov">
 											</video>
 										</div>
 										<p>After the newly introduced blue domain has completed initialization, a network switch or load balancer routes 100% of the incoming network traffic to either blue or green environments exclusively. As the deployment progresses, the traffic router redirects traffic to and from the blue or green domains on an as needed basis. At any point in time, only one of the deployments is processing incoming network traffic. The traffic router can maintain routing to the blue environment if the service revision performance is acceptable. At this point, the blue environment effectively achieves production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
@@ -192,7 +192,7 @@
 										<div class="text-animation">
 											<p>This technique involves introducing a revised instance of a service, referred to as the canary, into the same production environment as the current production version of the service. A load balancer routes a minority of the incoming network traffic to be served by the canary instance. During the canary deployment, a majority of the network traffic continues to be served by the production service. The instance is continually analyzed such that any newly introduced issues can be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming network traffic is directed to the canary instance initially, data on its performance is collected and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis (Sato).</p>
 											<video width="291px" height="481px" autoplay loop>
-												<source src="./images/aria_visuals/movs/canary_deployment.mov">
+												<source src="./images/aria_visuals/videos/canary_deployment.mov">
 											</video>
 										</div>
 										<p>The load balancer can divide incoming traffic based on many different criteria including: sticky sessions, geographical region, packet addresses, packet headers, etc. This allows for the canary service to be targeted at specific users or user groups despite executing within the production environment.</p>
