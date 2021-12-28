@@ -166,7 +166,7 @@
 										<div class="text-animation">
 											<p>Blue/green deployments require two environments: blue and green. The first environment, green within the above diagram, is the current production environment. The second blue environment is an almost exact replica of the green (production) environment. The only difference between their content is the revision of the target service.</p>
 											<video width="448px" height="380px" autoplay loop>
-												<source src="./images/aria_visuals/videos/blue_green_deployment.mov">
+												<source src="./images/aria_visuals/videos/blue_green_deployment.mp4">
 											</video>
 										</div>
 										<p>After the newly introduced blue domain has completed initialization, a network switch or load balancer routes 100% of the incoming network traffic to either blue or green environments exclusively. As the deployment progresses, the traffic router redirects traffic to and from the blue or green domains on an as needed basis. At any point in time, only one of the deployments is processing incoming network traffic. The traffic router can maintain routing to the blue environment if the service revision performance is acceptable. At this point, the blue environment effectively achieves production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
