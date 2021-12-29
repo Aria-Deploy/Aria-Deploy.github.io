@@ -114,7 +114,7 @@
 										<h3>1.2 The Problem with Traditional Deployments</h3>
 										<div class="text-animation">
 											<p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or large parts of an application in one operation. The inherent downsides to big-bang deployments include: exposure of all users to issues due to software changes, longer delays between deployments, extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able to manage these downsides prior to the recent expansion, when it’s smaller developer team could more easily manage and comprehend the entire codebase.</p>
-											<video width="309px" height="447px" autoplay loop>
+											<video width="309px" height="447px" autoplay muted loop>
 												<source src="./images/aria_visuals/videos/traditional_deployment.mp4">
 											</video>
 										</div>
@@ -140,7 +140,7 @@
 									<p>The above chart was compiled from customer surveys conducted by two market-leading providers of Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that the four most common deployment techniques between the customer bases of both companies are: big bang, rolling, blue/green, and canary.</p>
 									<section id="section21">
 										<h3 id="two.one">2.1 Rolling Deployment</h3>
-										<video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay loop>
+										<video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay muted loop>
 											<source src="./images/aria_visuals/videos/rolling_deployment.mp4">
 										</video>
 										<p>Rolling deployments introduce service revisions by incrementally replacing the current production service code on each of multiple nodes within the architecture. This type of deployment is only applicable if there are multiple instances of the same service operating in production. An interesting, and perhaps desirable, aspect of rolling deployments is that the current production and new revision of a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling deployments can also target specific user groups according to region, IP address, and a variety of other traffic differentiators.</p>
@@ -165,7 +165,7 @@
 										<h3 id="two.two">2.2 Blue/Green Deployment</h3>
 										<div class="text-animation">
 											<p>Blue/green deployments require two environments: blue and green. The first environment, green within the above diagram, is the current production environment. The second blue environment is an almost exact replica of the green (production) environment. The only difference between their content is the revision of the target service.</p>
-											<video width="448px" height="380px" autoplay loop>
+											<video width="448px" height="380px" autoplay muted loop>
 												<source src="./images/aria_visuals/videos/blue_green_deployment.mp4">
 											</video>
 										</div>
@@ -191,7 +191,7 @@
 										<h3 id="two.three">2.3 Canary Deployment</h3>
 										<div class="text-animation">
 											<p>This technique involves introducing a revised instance of a service, referred to as the canary, into the same production environment as the current production version of the service. A load balancer routes a minority of the incoming network traffic to be served by the canary instance. During the canary deployment, a majority of the network traffic continues to be served by the production service. The instance is continually analyzed such that any newly introduced issues can be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming network traffic is directed to the canary instance initially, data on its performance is collected and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis (Sato).</p>
-											<video width="291px" height="481px" autoplay loop>
+											<video width="291px" height="481px" autoplay muted loop>
 												<source src="./images/aria_visuals/videos/canary_deployment.mp4">
 											</video>
 										</div>
