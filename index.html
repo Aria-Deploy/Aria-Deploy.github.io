@@ -47,8 +47,8 @@
             <a href="#four">4. Introducing Aria</a>
             <ul class="subsection">
               <li><a href="#section41">4.1 What is Aria?</a></li>
-              <li><a href="#section42">4.2 Why Choose Aria?</a></li>
-              <li><a href="#section43">4.3 Where does Aria fit?</a></li>
+              <li><a href="#section42">4.2 Where does Aria fit?</a></li>
+              <li><a href="#section43">4.3 Why Choose Aria?</a></li>
               <li><a href="#section44">4.4 Using Aria</a></li>
             </ul>
           </li>
@@ -57,6 +57,9 @@
           </li>
           <li>
             <a href="#six">6. Engineering Decisions & Tradeoffs</a>
+            <ul class="subsection">
+              <li><a href="#section61">6.1 Infrastructure-as-Code Tooling</a></li>
+            </ul>
           </li>
           <li>
             <a href="#seven">7. Future Work</a>
@@ -345,7 +348,7 @@
                 which offers many more features than canary deployments but requires a significant time investment to
                 setup and maintain. Within this category, Spinnaker and Vamp are unique products in that both offer
                 automated canary analysis.</p>
-              <h4 id="three.two.one">Evaluating Exisitng Solutions</h4>
+              <h4 id="three.two.one">3.2.1 Evaluating Exisitng Solutions</h4>
               <p>After surveying available canary deployment solutions, the ChartHeath EMR service developer team has
                 decided that none are quite the right fit for their needs. They are not interested in platform services
                 products because ChartHeath’s software engineering organization lacks DevOps experience. ChartHealth
@@ -397,7 +400,49 @@
               </div>
               <div class="inner">
                 <section id="section42">
-                  <h3 id="four.two">4.2 Why Choose Aria?</h3>
+                  <h3 id="four.two">4.2 Where Aria Fits</h3>
+
+                  <ul class="alt">
+                    <li>
+                      <p>When comparing Aria with other alternatives like existing 3rd-party solutions and platform
+                        services, Aria stands out in multiple ways.</p>
+                    </li>
+                    <li>
+                      <p>First, Aria shines by <strong>self-provisioning</strong> all the necessary resources needed to
+                        achieve advanced
+                        statistical analysis utilizing Kayenta. Furthermore, Aria deploys monitoring services Prometheus
+                        and
+                        Grafana, allowing users a clear view into the current state of the deployment.</p>
+                    </li>
+                    <li>
+                      <p>Second, Aria was built with <strong>accessibility</strong> in mind. As opposed to other canary
+                        deployment tools
+                        that have an overwhelming amount of configuration and unclear documentation, Aria displays a
+                        simple
+                        single page UI that facilitates deployment creation and configuration. The UI focuses on
+                        meaningful configuration analysis and select targeting of a subset of the user-base per
+                        deployment. </p>
+                    </li>
+                    <li>
+                      <p>Third, Aria is <strong>open-source</strong>. Companies that want to experiment with canary
+                        deployments may not want to invest in third-party solutions which can be quite costly or cannot
+                        be customized.</p>
+                    </li>
+                  </ul>
+                  <p>Taking all these together, Aria, being easy to use, free, and abstracting much of the
+                    complexity
+                    that comes with a canary deployment, is a perfect fit for a small company like ChartHealth that
+                    wants to get its feet wet with canary deployments and advanced canary analysis. Being able to
+                    create
+                    and destroy all of the resources necessary to deploy a canary with just a few clicks allows
+                    developers to explore canary deployment and analysis without having to invest too much effort
+                    and
+                    time.</p>
+                </section>
+              </div>
+              <div class="inner">
+                <section id="section43">
+                  <h3 id="four.three">4.3 Why Choose Aria?</h3>
                   <p>Deploying infrastructure and configuration in support of advanced statistical analysis of canary
                     deployments is both tedious and complex. To implement this approach, developers must be concerned
                     with traffic splitting rules; how to configure the traffic weights, and how to set up traffic
@@ -414,28 +459,7 @@
                     easy if the new service revision is performing poorly -- with just a click of a button.</p>
                 </section>
               </div>
-              <div class="inner">
-                <section id="section43">
-                  <h3 id="four.three">4.3 Where Aria Fits</h3>
-                  <p>When comparing Aria with other alternatives like existing 3rd-party solutions and platform
-                    services, Aria stands out in multiple ways.</p>
-                  <p>First , Aria shines by self-provisioning all the necessary resources needed to achieve advanced
-                    statistical analysis utilizing Kayenta. Furthermore, Aria deploys monitoring services Prometheus and
-                    Grafana, allowing users a clear view into the current state of the deployment.</p>
-                  <p>Second, Aria was built with accessibility in mind. As opposed to other canary deployment tools that
-                    have an overwhelming amount of configuration and unclear documentation, Aria displays a simple
-                    single page UI that facilitates deployment creation and configuration. The UI focuses on meaningful
-                    configuration analysis and select targeting of a subset of the user-base per deployment. </p>
-                  <p>Third, Aria is open-source and free to use. Companies that want to experiment with canary
-                    deployments may not want to invest in third-party solutions which can be quite costly.</p>
-                  <p>Taking all these together, Aria, being easy to use, free, and abstracting much of the complexity
-                    that comes with a canary deployment, is a perfect fit for a small company like ChartHealth that
-                    wants to get its feet wet with canary deployments and advanced canary analysis. Being able to create
-                    and destroy all of the resources necessary to deploy a canary with just a few clicks allows
-                    developers to explore canary deployment and analysis without having to invest too much effort and
-                    time.</p>
-                </section>
-              </div>
+
               <div class="inner">
                 <section id="section44">
                   <h3 id="four.four">4.4 Using Aria</h3>
@@ -444,7 +468,7 @@
                     environment (VPC) of their choice. Once the application has been deployed, the user has the ability
                     to view the status and health of individual Aria deployments. Lastly, with one click, the user can
                     tear down the Aria canary deployment such that the initial state of the environment is restored.</p>
-                  <h4 id="four.four.one">Local Environment Setup</h4>
+                  <h4 id="four.four.one">4.4.1 Local Environment Setup</h4>
                   <p>In order to interface with AWS services, Aria requires that the user’s local development
                     environment include the AWS CDK Toolkit, AWS CLI, and their AWS account credentials. Aria is
                     launched by invoking `npm start`terminal command which subsequently launches the UI and the backend
@@ -452,7 +476,7 @@
                     Upon launching the Aria UI, the user is prompted to select one of the locally defined AWS profiles.
                     Aria automatically fetches all relevant AWS resource data, Aria deployments, and status information
                     accessible by the selected AWS profile.</p>
-                  <h4 id="four.four.two">Configuration & Creation</h4>
+                  <h4 id="four.four.two">4.4.2 Configuration & Creation</h4>
                   <p>Along with giving the canary a title and description. The user is presented with a Aria deployment
                     creation form. Within the form, traffic splitting can be configured by selecting a traffic weight
                     and rule priority. Optional settings, such as sticky sessions which enables re-routing of users to
@@ -460,7 +484,7 @@
                     under what conditions traffic will be forwarded to the new canary and baseline target groups.
                     Finally, the user provides the docker image and docker-compose files that specify how the Docker
                     containers should be run on the new instances. The canary can then be deployed with one click. </p>
-                  <h4 id="four.four.three">Management</h4>
+                  <h4 id="four.four.three">4.4.3 Management</h4>
                   <p>Once deployed, the user can view the statuses of the provisioned instances along with their event
                     logs in a simple and streamlined dashboard. This information can be accessed via the ‘Status’ menu
                     item in the sidebar. The displayed table conveys the state, status, and target health of all the
@@ -470,7 +494,7 @@
                     to the Prometheus, Grafana, Kayenta and Referee monitoring tools. These tools are automatically
                     configured and created by Aria when the canary is provisioned, and are automatically set-up to
                     monitor the canary and baseline instances. </p>
-                  <h4 id="four.four.four">Teardown</h4>
+                  <h4 id="four.four.four">4.4.4 Teardown</h4>
                   <p>When the user is satisfied with the canary deployment progress, the canary, baseline, and
                     monitoring instances can be torn down with one easy click of the ‘Destroy’ button. This button can
                     be accessed within the deployment specific summary. After destroying an Aria deployment, the
@@ -488,217 +512,7 @@
         <section>
           <div class="content">
             <div class="inner">
-              <h2>5. Engineering Decisions and Tradeoffs</h2>
-              <section id="section51">
-                <h3 id="five.one">5.1 Hosted vs. Self-hosted</h3>
-                <p>One of the first questions we needed to answer surrounded the delivery of Pioneer. We considered
-                  whether it would be best for our team to set up private cloud infrastructure on which we would host
-                  Pioneer, offering it as a service, or whether we should build it so that it could be hosted entirely
-                  by the user.</p>
-                <p>We decided to provide Pioneer as a self-hosted application rather than hosting it ourselves for
-                  several reasons.</p>
-                <p>Firstly, it means that the user can deploy Pioneer on their infrastructure of choice, whether that’s
-                  on an AWS VPC, a DigitalOcean Droplet, or their own on-prem server.</p>
-                <p>Allowing user organizations to self-host Pioneer reduces the security concerns that an organization
-                  may have with a multi-tenancy architecture hosted by an external organization. In that situation,
-                  users may not have full knowledge of the security measures taken to protect their data. Because
-                  Pioneer is self-hosted, users will maintain full control of their data and can implement whatever
-                  security measures they feel are necessary.</p>
-                <p>Distributing Pioneer as an open-source and self-hosted application means that users of Pioneer can
-                  fully adapt the application to their own unique needs, increasing flexibility. If the out-of-the-box
-                  configuration isn’t matching a user’s requirements, they have the freedom to change whatever isn’t
-                  working for them or to add whatever components might suit them better.</p>
-                <p>In addition, self-hosting is affordable because Pioneer is intended for companies with a modest
-                  feature flag ruleset, obviating the need for storing large amounts of data and computing resources.
-                </p>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section52">
-                <h3 id="five.two">5.2 Inter-application Communication</h3>
-                <p>Our messaging service of choice, NATS JetStream, allows for decoupled messaging. Naively, we could
-                  have enabled the Scout daemon to communicate directly with the Compass API. However, Compass would
-                  then have the additional responsibility of tracking all listening Scout instances and ensuring message
-                  delivery. Using a third-party messaging tool to handle message delivery allows for a better separation
-                  of concerns, and allows Compass to only worry about publishing the correct message. We chose not to
-                  pursue Kafka because its complexity and larger infrastructure were unnecessary for our use case. NATS
-                  has a smaller infrastructure and provides all of the features that Pioneer requires.</p>
-                <p>NATS streaming allows for many-to-one communication. This means that as an organization scales, they
-                  could choose to also horizontally scale the number of Scout daemons sending updates to SDK clients.
-                  Any Scout daemon subscribed to the NATS stream would receive feature flag updates as usual.
-                  Alternatively, a logging service could also subscribe to the NATS stream and preserve messages for
-                  later analysis.</p>
-                <p>We intentionally chose to use NATS JetStream over its predecessor, Core NATS, because JetStream
-                  allows for <em>guaranteed message delivery</em>.</p>
-                <p>Take for example a situation in which the Scout daemon may temporarily go down and is not able to
-                  receive communications from the NATS server:</p>
-                <object data="./images/pioneer_visuals/svgs/transition/transition1.svg" type="image/svg+xml"></object>
-                <p>If a flag is toggled, or some other change is made that results in an updated ruleset being
-                  disseminated, the new ruleset will be sent to the NATS server. With JetStream, the message containing
-                  the updated ruleset will be queued.</p>
-                <object data="./images/pioneer_visuals/svgs/transition/transition2.svg" type="image/svg+xml"></object>
-                <p>When the Scout daemon comes back up and communication with the NATS server is reestablished, the
-                  message will then be delivered, and Scout can then pass the updated ruleset down to connected SDKs.
-                </p>
-                <object data="./images/pioneer_visuals/svgs/transition/transition3.svg" type="image/svg+xml"></object>
-                <p>This alleviates concerns of missed messages due to network partitions resulting in stale feature flag
-                  data.</p>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section53">
-                <h3 id="five.three">5.3 Providing Feature Flag Data to User Applications via SSE</h3>
-                <ul class="alt">
-                  <li>
-                    <p>A fundamental decision in our architecture was determining the best way to send feature flag
-                      updates from Pioneer to the SDK installed in the user’s application. Options we considered
-                      included: API polling, webhooks, WebSockets, and streaming.</p>
-                  </li>
-                  <li>
-                    <p>While API polling seemed to be the simplest approach, it would require SDK clients to
-                      periodically poll the Scout daemon for an update, rather than receiving flag data updates right
-                      away. This would eliminate the real-time benefits of streaming, and may also result in unnecessary
-                      network traffic.</p>
-                    <object data="./images/pioneer_visuals/svgs/connection_types/polling.svg"
-                      type="image/svg+xml"></object>
-                  </li>
-                  <li>
-                    <p>Webhooks was another alternative we considered. Webhooks are more suitable than API polling due
-                      to their event-driven nature. While API polling is triggered by time, irrespective of whether or
-                      not a data change has occurred, with webhooks an HTTP request would only be sent in response to an
-                      event. However, this approach would require an additional HTTP endpoint to be exposed on the
-                      client application, requiring user configuration. Ultimately, we found it preferable to minimize
-                      interference with the client application.</p>
-                    <object data="./images/pioneer_visuals/svgs/connection_types/webhooks.svg"
-                      type="image/svg+xml"></object>
-                  </li>
-                  <li>
-                    <p>Data could also be sent from Pioneer to SDKs via WebSockets. WebSockets are primarily used for
-                      bi-directional communication. Although the SDK client initially sends an HTTP request to Scout to
-                      initialize an SSE connection, all subsequent messages are sent from Scout to the SDK; therefore,
-                      only unidirectional communication is required. Thus, there is no need for the bi-directional
-                      capabilities of WebSockets.</p>
-                    <object data="./images/pioneer_visuals/svgs/connection_types/websockets.svg"
-                      type="image/svg+xml"></object>
-                  </li>
-                  <li>
-                    <p>Ultimately, we decided to use Server-Sent Events to enable efficient Scout-to-SDK streaming of
-                      feature flag data. This approach is an excellent tool for handling real-time data, as the single,
-                      long-lived connection provides low latency data delivery. Upon receiving a new SSE event, the SDK
-                      will parse the newly provided data and use it to evaluate feature flags.</p>
-                    <object data="./images/pioneer_visuals/svgs/connection_types/sse.svg" type="image/svg+xml"></object>
-                  </li>
-                  <li>
-                    <p>One additional concern that we discussed was how to authorize SSE clients, in order to protect
-                      data within the feature flag ruleset. We decided to provide an SDK key to users via the Compass
-                      UI. Users must provide this SDK key when integrating an SDK into their application code to connect
-                      to Scout and receive feature flag data. If no valid key is provided, Scout will reject the SDK’s
-                      request to connect as an SSE client.</p>
-                    <p>A potential disadvantage of using SSE is the fact that connections will close if they have been
-                      idle for more than ~30 seconds. This is due to the default behavior of the EventSource API which
-                      handles the connection. We could have configured a longer timeout period; however, the intent of
-                      the connection closing is to prevent stale and phantom connections, which is something we want to
-                      avoid. The closing of connections due to the 30-second timeout is handled automatically by the
-                      EventSource API which will reconnect after a short interval. One concern we had was how to handle
-                      unsuccessful connection requests from an SDK to Scout. We wanted the SDK to retry the connection,
-                      but to avoid swamping the daemon with requests by sending infinite unsuccessful requests to
-                      connect. We addressed this issue by adding a reconnection attempt limit to all three of our SDKs.
-                      Once the reconnection attempt limit has been reached an error message will be logged and the SSE
-                      connection will be closed.</p>
-                  </li>
-                </ul>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section54">
-                <h3 id="five.four">5.4 Redis Cache</h3>
-                <p>Initially, we considered if Pioneer would require a Redis cache to offload read requests from the
-                  Compass Postgres database when Scout requests flag data through NATS JetStream. The proposed cache
-                  would request data from the Compass API to initially populate, and listen for subsequent feature flag
-                  updates.</p>
-                <object data="./images/pioneer_visuals/architecture_with_redis.svg" type="image/svg+xml"></object>
-                <p>After further analysis, we determined that adding a cache to our application was not appropriate for
-                  our use case and would unnecessarily increase the complexity of Pioneer’s architecture. Because
-                  Pioneer’s intended use case involves small- or medium-sized organizations, the number of read
-                  operations on Compass’ Postgres database should be manageable without a cache.</p>
-                <p>Furthermore, due to the open-source nature of Pioneer, user organizations have the freedom to add
-                  their own cache if required.</p>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section55">
-                <h3 id="five.five">5.5 Sending Feature Flag Updates - Piecemeal vs Whole</h3>
-                <p>A decision needed to be made regarding the content of messages that were distributed throughout the
-                  system in response to a change to the feature flag data. One option was to send information pertaining
-                  only to the modified flag (piecemeal). The other option was to transmit the entire up-to-date set of
-                  feature flag data (whole).</p>
-                <p>The decision was made to implement Pioneer such that the entirety of the up-to-date feature flag data
-                  would be sent, regardless of the operation performed. This method of distribution offers several
-                  advantages. The first is that by transmitting the full data set, we can ensure that every SDK has the
-                  most up-to-date information available at all times.</p>
-                <p>The alternative solution of sending individual feature updates had a few drawbacks. Potentially, an
-                  SDK could miss an update from Scout due to network issues. This would result in an SDK evaluating
-                  flags using outdated feature flag data. The discrepancy would persist until the next update related to
-                  that particular flag was made, resulting in conflicts between the data sets of individual SDK clients.
-                  By sending the full feature flag data set, we can significantly reduce the possibility of SDKs serving
-                  outdated feature flag data.</p>
-                <p>An additional benefit to sending the entirety of the feature flag data is that it allows the code on
-                  both ends of the communication to be simple and elegant. The SDK merely has to save the newly received
-                  data as a whole. This approach avoids introducing additional surface area for bugs by excluding the
-                  need for complex logic required to parse feature flag data, update specific elements, and handle every
-                  type of CRUD operation that might occur.</p>
-                <p>The obvious tradeoff of sending the entirety of the feature flag data is the increased size of
-                  messages and the impact on network bandwidth that might have. Pioneer is designed to be used by
-                  relatively small teams to migrate to microservices from a monolith. We reasoned that the standard use
-                  case would not likely exceed 20-30 distinct flags at a time.</p>
-                <p>To test Pioneer’s capacity, we tested a data set composed of 100 distinct flags. Even at this
-                  seemingly inflated data set size, the total size of the data transmission from Scout to each connected
-                  SDK client was almost exactly 20KB. With an expected rate of 10 requests/second, we felt the impact of
-                  2MB/second should fall well within the limits of any modern network. Because Pioneer is open-source
-                  software, if an organization does find that they need to transmit very large amounts of feature flag
-                  data they can add logic that will compress data before it is sent and decompress data when it is
-                  received by the SDK.</p>
-                <p>Therefore, we concluded that the tradeoff of increased transmission size for sending full feature
-                  flag datasets was acceptable given the benefits in ensuring that SDKs evaluate up-to-date data.</p>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section56">
-                <h3 id="five.six">5.6 Load Testing</h3>
-                <p>One area with which we wanted to take extra consideration was understanding and testing the
-                  limitations regarding the number of SDK clients that can connect to Scout simultaneously and be served
-                  feature flag data efficiently. Though our intended use case implies that a high number of SDKs are
-                  unlikely to be connected to Scout, we still wanted to explore how the system performs under increasing
-                  levels of load in theory.</p>
-                <p>With this use case in mind, we reasoned that a rate of 10 new connections to Scout every second would
-                  cover most usage scenarios. Beyond that, testing a higher number of connections would only reaffirm
-                  the robustness of the Scout daemon for our intended use case.</p>
-                <p>Our goal for these tests was to simulate the process of an SDK client establishing an SSE connection
-                  with Scout and subsequently receiving the feature flag data. For these tests, we used the relatively
-                  large 100-flag data set previously mentioned in <a href="five.five">section 5.5</a>. Recall that the
-                  data itself along with HTTP headers resulted in the transmission of nearly 20KB of data.</p>
-                <p>For testing purposes, we chose to isolate the process of connecting and transmitting an initial set
-                  of feature flag data. In order to achieve this, we temporarily modified the Scout daemon to close SSE
-                  connections after the initial flag data had been sent to the SDK. If each SSE client connection
-                  remained open indefinitely, the performance tolerances of the Scout daemon would most certainly
-                  perform differently. However, we felt that because SSE connections are likely to be dropped and added
-                  somewhat regularly as the client application spins up new instances and terminates others, it is
-                  reasonable to test Scout without leaving every connection open in perpetuity.</p>
-                <p>Our testing was performed via Artillery.io <sup><a
-                      href="http://www.split.io/glossary/canary-deployment/">7</a></sup>, using a configuration file
-                  that ran several different phases for extended periods of time. We incrementally increased the load on
-                  Scout by a factor of 10, beginning at 1 request per second and peaking at 1000 requests per second
-                  before ramping back down.</p>
-                <p>The results of our tests demonstrated a few things. First, the Scout daemon can easily handle the
-                  expected case of 10 requests per second. Second, under a usage load of 100 requests per second,
-                  Scout’s median response time increased by about 450 milliseconds, but the system could still serve all
-                  of the data payloads successfully. Lastly, we observed a degradation of performance under a load of
-                  1000 requests per second.</p>
-                <p>Ultimately, our tests were successful in demonstrating that Pioneer’s system is more than capable of
-                  handling the anticipated load. If an organization using Pioneer were approaching a load of 1000
-                  connection requests per second, they may consider implementing an additional instance of Scout to
-                  share the load to prevent performance degradation.</p>
-              </section>
+              <h2>5. Technial Deep Dive</h2>
             </div>
           </div>
         </section>
@@ -709,41 +523,74 @@
         <section>
           <div class="content">
             <div class="inner">
-              <h2>6. Future Work</h2>
+              <h2>6. Engineering Decisions and Tradeoffs</h2>
+              <P>The development team encountered several engineering challenges while building Aria. These challenges
+                resulted in several impactful decisions which influenced the Aria capabilities and limitations.</P>
               <section id="section61">
-                <h3 id="six.one">6.1 Accommodate Multiple Applications</h3>
-                <p>Currently, an instance of Pioneer supports a single application. More specifically, Pioneer
-                  broadcasts the entire set of flag data to all connected SSE clients in an application-agnostic manner.
-                  If an organization would like to use Pioneer with additional applications that require different
-                  feature flag data, they will need to spin up an additional instance of Pioneer to communicate with
-                  that application. This is a natural consequence of Pioneer’s simplicity and ease of use. However, in
-                  the future, we may consider adding support for multiple sets of flag data handled by a single instance
-                  of Pioneer.</p>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section62">
-                <h3 id="six.two">6.2 Additional Rollout Strategies</h3>
-                <p>Offering additional rollout strategies that allow the organization to target particular users would
-                  allow for more granular control over the initial users of a new feature. Some special users that we
-                  may choose to accommodate in the future are users internal to the organization, a predetermined group
-                  of beta-testers, or particular segments of the market.</p>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section63">
-                <h3 id="six.three">6.3 Flag Expiration</h3>
-                <p>Because Pioneer is meant to be used to roll out new services, the conditional logic related to a
-                  feature flag for a service likely shouldn’t live in the codebase indefinitely. Flag expiration would
-                  allow engineers to set an expiration date on a flag after which the flag will throw an exception or
-                  log a warning message if it is evaluated in the codebase. The motivation behind flag expiration is to
-                  avoid technical debt. When a feature flag is no longer necessary, the flag and the application logic
-                  that evaluates the flag should both be removed from the codebase.</p>
-                <p>Another benefit to offering flag expiration is that it provides a simple and clear-cut rollout window
-                  in which to collect analytics and user feedback on a new feature. Engineers could determine the
-                  appropriate duration to test a new feature and set the flag expiration accordingly. Pioneer would
-                  handle expiring the feature flag at the assigned time, and the organization’s engineers could review
-                  the data collected later to decide how to proceed with the new feature.</p>
+                <h3 id="six.one">6.1 Infrastructure-as-Code Tooling</h3>
+                <h4 id="six.one.one">6.1.1 IaC Landscape</h4>
+                <p>As mentioned above, infrastructure-as-code (IaC) tooling is utilized by Aria to manage its canary
+                  analysis infrastructure. Aria specifically utilizes the AWS CDK to define its infrastructure as
+                  TypeScript classes. Most IaC tooling solutions define infrastructure in a templating language format
+                  like YAML or JSON. These tools are either first-party solutions offered by major cloud infrastructure
+                  providers (AWS, GCP, etc) or are third-party tools which utilize first-party APIs to manage
+                  infrastructure (Terraform, Pulumi, etc). When researching tools the Aria development team focused on
+                  the popular products: AWS CDK, Terraform, and Pulumi.</p>
+                <p>The choice of IaC tooling was significant for Aria because a majority of the Aria server code-base is
+                  dedicated to interfacing with, addressing the limitations of, or leveraging the benefits of the
+                  selected IaC tool.</p>
+                <h4 id="six.one.two">6.1.2 Aria IaC Tooling Selection</h4>
+                <p>One of Aria’s initial design goals was to focus on AWS support because AWS is the leading
+                  infrastructure service provider at ~30% market share (Canalys). In light of this design goal, the Aria
+                  team initially gravitated towards CDK adoption because CDK is natively supported by AWS. After further
+                  investigation, the team found that the biggest benefit of the platform native support is that AWS
+                  utilizes the CFN service to manage deployed resources. The CFN implements its own persistent database
+                  for managing groups of deployed resources (i.e. stacks). This is a major benefit that freed Aria from
+                  the need of a database to store its own deployment meta-information. While Pulumi does support a
+                  variety of programming languages, neither Pulumi nor Terraform provide an AWS CFN interface. Another
+                  major benefit unique to CDK is that the tool allows for programmatic definition of resource stacks.
+                  This allows CDK resource definitions to utilize software mechanisms (loops, if/else statements, etc),
+                  to be testable, and leverage software versioning techniques.</p>
+                <p>However, selection of AWS CDK as the IaC tooling of choice wasn’t automatic. Compared to Pulumi and
+                  Terraform, a major downside of the AWS CDK is its lack of multi-platform support. Both Terraform and
+                  Pulumi support deploying to multiple cloud providers using a single infrastructure definition
+                  template. This benefit would have theoretically allowed future iterations of Aria to add support for
+                  additional cloud providers such as GCP and Azure without modifying the Aria resource definition
+                  template. But these providers do offer the Azure Resource Manager and Google Cloud Deployment Manager
+                  products that allow for groups of resources to be managed in a manner similar to AWS CFN stacks.
+                  Preferring to leverage resource grouping services, the Aria team accepted the additional complexity of
+                  implementing native tooling for each provider individually in favor of utilizing a single provider
+                  agnostic tool.</p>
+                <p>Another major downside is that the AWS CDK is relatively immature. The CDK is the most recently
+                  introduced of all the tooling solutions considered, where Terraform is the oldest (introduced 2014). A
+                  brief review of the AWS forums revealed CDK has many outstanding open issues. The expectation was that
+                  Terraform would be a much more stable tool due to its longevity and popularity. Although, based on the
+                  high level of AWS CDK community adoption, it was the Aria team’s expectation that AWS will continue to
+                  support the CDK. It was also acknowledged that development time would likely be longer than if Aria
+                  leveraged Terraform due to open issues or poor documentation. While the team was able to successfully
+                  develop Aria using the AWS CDK, the development of that tooling did indeed last longer than initially
+                  anticipated due to CDK limitations.</p>
+                <p></p>
+                <h4 id="six.one.three">6.1.3 Addressing CDK Limitations</h4>
+                <p>AWS CDK provides little support for interfacing with and configuring existing infrastructure. While
+                  the CDK does implement classes which can represent existing resources, those resources are meant to be
+                  defined within a local stack template file. This aspect of the CDK was troublesome for the team
+                  because Aria requires interfacing with resources defined outside the CDK such as; private networks,
+                  load balancers, instances, routing rules, etc.</p>
+                <p>In order to address this CDK shortcoming, the Aria team developed a library of functions
+                  incorporating the AWS Software Development Kit (SDK). These functions focus on fetching and formatting
+                  the existing resource information such that the CDK can deploy to existing private networks and route
+                  traffic to newly added Aria infrastructure. </p>
+                <p>Another limitation of the CDK is that individual CFN stacks are meant to be exclusive to a single
+                  class declaration (i.e. local template file). While this one-to-one relationship is supported by the
+                  CDK CLI commands, programmatic reuse of the class declaration isn’t supported out-of-the-box.
+                  Bypassing the CDK CLI, Aria implements a parent “wrapper” class which exposes CDK core library methods
+                  and defines additional supplemental methods. This wrapper class allows for the class defining the Aria
+                  stack to be reused without invoking the CLI commands either as a child process or via the terminal.
+                  These additional methods allow the CDK to escape the one-to-one template to stack relationship by
+                  re-synthesizing the local template file for each stack deployment and destruction on an as-needed
+                  basis. In other words, Aria overcomes the CDK restraints by defining a group of resources within a
+                  class which can be reused for each Aria deployment.</p>
               </section>
             </div>
           </div>
@@ -755,7 +602,31 @@
         <section>
           <div class="content">
             <div class="inner">
-              <h2>7. References</h2>
+              <h2>7. Future Work</h2>
+              <section id="section71">
+                <h3 id="seven.one">6.1 Accommodate Multiple Applications</h3>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section72">
+                <h3 id="seven.two">6.2 Additional Rollout Strategies</h3>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section73">
+                <h3 id="seven.three">6.3 Flag Expiration</h3>
+              </section>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Eight -->
+      <section id="eight" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>8. References</h2>
               <ol>
                 <li><a href="https://www.split.io/glossary/canary-deployment/">“Canary Deployment - Split Glossary.”
                     Split, Split.io, 3 Oct. 2020</a></li>
