@@ -3192,26 +3192,16 @@ table {
   width: 100%;
 }
 
-table tbody tr {
-  border: solid 1px #242325;
-  border-left: 0;
-  border-right: 0;
-}
-
-table tbody tr:nth-child(2n + 1) {
-  background-color: #242325;
-}
-
-table td {
-  padding: 0.75em 0.75em;
+table tr {
+  padding: 0 0.5em 0.5em 0.5em;
 }
 
 table th {
-  color: #242325;
+  border-bottom: solid 1px #242325;
   font-size: 1em;
   font-weight: bold;
-  padding: 0 0.75em 0.75em 0.75em;
-  text-align: left;
+  padding: 0 0.5em 0.5em 0.5em;
+  text-align: center;
 }
 
 table thead {
@@ -3246,6 +3236,19 @@ table.alt thead {
 
 table.alt tfoot {
   border-top: 0;
+}
+
+table.proscons {
+  margin-bottom: 3em;
+}
+
+table.proscons td {
+  font-style: italic;
+  width: 50%;
+}
+
+table.proscons th {
+  font-weight: bold;
 }
 
 /* Wrapper */
@@ -3889,6 +3892,15 @@ body.is-preload #sidebar nav ul li {
   top: 10px;
   right: 10px;
   z-index: 1;
+}
+
+.text-animation {
+  display: flex;
+  gap: 20px;
+}
+
+.pros-cons {
+  display: flex;
 }
 
 @media screen and (max-width: 736px) {
