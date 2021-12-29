@@ -245,7 +245,7 @@
     <!-- Three -->
     <section id="three" class="wrapper style1 spotlights">
       <section>
-        <iv class="content">
+        <div class="content">
           <div class="inner">
             <h2>3. Choosing the Right Deployment Strategy</h2>
             <p>First and foremost, a deployment strategy should both align with and serve business goals. For example, a
@@ -467,7 +467,7 @@
               </div>
 
               <div class="inner">
-                <div id="section44">
+                <section id="section44">
                   <h3 id="four.four">4.4 Using Aria</h3>
                   <p>Aria use can be broken down into three main UI interactions which correspond to the lifecycle of an
                     Aria canary deployment. First, a user configures the infrastructure to be deployed to the accessible
@@ -483,7 +483,7 @@
                     Aria automatically fetches all relevant AWS resource data, Aria deployments, and status information
                     accessible by the selected AWS profile.</p>
                   <h4 id="four.four.two">4.4.2 Configuration & Creation</h4>
-                  <div style="display: flex;" <p>Along with giving the canary a title and description. The user is
+                  <p>Along with giving the canary a title and description. The user is
                     presented with a Aria deployment
                     creation form. Within the form, traffic splitting can be configured by selecting a traffic weight
                     and rule priority. Optional settings, such as sticky sessions which enables re-routing of users to
@@ -491,7 +491,6 @@
                     under what conditions traffic will be forwarded to the new canary and baseline target groups.
                     Finally, the user provides the docker image and docker-compose files that specify how the Docker
                     containers should be run on the new instances. The canary can then be deployed with one click. </p>
-                  </div>
                   <h4 id="four.four.three">4.4.3 Management</h4>
                   <p>Once deployed, the user can view the statuses of the provisioned instances along with their event
                     logs in a simple and streamlined dashboard. This information can be accessed via the ‘Status’ menu
@@ -509,254 +508,253 @@
                     be accessed within the deployment specific summary. After destroying an Aria deployment, the
                     production environment is restored to its previous state wherein all incoming network traffic is
                     routed to the current production service.</p>
-        </section>
-  </div>
-  </div>
-  </div>
-  </section>
-  </section>
-
-  <!-- Five -->
-  <section id="five" class="wrapper style1 spotlights">
-    <section>
-      <div class="content">
-        <div class="inner">
-          <h2>5. Technial Deep Dive</h2>
-        </div>
-      </div>
-    </section>
-  </section>
-
-  <!-- Six -->
-  <section id="six" class="wrapper style1 spotlights">
-    <section>
-      <div class="content">
-        <div class="inner">
-          <h2>6. Engineering Decisions and Tradeoffs</h2>
-          <P>The development team encountered several engineering challenges while building Aria. These challenges
-            resulted in several impactful decisions which influenced the Aria capabilities and limitations.</P>
-          <section id="section61">
-            <h3 id="six.one">6.1 Infrastructure-as-Code Tooling</h3>
-            <h4 id="six.one.one">6.1.1 IaC Landscape</h4>
-            <p>As mentioned above, infrastructure-as-code (IaC) tooling is utilized by Aria to manage its canary
-              analysis infrastructure. Aria specifically utilizes the AWS CDK to define its infrastructure as
-              TypeScript classes. Most IaC tooling solutions define infrastructure in a templating language format
-              like YAML or JSON. These tools are either first-party solutions offered by major cloud infrastructure
-              providers (AWS, GCP, etc) or are third-party tools which utilize first-party APIs to manage
-              infrastructure (Terraform, Pulumi, etc). When researching tools the Aria development team focused on
-              the popular products: AWS CDK, Terraform, and Pulumi.</p>
-            <p>The choice of IaC tooling was significant for Aria because a majority of the Aria server code-base is
-              dedicated to interfacing with, addressing the limitations of, or leveraging the benefits of the
-              selected IaC tool.</p>
-            <h4 id="six.one.two">6.1.2 Aria IaC Tooling Selection</h4>
-            <p>One of Aria’s initial design goals was to focus on AWS support because AWS is the leading
-              infrastructure service provider at ~30% market share (Canalys). In light of this design goal, the Aria
-              team initially gravitated towards CDK adoption because CDK is natively supported by AWS. After further
-              investigation, the team found that the biggest benefit of the platform native support is that AWS
-              utilizes the CFN service to manage deployed resources. The CFN implements its own persistent database
-              for managing groups of deployed resources (i.e. stacks). This is a major benefit that freed Aria from
-              the need of a database to store its own deployment meta-information. While Pulumi does support a
-              variety of programming languages, neither Pulumi nor Terraform provide an AWS CFN interface. Another
-              major benefit unique to CDK is that the tool allows for programmatic definition of resource stacks.
-              This allows CDK resource definitions to utilize software mechanisms (loops, if/else statements, etc),
-              to be testable, and leverage software versioning techniques.</p>
-            <p>However, selection of AWS CDK as the IaC tooling of choice wasn’t automatic. Compared to Pulumi and
-              Terraform, a major downside of the AWS CDK is its lack of multi-platform support. Both Terraform and
-              Pulumi support deploying to multiple cloud providers using a single infrastructure definition
-              template. This benefit would have theoretically allowed future iterations of Aria to add support for
-              additional cloud providers such as GCP and Azure without modifying the Aria resource definition
-              template. But these providers do offer the Azure Resource Manager and Google Cloud Deployment Manager
-              products that allow for groups of resources to be managed in a manner similar to AWS CFN stacks.
-              Preferring to leverage resource grouping services, the Aria team accepted the additional complexity of
-              implementing native tooling for each provider individually in favor of utilizing a single provider
-              agnostic tool.</p>
-            <p>Another major downside is that the AWS CDK is relatively immature. The CDK is the most recently
-              introduced of all the tooling solutions considered, where Terraform is the oldest (introduced 2014). A
-              brief review of the AWS forums revealed CDK has many outstanding open issues. The expectation was that
-              Terraform would be a much more stable tool due to its longevity and popularity. Although, based on the
-              high level of AWS CDK community adoption, it was the Aria team’s expectation that AWS will continue to
-              support the CDK. It was also acknowledged that development time would likely be longer than if Aria
-              leveraged Terraform due to open issues or poor documentation. While the team was able to successfully
-              develop Aria using the AWS CDK, the development of that tooling did indeed last longer than initially
-              anticipated due to CDK limitations.</p>
-            <p></p>
-            <h4 id="six.one.three">6.1.3 Addressing CDK Limitations</h4>
-            <p>AWS CDK provides little support for interfacing with and configuring existing infrastructure. While
-              the CDK does implement classes which can represent existing resources, those resources are meant to be
-              defined within a local stack template file. This aspect of the CDK was troublesome for the team
-              because Aria requires interfacing with resources defined outside the CDK such as; private networks,
-              load balancers, instances, routing rules, etc.</p>
-            <p>In order to address this CDK shortcoming, the Aria team developed a library of functions
-              incorporating the AWS Software Development Kit (SDK). These functions focus on fetching and formatting
-              the existing resource information such that the CDK can deploy to existing private networks and route
-              traffic to newly added Aria infrastructure. </p>
-            <p>Another limitation of the CDK is that individual CFN stacks are meant to be exclusive to a single
-              class declaration (i.e. local template file). While this one-to-one relationship is supported by the
-              CDK CLI commands, programmatic reuse of the class declaration isn’t supported out-of-the-box.
-              Bypassing the CDK CLI, Aria implements a parent “wrapper” class which exposes CDK core library methods
-              and defines additional supplemental methods. This wrapper class allows for the class defining the Aria
-              stack to be reused without invoking the CLI commands either as a child process or via the terminal.
-              These additional methods allow the CDK to escape the one-to-one template to stack relationship by
-              re-synthesizing the local template file for each stack deployment and destruction on an as-needed
-              basis. In other words, Aria overcomes the CDK restraints by defining a group of resources within a
-              class which can be reused for each Aria deployment.</p>
-          </section>
-        </div>
-      </div>
-    </section>
-  </section>
-
-  <!-- Seven -->
-  <section id="seven" class="wrapper style1 spotlights">
-    <section>
-      <div class="content">
-        <div class="inner">
-          <h2>7. Future Work</h2>
-          <section id="section71">
-            <h3 id="seven.one">6.1 Accommodate Multiple Applications</h3>
-          </section>
-        </div>
-        <div class="inner">
-          <section id="section72">
-            <h3 id="seven.two">6.2 Additional Rollout Strategies</h3>
-          </section>
-        </div>
-        <div class="inner">
-          <section id="section73">
-            <h3 id="seven.three">6.3 Flag Expiration</h3>
-          </section>
-        </div>
-      </div>
-    </section>
-  </section>
-
-  <!-- Eight -->
-  <section id="eight" class="wrapper style1 spotlights">
-    <section>
-      <div class="content">
-        <div class="inner">
-          <h2>8. References</h2>
-          <ol>
-            <li><a href="https://www.split.io/glossary/canary-deployment/">“Canary Deployment - Split Glossary.”
-                Split, Split.io, 3 Oct. 2020</a></li>
-            <li><a href="https://www.smashingmagazine.com/2018/02/sse-websockets-data-flow-http2/">Chaov, Martin.
-                “Using SSE Instead of WebSockets for Unidirectional Data Flow OVER HTTP/2.” Smashing Magazine, 12
-                Feb. 2018, www.smashingmagazine.com/2018/02/sse-websockets-data-flow-http2/.</a></li>
-            <li><a href="https://www.featureflags.io/feature-flags/">“Feature Flags.” Feature Flags, Toggles,
-                Controls, Featureflags.io, 13 Dec. 2015, featureflags.io/feature-flags/.</a></li>
-            <li><a href="http://www.semaphoreci.com/blog/what-is-canary-deployment">Fernandez, Tomas. “What Is
-                Canary Deployment?” Semaphore, Semaphoreci.com, 22 Apr. 2021,
-                semaphoreci.com/blog/what-is-canary-deployment.</a></li>
-            <li><a href="http://www.martinfowler.com/bliki/FeatureToggle.html">Fowler, Martin. “Bliki:
-                FeatureToggle.” Martinfowler.com, Martin Fowler, 29 Oct. 2010,
-                martinfowler.com/bliki/FeatureToggle.html.</a></li>
-            <li><a href="http://www.split.io/blog/canary-release-feature-flags/">Karow, Dave. “Pros and Cons of
-                Canary Releases vs Feature Flag Releases.” Split, Split.io, 3 Oct. 2020,
-                www.split.io/blog/canary-release-feature-flags/.</a></li>
-            <li><a href="https://artillery.io">“Load & Smoke Testing.” Artillery.io | Load & Smoke Testing,
-                Artillery.io, artillery.io/.</a></li>
-            <li><a href="http://www.ably.com/blog/websockets-vs-sse">Martin, Eve. “WebSockets vs Server-Sent
-                Events.” Ably Blog: Data in Motion, Ably.com, 21 May 2021, ably.com/blog/websockets-vs-sse.</a></li>
-            <li><a href="https://nats.io">“Nats.io.” NATS.io, 26 July 2021, nats.io/.</a></li>
-            <li><a href="http://www.martinfowler.com/bliki/CanaryRelease.html">Sato, Danilo. “Bliki: Canary
-                Release.” Martinfowler.com, Martin Fowler, 25 June 2014,
-                martinfowler.com/bliki/CanaryRelease.html.</a></li>
-          </ol>
-        </div>
-    </section>
-  </section>
-
-  <!-- Eight -->
-  <section id="eight" class="wrapper style1 spotlights">
-    <section>
-      <div class="content">
-        <div class="inner">
-          <h2>8. Presentation</h2>
-          <!-- <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://dkq85ftleqhzg.cloudfront.net/capstone_presentations/pioneer.mp4" style="left:0;position:absolute;top:0" width="100%"></iframe></div></div> -->
-        </div>
-    </section>
-  </section>
-
-
-  <!-- Nine -->
-  <section id="nine" class="wrapper style1 spotlights">
-    <section>
-      <div class="content">
-        <div class="inner">
-          <h2>9. Meet the Team</h2>
-          <p>Pioneer was built by a small team of dedicated individuals.</p>
-          <p>While our team has since moved on to other opportunities, if you are interested in the project and want
-            to chat with us about it, please reach out!</p>
-
-        </div>
-        <div class="box alt">
-          <div class="row gtr-uniform">
-            <div class="col-3 center">
-              <img class="image fit align" src="./images/team_photos/jimmy-resize.png" alt="Jimmy Zheng" />
-              <p>Jimmy Zheng</p>
-              <div class="row center">
-                <a href="mailto:jimzhe842@gmail.com">
-                  <img src="./images/email_icon-32.png" alt="">
-                </a>
-                <a href="https://github.com/jimzhe842">
-                  <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Jimmy Zheng GitHub">
-                </a>
-                <a href="https://www.linkedin.com/in/jimmy-zheng-977a821a3">
-                  <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Jimmy Zheng LinkedIn">
-                </a>
-              </div>
-            </div>
-            <div class="col-3 center">
-              <img class="image fit align" src="./images/team_photos/laura.jpg" alt="Laura Davies" />
-              <p>Laura Davies</p>
-              <div class="row center">
-                <a href="mailto:drljdavies@gmail.com">
-                  <img src="./images/email_icon-32.png" alt="">
-                </a>
-                <a href="https://github.com/l-jdavies">
-                  <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Laura Davies Github">
-                </a>
-                <a href="https://www.linkedin.com/in/laura-davies-3a5b1913a/">
-                  <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Laura Davies LinkedIn">
-                </a>
-              </div>
-            </div>
-            <div class="col-3 center">
-              <img class="image fit align" src="./images/team_photos/kyle.jpg" alt="Kyle Ledoux" />
-              <p>Kyle Ledoux</p>
-              <div class="row center">
-                <a href="mailto:kaledoux@gmail.com">
-                  <img src="./images/email_icon-32.png" alt="Kyle Ledoux email">
-                </a>
-                <a href="https://github.com/kaledoux">
-                  <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Kyle Ledoux GitHub">
-                </a>
-                <a href="https://www.linkedin.com/in/kaledoux">
-                  <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Kyle Ledoux LinkedIn">
-                </a>
-              </div>
-            </div>
-            <div class="col-3 center">
-              <img class="image fit align" src="./images/team_photos/liz.png" alt="Elizabeth Tackett" />
-              <p>Elizabeth Tackett</p>
-              <div class="row center">
-                <a href="mailto:emctackett@gmail.com">
-                  <img src="./images/email_icon-32.png" alt="Elizabeth Tackett email">
-                </a>
-                <a href="https://github.com/emctackett">
-                  <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Elizabeth Tackett GitHub">
-                </a>
-                <a href="https://www.linkedin.com/in/emctackett
-">
-                  <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Elizabeth Tackett LinkedIn">
-                </a>
+                </section>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-  </section>
+        </section>
+      </section>
+
+      <!-- Five -->
+      <section id="five" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>5. Technial Deep Dive</h2>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Six -->
+      <section id="six" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>6. Engineering Decisions and Tradeoffs</h2>
+              <P>The development team encountered several engineering challenges while building Aria. These challenges
+                resulted in several impactful decisions which influenced the Aria capabilities and limitations.</P>
+              <section id="section61">
+                <h3 id="six.one">6.1 Infrastructure-as-Code Tooling</h3>
+                <h4 id="six.one.one">6.1.1 IaC Landscape</h4>
+                <p>As mentioned above, infrastructure-as-code (IaC) tooling is utilized by Aria to manage its canary
+                  analysis infrastructure. Aria specifically utilizes the AWS CDK to define its infrastructure as
+                  TypeScript classes. Most IaC tooling solutions define infrastructure in a templating language format
+                  like YAML or JSON. These tools are either first-party solutions offered by major cloud infrastructure
+                  providers (AWS, GCP, etc) or are third-party tools which utilize first-party APIs to manage
+                  infrastructure (Terraform, Pulumi, etc). When researching tools the Aria development team focused on
+                  the popular products: AWS CDK, Terraform, and Pulumi.</p>
+                <p>The choice of IaC tooling was significant for Aria because a majority of the Aria server code-base is
+                  dedicated to interfacing with, addressing the limitations of, or leveraging the benefits of the
+                  selected IaC tool.</p>
+                <h4 id="six.one.two">6.1.2 Aria IaC Tooling Selection</h4>
+                <p>One of Aria’s initial design goals was to focus on AWS support because AWS is the leading
+                  infrastructure service provider at ~30% market share (Canalys). In light of this design goal, the Aria
+                  team initially gravitated towards CDK adoption because CDK is natively supported by AWS. After further
+                  investigation, the team found that the biggest benefit of the platform native support is that AWS
+                  utilizes the CFN service to manage deployed resources. The CFN implements its own persistent database
+                  for managing groups of deployed resources (i.e. stacks). This is a major benefit that freed Aria from
+                  the need of a database to store its own deployment meta-information. While Pulumi does support a
+                  variety of programming languages, neither Pulumi nor Terraform provide an AWS CFN interface. Another
+                  major benefit unique to CDK is that the tool allows for programmatic definition of resource stacks.
+                  This allows CDK resource definitions to utilize software mechanisms (loops, if/else statements, etc),
+                  to be testable, and leverage software versioning techniques.</p>
+                <p>However, selection of AWS CDK as the IaC tooling of choice wasn’t automatic. Compared to Pulumi and
+                  Terraform, a major downside of the AWS CDK is its lack of multi-platform support. Both Terraform and
+                  Pulumi support deploying to multiple cloud providers using a single infrastructure definition
+                  template. This benefit would have theoretically allowed future iterations of Aria to add support for
+                  additional cloud providers such as GCP and Azure without modifying the Aria resource definition
+                  template. But these providers do offer the Azure Resource Manager and Google Cloud Deployment Manager
+                  products that allow for groups of resources to be managed in a manner similar to AWS CFN stacks.
+                  Preferring to leverage resource grouping services, the Aria team accepted the additional complexity of
+                  implementing native tooling for each provider individually in favor of utilizing a single provider
+                  agnostic tool.</p>
+                <p>Another major downside is that the AWS CDK is relatively immature. The CDK is the most recently
+                  introduced of all the tooling solutions considered, where Terraform is the oldest (introduced 2014). A
+                  brief review of the AWS forums revealed CDK has many outstanding open issues. The expectation was that
+                  Terraform would be a much more stable tool due to its longevity and popularity. Although, based on the
+                  high level of AWS CDK community adoption, it was the Aria team’s expectation that AWS will continue to
+                  support the CDK. It was also acknowledged that development time would likely be longer than if Aria
+                  leveraged Terraform due to open issues or poor documentation. While the team was able to successfully
+                  develop Aria using the AWS CDK, the development of that tooling did indeed last longer than initially
+                  anticipated due to CDK limitations.</p>
+                <p></p>
+                <h4 id="six.one.three">6.1.3 Addressing CDK Limitations</h4>
+                <p>AWS CDK provides little support for interfacing with and configuring existing infrastructure. While
+                  the CDK does implement classes which can represent existing resources, those resources are meant to be
+                  defined within a local stack template file. This aspect of the CDK was troublesome for the team
+                  because Aria requires interfacing with resources defined outside the CDK such as; private networks,
+                  load balancers, instances, routing rules, etc.</p>
+                <p>In order to address this CDK shortcoming, the Aria team developed a library of functions
+                  incorporating the AWS Software Development Kit (SDK). These functions focus on fetching and formatting
+                  the existing resource information such that the CDK can deploy to existing private networks and route
+                  traffic to newly added Aria infrastructure. </p>
+                <p>Another limitation of the CDK is that individual CFN stacks are meant to be exclusive to a single
+                  class declaration (i.e. local template file). While this one-to-one relationship is supported by the
+                  CDK CLI commands, programmatic reuse of the class declaration isn’t supported out-of-the-box.
+                  Bypassing the CDK CLI, Aria implements a parent “wrapper” class which exposes CDK core library methods
+                  and defines additional supplemental methods. This wrapper class allows for the class defining the Aria
+                  stack to be reused without invoking the CLI commands either as a child process or via the terminal.
+                  These additional methods allow the CDK to escape the one-to-one template to stack relationship by
+                  re-synthesizing the local template file for each stack deployment and destruction on an as-needed
+                  basis. In other words, Aria overcomes the CDK restraints by defining a group of resources within a
+                  class which can be reused for each Aria deployment.</p>
+              </section>
+            </div>
+        </section>
+      </section>
+
+      <!-- Seven -->
+      <section id="seven" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>7. Future Work</h2>
+              <section id="section71">
+                <h3 id="seven.one">6.1 Accommodate Multiple Applications</h3>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section72">
+                <h3 id="seven.two">6.2 Additional Rollout Strategies</h3>
+              </section>
+            </div>
+            <div class="inner">
+              <section id="section73">
+                <h3 id="seven.three">6.3 Flag Expiration</h3>
+              </section>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Eight -->
+      <section id="eight" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>8. References</h2>
+              <ol>
+                <li><a href="https://www.split.io/glossary/canary-deployment/">“Canary Deployment - Split Glossary.”
+                    Split, Split.io, 3 Oct. 2020</a></li>
+                <li><a href="https://www.smashingmagazine.com/2018/02/sse-websockets-data-flow-http2/">Chaov, Martin.
+                    “Using SSE Instead of WebSockets for Unidirectional Data Flow OVER HTTP/2.” Smashing Magazine, 12
+                    Feb. 2018, www.smashingmagazine.com/2018/02/sse-websockets-data-flow-http2/.</a></li>
+                <li><a href="https://www.featureflags.io/feature-flags/">“Feature Flags.” Feature Flags, Toggles,
+                    Controls, Featureflags.io, 13 Dec. 2015, featureflags.io/feature-flags/.</a></li>
+                <li><a href="http://www.semaphoreci.com/blog/what-is-canary-deployment">Fernandez, Tomas. “What Is
+                    Canary Deployment?” Semaphore, Semaphoreci.com, 22 Apr. 2021,
+                    semaphoreci.com/blog/what-is-canary-deployment.</a></li>
+                <li><a href="http://www.martinfowler.com/bliki/FeatureToggle.html">Fowler, Martin. “Bliki:
+                    FeatureToggle.” Martinfowler.com, Martin Fowler, 29 Oct. 2010,
+                    martinfowler.com/bliki/FeatureToggle.html.</a></li>
+                <li><a href="http://www.split.io/blog/canary-release-feature-flags/">Karow, Dave. “Pros and Cons of
+                    Canary Releases vs Feature Flag Releases.” Split, Split.io, 3 Oct. 2020,
+                    www.split.io/blog/canary-release-feature-flags/.</a></li>
+                <li><a href="https://artillery.io">“Load & Smoke Testing.” Artillery.io | Load & Smoke Testing,
+                    Artillery.io, artillery.io/.</a></li>
+                <li><a href="http://www.ably.com/blog/websockets-vs-sse">Martin, Eve. “WebSockets vs Server-Sent
+                    Events.” Ably Blog: Data in Motion, Ably.com, 21 May 2021, ably.com/blog/websockets-vs-sse.</a></li>
+                <li><a href="https://nats.io">“Nats.io.” NATS.io, 26 July 2021, nats.io/.</a></li>
+                <li><a href="http://www.martinfowler.com/bliki/CanaryRelease.html">Sato, Danilo. “Bliki: Canary
+                    Release.” Martinfowler.com, Martin Fowler, 25 June 2014,
+                    martinfowler.com/bliki/CanaryRelease.html.</a></li>
+              </ol>
+            </div>
+        </section>
+      </section>
+
+      <!-- Eight -->
+      <section id="eight" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>8. Presentation</h2>
+              <!-- <div style="width:100%"><div style="height:0;padding-bottom:56.25%;position:relative;width:100%"><iframe allowfullscreen="" frameBorder="0" height="100%" src="https://dkq85ftleqhzg.cloudfront.net/capstone_presentations/pioneer.mp4" style="left:0;position:absolute;top:0" width="100%"></iframe></div></div> -->
+            </div>
+        </section>
+      </section>
+
+
+      <!-- Nine -->
+      <section id="nine" class="wrapper style1 spotlights">
+        <section>
+          <div class="content">
+            <div class="inner">
+              <h2>9. Meet the Team</h2>
+              <p>Pioneer was built by a small team of dedicated individuals.</p>
+              <p>While our team has since moved on to other opportunities, if you are interested in the project and want
+                to chat with us about it, please reach out!</p>
+
+            </div>
+            <div class="box alt">
+              <div class="row gtr-uniform">
+                <div class="col-3 center">
+                  <img class="image fit align" src="./images/team_photos/jimmy-resize.png" alt="Jimmy Zheng" />
+                  <p>Jimmy Zheng</p>
+                  <div class="row center">
+                    <a href="mailto:jimzhe842@gmail.com">
+                      <img src="./images/email_icon-32.png" alt="">
+                    </a>
+                    <a href="https://github.com/jimzhe842">
+                      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Jimmy Zheng GitHub">
+                    </a>
+                    <a href="https://www.linkedin.com/in/jimmy-zheng-977a821a3">
+                      <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Jimmy Zheng LinkedIn">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-3 center">
+                  <img class="image fit align" src="./images/team_photos/laura.jpg" alt="Laura Davies" />
+                  <p>Laura Davies</p>
+                  <div class="row center">
+                    <a href="mailto:drljdavies@gmail.com">
+                      <img src="./images/email_icon-32.png" alt="">
+                    </a>
+                    <a href="https://github.com/l-jdavies">
+                      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Laura Davies Github">
+                    </a>
+                    <a href="https://www.linkedin.com/in/laura-davies-3a5b1913a/">
+                      <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Laura Davies LinkedIn">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-3 center">
+                  <img class="image fit align" src="./images/team_photos/kyle.jpg" alt="Kyle Ledoux" />
+                  <p>Kyle Ledoux</p>
+                  <div class="row center">
+                    <a href="mailto:kaledoux@gmail.com">
+                      <img src="./images/email_icon-32.png" alt="Kyle Ledoux email">
+                    </a>
+                    <a href="https://github.com/kaledoux">
+                      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Kyle Ledoux GitHub">
+                    </a>
+                    <a href="https://www.linkedin.com/in/kaledoux">
+                      <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Kyle Ledoux LinkedIn">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-3 center">
+                  <img class="image fit align" src="./images/team_photos/liz.png" alt="Elizabeth Tackett" />
+                  <p>Elizabeth Tackett</p>
+                  <div class="row center">
+                    <a href="mailto:emctackett@gmail.com">
+                      <img src="./images/email_icon-32.png" alt="Elizabeth Tackett email">
+                    </a>
+                    <a href="https://github.com/emctackett">
+                      <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Elizabeth Tackett GitHub">
+                    </a>
+                    <a href="https://www.linkedin.com/in/emctackett
+">
+                      <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Elizabeth Tackett LinkedIn">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
   </div>
 
   <!-- Footer -->
