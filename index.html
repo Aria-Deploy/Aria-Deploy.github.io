@@ -468,7 +468,7 @@
                       the
                       lifecycle of canary deployments. Aria focuses the user on application specific configuration to
                       achieve a high fidelity automated analysis of the deployment performance.</p>
-                    <img style="width: 150%; margin: -50px; margin-left: -350px;"
+                    <img style="width: 150%; margin: -12%; margin-left: -40%;"
                       src="./images/aria_visuals/pngs/Infrastructure_Isometric.png" />
                     <p>Each Aria managed deployment is composed of three instances: canary, baseline, and monitor. A
                       specified subset of incoming production traffic is redirected from the production infrastructure
@@ -571,7 +571,8 @@
                     <h4 id="four.four.one">4.4.1 Local Environment Setup</h4>
                     <p>In order to interface with AWS services, Aria requires that the user’s local development
                       environment include the AWS CDK Toolkit, AWS CLI, and their AWS account credentials. Aria is
-                      launched by invoking `npm start`terminal command which subsequently launches the UI and the
+                      launched by invoking <code>npm start</code> terminal command which subsequently launches the UI
+                      and the
                       backend
                       API processes.
                       Upon launching the Aria UI, the user is prompted to select one of the locally defined AWS
@@ -580,6 +581,8 @@
                       information
                       accessible by the selected AWS profile.</p>
                     <h4 id="four.four.two">4.4.2 Configuration & Creation</h4>
+                    <img id="creation" src="./images/aria_visuals/gifs/cropped_faster_medium.gif"
+                      alt="Aria Creation GIF" />
                     <p>Along with giving the canary a title and description. The user is
                       presented with a Aria deployment
                       creation form. Within the form, traffic splitting can be configured by selecting a traffic weight
@@ -596,12 +599,13 @@
                       item in the sidebar. The displayed table conveys the state, status, and target health of all the
                       three provisioned instances that were created for each of the Aria deployments. Each entry within
                       the status table also contains a link to view the event logs of that instance.</p>
-                    <img style="width: 75%; height: 75%;" src="./images/aria_visuals/pngs/Aria_Mgmt.png" />
                     <p>Within the summary of each deployment, accessible via the ’Deployment’ sidebar menu item, are
                       links
                       to the Prometheus, Grafana, Kayenta and Referee monitoring tools. These tools are automatically
                       configured and created by Aria when the canary is provisioned, and are automatically set-up to
                       monitor the canary and baseline instances. </p>
+                    <img style="width: 109%; height: 109%; display: block; margin-left: -5%;"
+                      src="./images/aria_visuals/pngs/Aria_Mgmt.png" />
                     <h4 id="four.four.four">4.4.4 Teardown</h4>
                     <p>When the user is satisfied with the canary deployment progress, the canary, baseline, and
                       monitoring instances can be torn down with one easy click of the ‘Destroy’ button. This button can
