@@ -183,14 +183,14 @@
                 commonly employed. ChartHealth contacts multiple companies which provide deployment solution products
                 and requests usage data from those suppliers.</p>
               <center>
-                <img style="padding-bottom: 20px;" width="547px" height="298px"
+                <img style="padding-bottom: 20px;" width="90%" height="90%"
                   src="./images/aria_visuals/pngs/vamp_and_harness_surveys.png"
                   alt="Bar graph depicting Vamp and Harness modern deployment usage surveys.">
               </center>
               <p>The above chart was compiled from customer surveys conducted by two market-leading providers of
                 Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that
                 the four most common deployment techniques between the customer bases of both companies are: big bang,
-                rolling, blue/green, and canary.</p>
+                rolling, blue/green, and canary.(Vamp)(Harness)</p>
               <section id="section21">
                 <h3 id="two.one">2.1 Rolling Deployment</h3>
                 <video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay muted loop>
@@ -388,10 +388,10 @@
                 <p>Armed with a more detailed understanding of the type of canary deployment it is seeking, ChartHealth
                   then takes inventory of the products and open source solutions which facilitate canary deployments.
                 </p>
-                <object style="width: 100%;" data="./images/aria_visuals/svgs/3ProductCategories.svg"
-                  type="image/svg+xml"></object>
                 <p>ChartHealth discovers that the existing solutions can be divided into three categories which can be
                   referred to as: platform services, orchestrator plugins, and standalone solutions.</p>
+                <object style="width: 100%;" data="./images/aria_visuals/svgs/3ProductCategories.svg"
+                  type="image/svg+xml"></object>
                 <p>Platform services are solutions constructed from managed services offered by infrastructure
                   providers.
                   While the infrastructure services provider abstracts away the low level details of infrastructure
@@ -402,7 +402,7 @@
                   platform services require ChartHealth’s EMR services developer team to have a DevOps skill set in
                   addition to software engineering. Examples of canary deployments which utilize platform services
                   include
-                  implementations by companies such as HolidayCheck (McAllister), and Klarna (Mitreski).
+                  implementations by companies such as HolidayCheck (McAllister), and Klarna (Mitreski).</p>
                 <p>Orchestrator plugins are another category of solutions. These are third-party plugins such as
                   Serverless, Argo Rollouts, and Kong Canary Release. These plugins are designed to integrate into
                   control-plane orchestration products such as Kubernetes or Istio. The options for tailoring a canary
@@ -437,6 +437,8 @@
                   barrier to DevOps implementation is due to a lack of employee skills (Atlassian). For these reasons,
                   ChartHealth does not believe its engineering staff is currently capable of managing a platform service
                   solution.</p>
+                <object style="width: 100%; margin-left: 3%;" data="./images/aria_visuals/svgs/DevOps Stats.svg"
+                  type="image/svg+xml"></object>
                 <p>The development team also decided against orchestrator plugin solutions due to the overhead of
                   implementing a control plane product. ChartHealth’s planned three service architecture does not
                   justify
@@ -550,6 +552,8 @@
                       traffic can be easily removed from the canary, rolling back to the previous pre-canary stable
                       environment. With these tasks addressed by Aria, developers are more willing to try canary
                       deployments and can benefit from its data analysis features.</p>
+                    <object style="width: 90%; margin-bottom: 5%; margin-top: -2%; margin-left: 7%;"
+                      data="./images/aria_visuals/svgs/AriaVsCompetitors.svg" type="image/svg+xml"></object>
                     <p>Aria was built specifically to lower the barrier for developers that want to try canary
                       deployments
                       and analysis tools. It is simple to configure the canary settings and to use Aria’s
@@ -584,8 +588,8 @@
                       information
                       accessible by the selected AWS profile.</p>
                     <h4 id="four.four.two">4.4.2 Configuration & Creation</h4>
-                    <img id="creation" src="./images/aria_visuals/gifs/cropped_faster_medium.gif"
-                      alt="Aria Creation GIF" />
+                    <img id="creation" style="width: 90%; margin-left: 3%;"
+                      src="./images/aria_visuals/gifs/cropped_faster_medium.gif" alt="Aria Creation GIF" />
                     <p>Along with giving the canary a title and description. The user is
                       presented with a Aria deployment
                       creation form. Within the form, traffic splitting can be configured by selecting a traffic weight
@@ -607,7 +611,7 @@
                       to the Prometheus, Grafana, Kayenta and Referee monitoring tools. These tools are automatically
                       configured and created by Aria when the canary is provisioned, and are automatically set-up to
                       monitor the canary and baseline instances. </p>
-                    <img style="width: 109%; height: 109%; display: block; margin-left: -5%;"
+                    <img style="width: 100%; height: 100%; display: block; margin-left: -1.5%;"
                       src="./images/aria_visuals/pngs/Aria_Mgmt.png" />
                     <h4 id="four.four.four">4.4.4 Teardown</h4>
                     <p>When the user is satisfied with the canary deployment progress, the canary, baseline, and
@@ -804,6 +808,11 @@
                       Accessed 8 December 2021.</a></li>
                   <li><a href="https://martinfowler.com/bliki/CanaryRelease.html">Sato, Danilo. “CanaryRelease.” Martin
                       Fowler, 25 June 2014. Accessed 2 December 2021.</a></li>
+                  <li><a href="https://blog.vamp.io/the-state-of-cloud-native-release-orchestration-2021/">Vamp.
+                      “Vamp.io Introduces Research Report The 2021 State of Cloud-Native Release Orchestration.” The
+                      Vamp Blog, 26 January 2021. Accessed 2 December 2021.</a></li>
+                  <li><a href=" https://cms.harness.io/uploads/Continuous_Delivery_Insights_2020_f66596af70.pdf">Lamm,
+                      Dan. “Continuous Delivery Insights 2020.” harness.io. Accessed 9 December 2021.</a></li>
                 </ol>
               </div>
           </section>
