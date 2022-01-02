@@ -632,8 +632,154 @@
             <div class="content">
               <div class="inner">
                 <h2>5. Technial Deep Dive</h2>
+                <div class="inner">
+                  <section id="section51">
+                    <h3 id="five.one">5.1 AWS CloudFormation, CDK, and SDK</h3>
+                    <p>Aria interacts with an existing AWS environment through the use of AWS CloudFormation (CFN), the
+                      AWS Cloud Development Kit (CDK), and the AWS Software Development Kit (SDK). </p>
+                    <object style="width: 90%; display: block; margin: -2% auto 5%;"
+                      data="./images/aria_visuals/svgs/CDK SDK CFN.svg" type="image/svg+xml"></object>
+                    <p>AWS CloudFormation is an infrastructure-as-code (IaC) tool allowing for the provisioning and
+                      configuration of AWS resource stacks based on developer-defined templates. AWS CDK builds on
+                      CloudFormation by allowing users to express their desired stack programmatically in terms of code,
+                      which can be then translated into a CloudFormation template. The template is then used to
+                      provision, deploy, and destroy the resources comprising an Aria deployment’s canary
+                      infrastructure. </p>
+                    <p>While the CDK is specialized for deploying and destroying resources, there are some tasks for
+                      which it is not well-suited. The AWS SDK is a more low-level and flexible tool for building
+                      applications that can interact with a variety of AWS services. Aria uses the SDK for all AWS tasks
+                      which cannot be done easily (or at all) with the CDK. Some examples of these Aria tasks include
+                      fetching AWS profiles from a user’s local data, fetching resource and configuration info
+                      associated with those profiles, and configuring an existing AWS Application Load Balancer to route
+                      traffic to canary infrastructure.
+                    </p>
+                  </section>
+                  <section id="section52">
+                    <h3 id="five.two">5.2 Traffic Routing with AWS Application Load Balancers</h3>
+                    <p>A canary deployment requires that some amount of traffic be split between the production version
+                      of an application and the canary version. Traffic routing is typically accomplished via a load
+                      balancer, an application that receives network traffic and redistributes it equitably between a
+                      number of servers. Aria implements traffic routing by making use of the capabilities of an AWS
+                      Application Load Balancer (or ALB).</p>
+                    <p>Aria is designed to work with AWS production environments where an existing ALB routes traffic to
+                      instances of a production application. The ALB routes traffic at the application layer and
+                      provides a rich feature set for routing HTTP/HTTPS traffic.</p>
+                    <object style="width: 50%; display: block; margin-left: auto; margin: -2% auto 5%; "
+                      data="./images/aria_visuals/svgs/Default ALB.svg" type="image/svg+xml"></object>
+                    <p>ALBs have one or more listeners, which are defined by a port and protocol, such as HTTP traffic
+                      on port 80. Each listener also has one or more rules. When a listener receives a piece of traffic,
+                      it applies each rule in order of priority. If a piece of traffic meets the condition to trigger a
+                      rule, a specific action (such as forwarding or redirecting the request) occurs.
+                    </p>
+                    <p>Aria canary deployments create a new rule on an existing ALB listener. By setting this rule at a
+                      high priority, it can supersede the normal behavior of the listener. Traffic that triggers the
+                      Aria rule is forwarded to three target groups. One contains the production version of the
+                      application, one the baseline version of the application, and one the canary version of the
+                      application (the baseline and canary target groups receive equal amounts of traffic). Aria also
+                      configures the listener to perform a health check on a path specified by the user; this means that
+                      the canary infrastructure won’t receive traffic until it is ready and responsive. Finally, when
+                      Aria destroys a canary deployment, it destroys the rule it put on the ALB listener, which then
+                      resumes the routing behavior it exhibited prior to the Aria deployment.
+                    </p>
+                    <object style="width: 60%; display: block; margin: -2% auto 5%; "
+                      data="./images/aria_visuals/svgs/ALB with Aria Rule.svg" type="image/svg+xml"></object>
+                    <p>The rules that Aria creates can be conditionally applied, so canary traffic can be limited to by
+                      filters such as a particular HTTP request method, HTTP header value, or URL path pattern. Sticky
+                      sessions can also be implemented, ensuring that users from a given IP address will always return
+                      to the version of the application they were originally routed to. Refreshing the browser will not
+                      suddenly take a user from the canary application to the production version.
+                    </p>
+                  </section>
+                  <section id="section53">
+                    <h3 id="five.three">5.3 Baseline and Canary Instances</h3>
+                    <p>Canary deployments require a new canary version of an application, but It is also considered good
+                      practice to deploy a baseline version of the application as well. The baseline application is
+                      identical to the production application, but instances running it are created alongside canary
+                      instances. This minimizes time-sensitive variance in performance between the old and new versions
+                      of the software. Comparing a baseline and a canary results in a better analysis than by
+                      comparing the existing production instances and the canary.
+                    </p>
+                    <object style="width: 55%; display: block; margin: -2% auto 5%;"
+                      data="./images/aria_visuals/svgs/Baseline_Canary.svg" type="image/svg+xml"></object>
+                    <p>Aria deploys the baseline and canary applications to AWS EC2 instances. These instances are
+                      automatically configured with both Docker and Docker Compose. For both the baseline and canary
+                      versions, the user prepares Docker image files (as tarball archives) and Docker Compose files
+                      which are transferred to the instances and used to initialize the applications.
+                    </p>
+                    <p>Aria also installs the application Node Exporter on each of these instances. Node Exporter is
+                      further described below. </p>
+                  </section>
+                  <section id="section54">
+                    <h3 id="five.four">5.4 Monitor Instance</h3>
+                    <p>The final resource deployed by Aria is the Monitor Instance. This EC2 instance holds a suite of
+                      monitoring and analysis tools to help the user investigate their canary application.</p>
+                    <object style="width: 60%; display: block; margin: -2% auto 5%;"
+                      data="./images/aria_visuals/svgs/monitor instance.svg" type="image/svg+xml"></object>
+                    <p>Like the Baseline and Canary instances, Aria also installs Docker and Docker Compose. All of the
+                      tools are containerized and run as part of an interconnected Docker network. Each tool is
+                      immediately ready to use. The tools fall into two categories: monitoring and analysis. Monitoring
+                      tools collect, store, and display metrics data generated by the applications in the canary
+                      infrastructure. In contrast, analysis tools process those metrics to provide insight and
+                      recommendations regarding the canary.
+                    </p>
+                  </section>
+                  <section id="section55">
+                    <h3 id="five.five">5.5 Monitoring with Prometheus and Graphana</h3>
+                    <p>Prometheus is a popular open-source time-series database used to log metrics from targets. The
+                      Prometheus server operates on an HTTP pull model, scraping metrics from targets at configured
+                      intervals by making HTTP requests. These metrics are stored on disc as time series data which may
+                      then be queried and visualized in the Prometheus front-end using the PromQL query language.
+                      Prometheus can identify targets through service discovery, and Aria automatically configures
+                      Prometheus to allow it to begin collecting metrics from deployed baseline and canary EC2 instances
+                      immediately. </p>
+                    <p>In addition to Prometheus, Aria also installs Grafana, a graphical interface and dashboard
+                      builder. An Aria user may configure Grafana to display rich visualizations of multiple queries,
+                      able to compare the baseline and canary instances at a glance.
+                    </p>
+                    <p>Prometheus collects metrics by pulling from HTTP endpoints. These endpoints can exist on two
+                      kinds of targets: an exporter, or an instrumented application. Aria supports both.
+                    </p>
+                    <object style="width: 100%; display: block; margin: -2% auto 5%;"
+                      data="./images/aria_visuals/svgs/Canary and Monitor.svg" type="image/svg+xml"></object>
+                    <p>An exporter is a stand-alone application that collects metrics and exposes them for Prometheus to
+                      use. Aria automatica installs an exporter called Node Exporter on the baseline and canary
+                      instances it deploys. Node exporter exposes hardware and operating system metrics monitored by
+                      Unix-based systems.
+                    </p>
+                    <p>The other kind of Prometheus target is an instrumented application. Developers may incorporate a
+                      Prometheus client library into their application, calculating metrics and exposing them on an HTTP
+                      endpoint. For example, an instrumented web application may expose metrics about the time to
+                      service a request, the number of requests over a given time, or the rate of request failure. Aria
+                      can configure Prometheus to scrape the endpoints of an already instrumented application.
+                    </p>
+                  </section>
+                  <section id="section56">
+                    <h3 id="five.six">5.6 Analysis with Kayenta and Referee</h3>
+                    <p>For analysis, Aria offers Kayenta and its graphical front-end Referee. Kayenta is a statistical
+                      judge which can be used to accurately determine the health of a canary application by comparing
+                      the metrics of the canary and the baseline instances. While a human engineer may be able to judge
+                      a canary by examining the metrics themselves, using a statistical judge helps filter signals from
+                      noise, providing a more objective assessment.
+                    </p>
+                    <object style="width: 100%; display: block; margin: -2% auto 5%;"
+                      data="./images/aria_visuals/svgs/all three instances.svg" type="image/svg+xml"></object>
+                    <p>Kayenta was originally created as a component of Spinnaker, a continuous delivery platform
+                      created by Netflix. While Spinnaker allows Kayenta to automatically judge and promote canary’s to
+                      production without human intervention, Aria instead offers Kayenta as a supplemental tool for
+                      users who wish to explore advanced canary analysis.
+                    </p>
+                    <p>Kayenta interacts with metrics provided by Prometheus. A user manually configures an analysis to
+                      examine one or more metrics over a given time period. They may also weigh the relative importance
+                      of those metrics (for example, a user may consider application memory usage more important than
+                      request response time). Kayenta performs the analysis and returns a numerical score and a verdict
+                      of healthy or unhealthy for the canary. Users may send requests to the Kayenta API, or make use of
+                      the Referee front-end.
+                    </p>
+                    <object style="width: 70%; display: block; margin: -2% auto 5%;" data="./images/aria_visuals/svgs/kayenta config.svg"
+                      type="image/svg+xml"></object>
+                  </section>
+                </div>
               </div>
-            </div>
           </section>
         </section>
 
