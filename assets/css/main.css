@@ -406,7 +406,7 @@ blockquote {
   font-family: "Baloo Bhaijaan 2";
   font-style: italic;
   font-weight: 200;
-  font-size: large;
+  font-size: x-large;
   width: 75%;
   margin: 0 0 2em 1em;
   padding: 0.5em 0 0.5em 2em;
@@ -3255,6 +3255,14 @@ table.alt tfoot {
 
 table.proscons {
   margin-bottom: 3em;
+  font-family: 'Baloo Bhaijaan 2';
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.proscons tbody tr:first-child td {
+  margin-top: 0.5em;
 }
 
 table.proscons td {
@@ -3263,7 +3271,11 @@ table.proscons td {
 }
 
 table.proscons th {
+  text-align: left;
   font-weight: bold;
+  font-size: larger;
+  margin: 0;
+  padding: 0;
 }
 
 /* Wrapper */
@@ -3833,7 +3845,7 @@ body.is-ie #sidebar > .inner {
 }
 
 #sidebar nav a.active {
-  color: #c6c6c6;
+  color: #E95635;
 }
 
 #sidebar nav a.active:after {
@@ -3939,7 +3951,7 @@ body.is-preload #sidebar nav ul li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  margin-bottom: 14em;
   padding-top: 1rem;
 }
 

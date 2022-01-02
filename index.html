@@ -85,8 +85,8 @@
     </a>
     <!-- Intro -->
     <section id="intro" class="wrapper style1 fullscreen fade-up">
-      <img id="logo-banner" src="./images/aria_branding/png/color/aria__logo_color.png" alt="">
       <div id="logo-intro" class="inner">
+        <img id="logo-banner" src="./images/aria_branding/png/color/aria__logo_color.png" alt="">
         <p>Introducing the <em>fastest</em>, <em>easiest</em> way to move to microservices with simple, scalable feature
           flags.</p>
         <p id="available">Available as an <strong>open-source</strong> project under the <a
@@ -471,15 +471,8 @@
                       the
                       lifecycle of canary deployments. Aria focuses the user on application specific configuration to
                       achieve a high fidelity automated analysis of the deployment performance.</p>
-                    <p>Each Aria managed deployment is composed of three instances: canary, baseline, and monitor. A
-                      specified subset of incoming production traffic is redirected from the production infrastructure
-                      to
-                      the canary and baseline instances. The monitoring instance contains tooling for both performance
-                      metrics and canary specific analysis enabling side-by-side comparison of the current and a
-                      revision
-                      to the production application.</p>
-                    <img style="width: 150%; margin: -12%; margin-left: -40%;"
-                      src="./images/aria_visuals/pngs/Infrastructure_Isometric.png" />
+                    <object style="width: 110%;" data="./images/aria_visuals/svgs/Aria Overview Arch.svg"
+                      type="image/svg+xml"></object>
                     <p>Aria provides a user-interface (UI) based application that allows engineers to easily configure,
                       deploy, review status of, and destroy the above described resources within their production or
                       staging environment of choice. As of the first iteration of the tool, Aria inserts the canary
@@ -487,8 +480,15 @@
                       More
                       specifically, Aria inserts infrastructure such that network traffic is routed by an existing
                       application load balancer (ALB) to be served by the Aria defined canary instances.</p>
-                    <object style="width: 110%;" data="./images/aria_visuals/svgs/Aria Overview Arch.svg"
-                      type="image/svg+xml"></object>
+                    <p>Each Aria managed deployment is composed of three instances: canary, baseline, and monitor. A
+                      specified subset of incoming production traffic is redirected from the production infrastructure
+                      to
+                      the canary and baseline instances. The monitoring instance contains tooling for both performance
+                      metrics and canary specific analysis enabling side-by-side comparison of the current and a
+                      revision
+                      to the production application.</p>
+                    <img style="width: 140%; margin: -12%; margin-left: -35%;"
+                      src="./images/aria_visuals/pngs/Infrastructure_Isometric.png" />
                   </section>
                 </div>
                 <div class="inner">
@@ -771,7 +771,7 @@
                 <h2>8. References</h2>
                 <ol>
                   <li><a href="http://atlassian.com/whitepapers/devops-survey-2020">Atlassian. “Atlassian Survey 2020 -
-                      DevOps Trends.” Atlassian, 2020. Accessed 8 December 2021.i</a></li>
+                      DevOps Trends.” Atlassian, 2020. Accessed 8 December 2021.</a></li>
                   <li><a href="https://www.canalys.com/newsroom/global-cloud-services-q3-2021">Canalys. “Global cloud
                       services spend hits record US$49.4 billion in Q3 2021.” Canalys, 28 October 2021. Accessed 26
                       December 2021.</a></li>
