@@ -122,7 +122,7 @@
                   information with a user base spanning hundreds of health care facilities nationally. The ChartHealth
                   product includes features such as: reading/writing to electronic medical records (EMR), aggregation of
                   patient statistics, and data science models used to identify trends across EMRs.</p>
-                <img class="image fit" src="./images/aria_visuals/pngs/charthealth.png"
+                <img class="image fit" style="width: 100%;" src="./images/aria_visuals/pngs/charthealth.png"
                   alt="Screenshot showing ChartHealth's homepage.">
                 <p>Recently, ChartHeath has expanded its business to include facilities in most US states spanning from
                   Hawaii to Maine. Additionally, ChartHealth’s software product has grown in complexity due to feature
@@ -130,7 +130,8 @@
                   growth of both the number of developers employed by the company and size of the product codebase. As a
                   result of expansion to facilities across five time zones, ChartHealth’s product must now have
                   practically zero downtime in order to not lose business to competitors offering similar products.</p>
-                <img class="image fit" src="./images/aria_visuals/pngs/monolith_to_microservices.png"
+                <img class="image fit" style="width: 90%;"
+                  src="./images/aria_visuals/pngs/monolith_to_microservices.png"
                   alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
                 <p>In order to meet these new challenges, ChartHealth has decided to migrate their current on-site
                   monolith architecture to a cloud-based microservice architecture. As a result of the planned
@@ -147,7 +148,7 @@
                     extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able
                     to manage these downsides prior to the recent expansion, when it’s smaller developer team could more
                     easily manage and comprehend the entire codebase.</p>
-                  <video width="309px" height="447px" autoplay muted loop>
+                  <video width="309px" height="447px" style="margin-left: 2em; margin-bottom: 2%;" autoplay muted loop>
                     <source src="./images/aria_visuals/videos/traditional_deployment.mp4">
                   </video>
                 </div>
@@ -183,7 +184,7 @@
                 commonly employed. ChartHealth contacts multiple companies which provide deployment solution products
                 and requests usage data from those suppliers.</p>
               <center>
-                <img style="padding-bottom: 20px;" width="90%" height="90%"
+                <img style="padding-bottom: 20px; display: block; margin-left: -12%;" width="70%" height="70%"
                   src="./images/aria_visuals/pngs/vamp_and_harness_surveys.png"
                   alt="Bar graph depicting Vamp and Harness modern deployment usage surveys.">
               </center>
@@ -193,7 +194,7 @@
                 rolling, blue/green, and canary.(Vamp)(Harness)</p>
               <section id="section21">
                 <h3 id="two.one">2.1 Rolling Deployment</h3>
-                <video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay muted loop>
+                <video style="padding-bottom: 13px; margin-left: -1%;" width="765px" height="125px" autoplay muted loop>
                   <source src="./images/aria_visuals/videos/rolling_deployment.mp4">
                 </video>
                 <p>Rolling deployments introduce service revisions by incrementally replacing the current production
@@ -226,14 +227,15 @@
                   <p>Blue/green deployments require two environments: blue and green. The first environment, green
                     within the above diagram, is the current production environment. The second blue environment is an
                     almost exact replica of the green (production) environment. The only difference between their
-                    content is the revision of the target service.</p>
+                    content is the revision of the target service. After the newly introduced blue domain has completed
+                    initialization, a network switch or load
+                    balancer routes 100% of the incoming network traffic to either blue or green environments
+                    exclusively.</p>
                   <video width="448px" height="380px" autoplay muted loop>
                     <source src="./images/aria_visuals/videos/blue_green_deployment.mp4">
                   </video>
                 </div>
-                <p>After the newly introduced blue domain has completed initialization, a network switch or load
-                  balancer routes 100% of the incoming network traffic to either blue or green environments exclusively.
-                  As the deployment progresses, the traffic router redirects traffic to and from the blue or green
+                <p>As the deployment progresses, the traffic router redirects traffic to and from the blue or green
                   domains on an as needed basis. At any point in time, only one of the deployments is processing
                   incoming network traffic. The traffic router can maintain routing to the blue environment if the
                   service revision performance is acceptable. At this point, the blue environment effectively achieves
@@ -267,7 +269,7 @@
                     network traffic is directed to the canary instance initially, data on its performance is collected
                     and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis
                     (Sato).</p>
-                  <video width="291px" height="481px" autoplay muted loop>
+                  <video width="291px" height="481px" style="margin-left: 2em;" autoplay muted loop>
                     <source src="./images/aria_visuals/videos/canary_deployment.mp4">
                   </video>
                 </div>
@@ -775,8 +777,8 @@
                       of healthy or unhealthy for the canary. Users may send requests to the Kayenta API, or make use of
                       the Referee front-end.
                     </p>
-                    <object style="width: 70%; display: block; margin: -2% auto 5%;" data="./images/aria_visuals/svgs/kayenta config.svg"
-                      type="image/svg+xml"></object>
+                    <object style="width: 70%; display: block; margin: -2% auto 5%;"
+                      data="./images/aria_visuals/svgs/kayenta config.svg" type="image/svg+xml"></object>
                   </section>
                 </div>
               </div>
@@ -802,8 +804,6 @@
                     providers (AWS, GCP, etc) or are third-party tools which utilize first-party APIs to manage
                     infrastructure (Terraform, Pulumi, etc). When researching tools the Aria development team focused on
                     the popular products: AWS CDK, Terraform, and Pulumi.</p>
-                  <object style="width: 100%; margin-bottom: 5%; margin-top: -2%;"
-                    data="./images/aria_visuals/svgs/IaC Comparison.svg" type="image/svg+xml"></object>
                   <p>The choice of IaC tooling was significant for Aria because a majority of the Aria server code-base
                     is
                     dedicated to interfacing with, addressing the limitations of, or leveraging the benefits of the
@@ -825,6 +825,8 @@
                     This allows CDK resource definitions to utilize software mechanisms (loops, if/else statements,
                     etc),
                     to be testable, and leverage software versioning techniques.</p>
+                  <object style="width: 100%; margin: 0 auto 5%;" data="./images/aria_visuals/svgs/IaC Comparison.svg"
+                    type="image/svg+xml"></object>
                   <p>However, selection of AWS CDK as the IaC tooling of choice wasn’t automatic. Compared to Pulumi and
                     Terraform, a major downside of the AWS CDK is its lack of multi-platform support. Both Terraform and
                     Pulumi support deploying to multiple cloud providers using a single infrastructure definition
@@ -866,8 +868,8 @@
                     the existing resource information such that the CDK can deploy to existing private networks and
                     route
                     traffic to newly added Aria infrastructure. </p>
-                  <object style="width: 100%; margin-bottom: 2%;;"
-                    data="./images/aria_visuals/svgs/TechChallenges-Stacks.svg" type="image/svg+xml"></object>
+                  <object style="width: 65%; display: block; margin: -3% auto 5%;"
+                    data="./images/aria_visuals/svgs/TechChallenges-StacksA.svg" type="image/svg+xml"></object>
                   <p>Another limitation of the CDK is that individual CFN stacks are meant to be exclusive to a single
                     class declaration (i.e. local template file). While this one-to-one relationship is supported by the
                     CDK CLI commands, programmatic reuse of the class declaration isn’t supported out-of-the-box.
@@ -880,6 +882,8 @@
                     re-synthesizing the local template file for each stack deployment and destruction on an as-needed
                     basis. In other words, Aria overcomes the CDK restraints by defining a group of resources within a
                     class which can be reused for each Aria deployment.</p>
+                  <object style="width: 65%; display: block; margin: -5% auto 5%;"
+                    data="./images/aria_visuals/svgs/TechChallenges-StacksB.svg" type="image/svg+xml"></object>
                 </section>
               </div>
           </section>
@@ -891,18 +895,33 @@
             <div class="content">
               <div class="inner">
                 <h2>7. Future Work</h2>
+                <p>Going forward, there are features and functionality that we, Aria’s development team, would like Aria
+                  to support. Below are a sampling of the pending features and functions.</p>
                 <section id="section71">
-                  <h3 id="seven.one">6.1 Accommodate Multiple Applications</h3>
+                  <h3 id="seven.one">6.1 Modify Exisitng Routing Rules</h3>
+                  <p>Aria's current implementation allows users to configure the initial traffic weights of the canary
+                    instances prior to Aria infrastructure deployment. However, in order to provide even more
+                    flexibility, we would like to provide users the ability to modify the traffic routing rule(s) for
+                    existing Aria deployments.
+                  </p>
                 </section>
               </div>
               <div class="inner">
                 <section id="section72">
-                  <h3 id="seven.two">6.2 Additional Rollout Strategies</h3>
+                  <h3 id="seven.two">6.2 AWS API Gateway Support</h3>
+                  <p>Currently, Aria deployments can only be initiated if the user’s existing infrastructure implements
+                    an application load balancer. However, many service-based architectures utilize the AWS API Gateway
+                    services to route traffic. We would like to extend Aria’s capability to add support for canary
+                    deployments where the user’s architecture utilizes an API Gateway.
+                  </p>
                 </section>
               </div>
               <div class="inner">
                 <section id="section73">
-                  <h3 id="seven.three">6.3 Flag Expiration</h3>
+                  <h3 id="seven.three">6.3 GCP & Azure Support</h3>
+                  <p>While AWS is currently the largest of the big three cloud computing providers, Microsoft Azure and
+                    Google Cloud still command a sizable share of the market. The next major step would be for Aria to
+                    support deployments to Microsoft Azure and Google Cloud. </p>
                 </section>
               </div>
             </div>

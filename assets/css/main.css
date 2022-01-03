@@ -406,10 +406,10 @@ blockquote {
   font-family: "Baloo Bhaijaan 2";
   font-style: italic;
   font-weight: 200;
-  font-size: x-large;
+  font-size: large;
   width: 75%;
   margin: 0 0 2em 1em;
-  padding: 0.5em 0 0.5em 2em;
+  padding: 0.5em 0.5em 0.5em 2em;
 }
 
 code {
@@ -2657,7 +2657,7 @@ input[type="radio"] + label:before {
 
 .image.fit {
   display: block;
-  margin: 0 0 2em 0;
+  margin: 1em auto 1em;
   width: 100%;
 }
 
@@ -3255,7 +3255,7 @@ table.alt tfoot {
 
 table.proscons {
   margin-bottom: 3em;
-  font-family: 'Baloo Bhaijaan 2';
+  font-family: "Baloo Bhaijaan 2";
   width: 90%;
   margin-left: auto;
   margin-right: auto;
@@ -3845,7 +3845,7 @@ body.is-ie #sidebar > .inner {
 }
 
 #sidebar nav a.active {
-  color: #E95635;
+  color: #e95635;
 }
 
 #sidebar nav a.active:after {
@@ -3887,7 +3887,7 @@ body.is-preload #sidebar nav ul li {
 }
 
 #intro p {
-  font-size: 1em;
+  font-size: 18px;
 }
 
 @media screen and (max-width: 980px) {
