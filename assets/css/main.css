@@ -3819,7 +3819,7 @@ body.is-ie #sidebar > .inner {
   color: #f9fbf9;
   display: block;
   font-family: "Baloo Bhaijaan 2";
-  font-size: 1em;
+  font-size: 0.85em;
   letter-spacing: 0.07em;
   line-height: 1.5;
   text-align: left;
@@ -3887,7 +3887,7 @@ body.is-preload #sidebar nav ul li {
 }
 
 #intro p {
-  font-size: 18px;
+  font-size: 1em;
 }
 
 @media screen and (max-width: 980px) {
