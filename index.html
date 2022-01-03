@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <link rel="stylesheet" href="assets/css/main.css" />
-  <link rel="shortcut icon" href="./images/pioneer_branding/png/color/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="./images/aria_branding/png/color/favicon.png " type="image/x-icon" />
   <noscript>
     <link rel="stylesheet" href="assets/css/noscript.css" />
   </noscript>
@@ -19,7 +19,7 @@
       <nav>
         <ul>
           <li>
-            <h2><a href="#intro">aria</a></h2>
+            <a style="text-align: left; font-size: xx-large; font-weight: bolder; margin: -1em 0 -1em 0;" href="#intro">aria</a>
           </li>
           <li>
             <a href="#one">1. Introduction and Use Case</a>
@@ -87,8 +87,8 @@
     <section id="intro" class="wrapper style1 fullscreen fade-up">
       <div id="logo-intro" class="inner">
         <img id="logo-banner" src="./images/aria_branding/png/color/aria__logo_color.png" alt="">
-        <p>Introducing the <em>fastest</em>, <em>easiest</em> way to move to microservices with simple, scalable feature
-          flags.</p>
+        <p>Introducing the <em>fastest</em>, <em>easiest</em> way to perform automated canary analysis on service
+          revisions.</p>
         <p id="available">Available as an <strong>open-source</strong> project under the <a
             href="https://opensource.org/licenses/MIT">Open Source Initiative.</a></p>
         <ul class="actions">
@@ -122,7 +122,7 @@
                   information with a user base spanning hundreds of health care facilities nationally. The ChartHealth
                   product includes features such as: reading/writing to electronic medical records (EMR), aggregation of
                   patient statistics, and data science models used to identify trends across EMRs.</p>
-                <img class="image fit" src="./images/aria_visuals/pngs/charthealth.png"
+                <img class="image fit" style="width: 100%;" src="./images/aria_visuals/pngs/charthealth.png"
                   alt="Screenshot showing ChartHealth's homepage.">
                 <p>Recently, ChartHeath has expanded its business to include facilities in most US states spanning from
                   Hawaii to Maine. Additionally, ChartHealth’s software product has grown in complexity due to feature
@@ -130,7 +130,8 @@
                   growth of both the number of developers employed by the company and size of the product codebase. As a
                   result of expansion to facilities across five time zones, ChartHealth’s product must now have
                   practically zero downtime in order to not lose business to competitors offering similar products.</p>
-                <img class="image fit" src="./images/aria_visuals/pngs/monolith_to_microservices.png"
+                <img class="image fit" style="width: 90%;"
+                  src="./images/aria_visuals/pngs/monolith_to_microservices.png"
                   alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
                 <p>In order to meet these new challenges, ChartHealth has decided to migrate their current on-site
                   monolith architecture to a cloud-based microservice architecture. As a result of the planned
@@ -147,7 +148,7 @@
                     extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able
                     to manage these downsides prior to the recent expansion, when it’s smaller developer team could more
                     easily manage and comprehend the entire codebase.</p>
-                  <video width="309px" height="447px" autoplay muted loop>
+                  <video width="309px" height="447px" style="margin-left: 2em; margin-bottom: 2%;" autoplay muted loop>
                     <source src="./images/aria_visuals/videos/traditional_deployment.mp4">
                   </video>
                 </div>
@@ -183,7 +184,7 @@
                 commonly employed. ChartHealth contacts multiple companies which provide deployment solution products
                 and requests usage data from those suppliers.</p>
               <center>
-                <img style="padding-bottom: 20px;" width="90%" height="90%"
+                <img style="padding-bottom: 20px; display: block; margin-left: -12%;" width="70%" height="70%"
                   src="./images/aria_visuals/pngs/vamp_and_harness_surveys.png"
                   alt="Bar graph depicting Vamp and Harness modern deployment usage surveys.">
               </center>
@@ -193,7 +194,7 @@
                 rolling, blue/green, and canary.(Vamp)(Harness)</p>
               <section id="section21">
                 <h3 id="two.one">2.1 Rolling Deployment</h3>
-                <video style="padding-bottom: 13px; margin-left: -5%;" width="765px" height="125px" autoplay muted loop>
+                <video style="padding-bottom: 13px; margin-left: -1%;" width="765px" height="125px" autoplay muted loop>
                   <source src="./images/aria_visuals/videos/rolling_deployment.mp4">
                 </video>
                 <p>Rolling deployments introduce service revisions by incrementally replacing the current production
@@ -226,14 +227,15 @@
                   <p>Blue/green deployments require two environments: blue and green. The first environment, green
                     within the above diagram, is the current production environment. The second blue environment is an
                     almost exact replica of the green (production) environment. The only difference between their
-                    content is the revision of the target service.</p>
+                    content is the revision of the target service. After the newly introduced blue domain has completed
+                    initialization, a network switch or load
+                    balancer routes 100% of the incoming network traffic to either blue or green environments
+                    exclusively.</p>
                   <video width="448px" height="380px" autoplay muted loop>
                     <source src="./images/aria_visuals/videos/blue_green_deployment.mp4">
                   </video>
                 </div>
-                <p>After the newly introduced blue domain has completed initialization, a network switch or load
-                  balancer routes 100% of the incoming network traffic to either blue or green environments exclusively.
-                  As the deployment progresses, the traffic router redirects traffic to and from the blue or green
+                <p>As the deployment progresses, the traffic router redirects traffic to and from the blue or green
                   domains on an as needed basis. At any point in time, only one of the deployments is processing
                   incoming network traffic. The traffic router can maintain routing to the blue environment if the
                   service revision performance is acceptable. At this point, the blue environment effectively achieves
@@ -267,7 +269,7 @@
                     network traffic is directed to the canary instance initially, data on its performance is collected
                     and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis
                     (Sato).</p>
-                  <video width="291px" height="481px" autoplay muted loop>
+                  <video width="291px" height="481px" style="margin-left: 2em;" autoplay muted loop>
                     <source src="./images/aria_visuals/videos/canary_deployment.mp4">
                   </video>
                 </div>
@@ -437,8 +439,8 @@
                   barrier to DevOps implementation is due to a lack of employee skills (Atlassian). For these reasons,
                   ChartHealth does not believe its engineering staff is currently capable of managing a platform service
                   solution.</p>
-                <object style="width: 100%; margin-left: 3%;" data="./images/aria_visuals/svgs/DevOps Stats.svg"
-                  type="image/svg+xml"></object>
+                <object style="width: 80%; display: block; margin: 0 auto 0;"
+                  data="./images/aria_visuals/svgs/DevOps Stats.svg" type="image/svg+xml"></object>
                 <p>The development team also decided against orchestrator plugin solutions due to the overhead of
                   implementing a control plane product. ChartHealth’s planned three service architecture does not
                   justify
@@ -502,24 +504,18 @@
                       <li>
                         <div style="display: flex;">
                           <p>First, Aria shines by <strong>self-provisioning</strong> all the necessary resources needed
-                            to
-                            achieve advanced
-                            statistical analysis utilizing Kayenta. Furthermore, Aria deploys monitoring services
-                            Prometheus
-                            and
-                            Grafana, allowing users a clear view into the current state of the deployment.</p>
-                          <img style="width: 45%" src="./images/aria_visuals/pngs/Analysis Tools.png" />
+                            to achieve advanced statistical analysis utilizing Kayenta. Furthermore, Aria deploys
+                            monitoring services Prometheus and Grafana, allowing users a clear view into the current
+                            state of the deployment.</p>
+                          <img style="width: 60%; height: 60%;" src="./images/aria_visuals/pngs/Analysis Tools.png" />
                         </div>
                       </li>
                       <li>
                         <p>Second, Aria was built with <strong>accessibility</strong> in mind. As opposed to other
-                          canary
-                          deployment tools
-                          that have an overwhelming amount of configuration and unclear documentation, Aria displays a
-                          simple
-                          single page UI that facilitates deployment creation and configuration. The UI focuses on
-                          meaningful configuration analysis and select targeting of a subset of the user-base per
-                          deployment. </p>
+                          canary deployment tools that have an overwhelming amount of configuration and unclear
+                          documentation, Aria displays a simple single page UI that facilitates deployment creation and
+                          configuration. The UI focuses on meaningful configuration analysis and select targeting of a
+                          subset of the user-base per deployment. </p>
                       </li>
                       <li>
                         <p>Third, Aria is <strong>open-source</strong>. Companies that want to experiment with canary
@@ -588,7 +584,7 @@
                       information
                       accessible by the selected AWS profile.</p>
                     <h4 id="four.four.two">4.4.2 Configuration & Creation</h4>
-                    <img id="creation" style="width: 90%; margin-left: 3%;"
+                    <img id="creation" style="width: 80%; display: block; margin: 0 1em 5%;"
                       src="./images/aria_visuals/gifs/cropped_faster_medium.gif" alt="Aria Creation GIF" />
                     <p>Along with giving the canary a title and description. The user is
                       presented with a Aria deployment
@@ -611,7 +607,7 @@
                       to the Prometheus, Grafana, Kayenta and Referee monitoring tools. These tools are automatically
                       configured and created by Aria when the canary is provisioned, and are automatically set-up to
                       monitor the canary and baseline instances. </p>
-                    <img style="width: 100%; height: 100%; display: block; margin-left: -1.5%;"
+                    <img style="width: 90%; height: 90%; display: block; margin: -4% auto 1%;"
                       src="./images/aria_visuals/pngs/Aria_Mgmt.png" />
                     <h4 id="four.four.four">4.4.4 Teardown</h4>
                     <p>When the user is satisfied with the canary deployment progress, the canary, baseline, and
@@ -775,8 +771,8 @@
                       of healthy or unhealthy for the canary. Users may send requests to the Kayenta API, or make use of
                       the Referee front-end.
                     </p>
-                    <object style="width: 70%; display: block; margin: -2% auto 5%;" data="./images/aria_visuals/svgs/kayenta config.svg"
-                      type="image/svg+xml"></object>
+                    <object style="width: 70%; display: block; margin: -2% auto 5%;"
+                      data="./images/aria_visuals/svgs/kayenta config.svg" type="image/svg+xml"></object>
                   </section>
                 </div>
               </div>
@@ -802,8 +798,6 @@
                     providers (AWS, GCP, etc) or are third-party tools which utilize first-party APIs to manage
                     infrastructure (Terraform, Pulumi, etc). When researching tools the Aria development team focused on
                     the popular products: AWS CDK, Terraform, and Pulumi.</p>
-                  <object style="width: 100%; margin-bottom: 5%; margin-top: -2%;"
-                    data="./images/aria_visuals/svgs/IaC Comparison.svg" type="image/svg+xml"></object>
                   <p>The choice of IaC tooling was significant for Aria because a majority of the Aria server code-base
                     is
                     dedicated to interfacing with, addressing the limitations of, or leveraging the benefits of the
@@ -825,6 +819,8 @@
                     This allows CDK resource definitions to utilize software mechanisms (loops, if/else statements,
                     etc),
                     to be testable, and leverage software versioning techniques.</p>
+                  <object style="width: 100%; margin: 0 auto 5%;" data="./images/aria_visuals/svgs/IaC Comparison.svg"
+                    type="image/svg+xml"></object>
                   <p>However, selection of AWS CDK as the IaC tooling of choice wasn’t automatic. Compared to Pulumi and
                     Terraform, a major downside of the AWS CDK is its lack of multi-platform support. Both Terraform and
                     Pulumi support deploying to multiple cloud providers using a single infrastructure definition
@@ -866,8 +862,8 @@
                     the existing resource information such that the CDK can deploy to existing private networks and
                     route
                     traffic to newly added Aria infrastructure. </p>
-                  <object style="width: 100%; margin-bottom: 2%;;"
-                    data="./images/aria_visuals/svgs/TechChallenges-Stacks.svg" type="image/svg+xml"></object>
+                  <object style="width: 65%; display: block; margin: -3% auto 5%;"
+                    data="./images/aria_visuals/svgs/TechChallenges-StacksA.svg" type="image/svg+xml"></object>
                   <p>Another limitation of the CDK is that individual CFN stacks are meant to be exclusive to a single
                     class declaration (i.e. local template file). While this one-to-one relationship is supported by the
                     CDK CLI commands, programmatic reuse of the class declaration isn’t supported out-of-the-box.
@@ -880,6 +876,8 @@
                     re-synthesizing the local template file for each stack deployment and destruction on an as-needed
                     basis. In other words, Aria overcomes the CDK restraints by defining a group of resources within a
                     class which can be reused for each Aria deployment.</p>
+                  <object style="width: 65%; display: block; margin: -5% auto 5%;"
+                    data="./images/aria_visuals/svgs/TechChallenges-StacksB.svg" type="image/svg+xml"></object>
                 </section>
               </div>
           </section>
@@ -891,18 +889,33 @@
             <div class="content">
               <div class="inner">
                 <h2>7. Future Work</h2>
+                <p>Going forward, there are features and functionality that we, Aria’s development team, would like Aria
+                  to support. Below are a sampling of the pending features and functions.</p>
                 <section id="section71">
-                  <h3 id="seven.one">6.1 Accommodate Multiple Applications</h3>
+                  <h3 id="seven.one">6.1 Modify Exisitng Routing Rules</h3>
+                  <p>Aria's current implementation allows users to configure the initial traffic weights of the canary
+                    instances prior to Aria infrastructure deployment. However, in order to provide even more
+                    flexibility, we would like to provide users the ability to modify the traffic routing rule(s) for
+                    existing Aria deployments.
+                  </p>
                 </section>
               </div>
               <div class="inner">
                 <section id="section72">
-                  <h3 id="seven.two">6.2 Additional Rollout Strategies</h3>
+                  <h3 id="seven.two">6.2 AWS API Gateway Support</h3>
+                  <p>Currently, Aria deployments can only be initiated if the user’s existing infrastructure implements
+                    an application load balancer. However, many service-based architectures utilize the AWS API Gateway
+                    services to route traffic. We would like to extend Aria’s capability to add support for canary
+                    deployments where the user’s architecture utilizes an API Gateway.
+                  </p>
                 </section>
               </div>
               <div class="inner">
                 <section id="section73">
-                  <h3 id="seven.three">6.3 Flag Expiration</h3>
+                  <h3 id="seven.three">6.3 GCP & Azure Support</h3>
+                  <p>While AWS is currently the largest of the big three cloud computing providers, Microsoft Azure and
+                    Google Cloud still command a sizable share of the market. The next major step would be for Aria to
+                    support deployments to Microsoft Azure and Google Cloud. </p>
                 </section>
               </div>
             </div>
@@ -982,72 +995,68 @@
             <div class="content">
               <div class="inner">
                 <h2>9. Meet the Team</h2>
-                <p>Pioneer was built by a small team of dedicated individuals.</p>
-                <p>While our team has since moved on to other opportunities, if you are interested in the project and
-                  want
-                  to chat with us about it, please reach out!</p>
-
+                <p>Aria was built by a small team of dedicated individuals.</p>
               </div>
               <div class="box alt">
                 <div class="row gtr-uniform">
                   <div class="col-3 center">
-                    <img class="image fit align" src="./images/team_photos/jimmy-resize.png" alt="Jimmy Zheng" />
-                    <p>Jimmy Zheng</p>
+                    <img class="image fit align" src="./images/team_photos/sam.jpeg" alt="Sam Graham" />
+                    <p>Sam Graham</p>
                     <div class="row center">
-                      <a href="mailto:jimzhe842@gmail.com">
+                      <a href="mailto:segrah@gmail.com">
                         <img src="./images/email_icon-32.png" alt="">
                       </a>
-                      <a href="https://github.com/jimzhe842">
-                        <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Jimmy Zheng GitHub">
+                      <a href="https://github.com/samgrah">
+                        <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Sam Graham GitHub">
                       </a>
-                      <a href="https://www.linkedin.com/in/jimmy-zheng-977a821a3">
-                        <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Jimmy Zheng LinkedIn">
+                      <a href="https://www.linkedin.com/in/samgr">
+                        <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Sam Graham LinkedIn">
                       </a>
                     </div>
                   </div>
                   <div class="col-3 center">
-                    <img class="image fit align" src="./images/team_photos/laura.jpg" alt="Laura Davies" />
-                    <p>Laura Davies</p>
+                    <img class="image fit align" src="./images/team_photos/" alt="Yue Yan" />
+                    <p>Yue Yan</p>
                     <div class="row center">
-                      <a href="mailto:drljdavies@gmail.com">
+                      <a href="mailto:">
                         <img src="./images/email_icon-32.png" alt="">
                       </a>
-                      <a href="https://github.com/l-jdavies">
-                        <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Laura Davies Github">
+                      <a href="https://github.com/">
+                        <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Yue Yan Github">
                       </a>
-                      <a href="https://www.linkedin.com/in/laura-davies-3a5b1913a/">
-                        <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Laura Davies LinkedIn">
-                      </a>
-                    </div>
-                  </div>
-                  <div class="col-3 center">
-                    <img class="image fit align" src="./images/team_photos/kyle.jpg" alt="Kyle Ledoux" />
-                    <p>Kyle Ledoux</p>
-                    <div class="row center">
-                      <a href="mailto:kaledoux@gmail.com">
-                        <img src="./images/email_icon-32.png" alt="Kyle Ledoux email">
-                      </a>
-                      <a href="https://github.com/kaledoux">
-                        <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Kyle Ledoux GitHub">
-                      </a>
-                      <a href="https://www.linkedin.com/in/kaledoux">
-                        <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Kyle Ledoux LinkedIn">
+                      <a href="https://www.linkedin.com/in/">
+                        <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Yue Yan LinkedIn">
                       </a>
                     </div>
                   </div>
                   <div class="col-3 center">
-                    <img class="image fit align" src="./images/team_photos/liz.png" alt="Elizabeth Tackett" />
-                    <p>Elizabeth Tackett</p>
+                    <img class="image fit align" src="./images/team_photos/" alt="" />
+                    <p></p>
                     <div class="row center">
-                      <a href="mailto:emctackett@gmail.com">
-                        <img src="./images/email_icon-32.png" alt="Elizabeth Tackett email">
+                      <a href="mailto:">
+                        <img src="./images/email_icon-32.png" alt="email">
                       </a>
-                      <a href="https://github.com/emctackett">
-                        <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="Elizabeth Tackett GitHub">
+                      <a href="https://github.com/">
+                        <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="GitHub">
                       </a>
-                      <a href="https://www.linkedin.com/in/emctackett
+                      <a href="https://www.linkedin.com/in/">
+                        <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="LinkedIn">
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-3 center">
+                    <img class="image fit align" src="./images/team_photos/" alt="" />
+                    <p></p>
+                    <div class="row center">
+                      <a href="mailto:">
+                        <img src="./images/email_icon-32.png" alt="email">
+                      </a>
+                      <a href="https://github.com/">
+                        <img src="./images/GitHub-Mark/PNG/GitHub-Mark-32px.png" alt="GitHub">
+                      </a>
+                      <a href="https://www.linkedin.com/in/
 ">
-                        <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Elizabeth Tackett LinkedIn">
+                        <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="LinkedIn">
                       </a>
                     </div>
                   </div>
