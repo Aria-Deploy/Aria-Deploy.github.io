@@ -115,6 +115,7 @@ video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  left: 0 !important;
 }
 
 article,
@@ -138,6 +139,11 @@ body {
 ol,
 ul {
   list-style: none;
+}
+
+video {
+  max-width: 100%;
+  height: auto;
 }
 
 blockquote,
