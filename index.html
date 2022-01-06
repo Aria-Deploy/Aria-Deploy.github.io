@@ -96,7 +96,7 @@
   <!-- Wrapper -->
   <section id="wrapper">
     <a id="octocat" href="https://github.com/Aria-Deploy">
-      <img src="./images/GH-icons/GH-64px.png" alt="">
+      <img src="./images/GH-icons/GH-64px.png" alt="Github Icon" />
     </a>
     <!-- Intro -->
     <section id="intro" class="wrapper style1 fullscreen fade-up">
@@ -112,990 +112,991 @@
         </ul>
       </div>
     </section>
+  </section>
 
-    <!-- One -->
-    <section id="one" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>1. Introduction & Use Case</h2>
-            <p>Canary deployment is a technique that allows revisions of an application or service, referred to as the
-              canary, to be analyzed using a subset of the real network traffic. This deployment technique minimizes
-              potential errors and risks for the majority of users by targeting a minority of the user base. (Çeliku
-              1) Canary deployments are sophisticated, require considerable configuration, and can be time consuming
-              to both implement and analyze.</p>
-            <p>Aria is a tool which allows users to simplify the creation, configuration, and analysis of canary
-              deployments. Aria automates much of the onerous infrastructure management while providing the user with
-              the safety and data analysis benefits of canary deploys. Thus, Aria allows the user to focus on
-              configuration which meaningfully impacts analysis of changes to production software.</p>
-          </div>
-          <div class="inner">
-            <section id="section11">
-              <h3>1.1 Hypothetical</h3>
-              <p>To better understand the use case for Aria, consider ChartHealth – a hypothetical company that
-                provides an electronic medical record software. ChartHealth’s product manages sensitive patient
-                information with a user base spanning hundreds of health care facilities nationally. The ChartHealth
-                product includes features such as: reading/writing to electronic medical records (EMR), aggregation of
-                patient statistics, and data science models used to identify trends across EMRs.</p>
-              <img class="image fit" style="width: 100%;" src="./images/aria_visuals/pngs/charthealth.png"
-                alt="Screenshot showing ChartHealth's homepage.">
-              <p>Recently, ChartHeath has expanded its business to include facilities in most US states spanning from
-                Hawaii to Maine. Additionally, ChartHealth’s software product has grown in complexity due to feature
-                additions as demanded by customers and evolving regulations. These additions have resulted in a rapid
-                growth of both the number of developers employed by the company and size of the product codebase. As a
-                result of expansion to facilities across five time zones, ChartHealth’s product must now have
-                practically zero downtime in order to not lose business to competitors offering similar products.</p>
-              <img class="image fit" style="width: 90%;" src="./images/aria_visuals/pngs/monolith_to_microservices.png"
-                alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
-              <p>In order to meet these new challenges, ChartHealth has decided to migrate their current on-site
-                monolith architecture to a cloud-based microservice architecture. As a result of the planned
-                migration, the company’s monolithic product codebase has been split into multiple services owned and
-                operated by different teams of developers.</p>
-            </section>
-            <section id="section12">
-              <h3>1.2 The Problem with Traditional Deployments</h3>
-              <div class="text-animation">
-                <p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a
-                  traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or
-                  large parts of an application in one operation. The inherent downsides to big-bang deployments
-                  include: exposure of all users to issues due to software changes, longer delays between deployments,
-                  extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able
-                  to manage these downsides prior to the recent expansion, when it’s smaller developer team could more
-                  easily manage and comprehend the entire codebase.</p>
-                <video width="309px" height="447px" style="margin-left: 2em; margin-bottom: 2%;" autoplay muted loop>
-                  <source src="./images/aria_visuals/videos/traditional_deployment.mp4">
-                </video>
-              </div>
-              <p>In the context of ChartHealth’s planned service-based architecture, there are multiple reasons that
-                the ‘big-bang’ approach is no longer appropriate. First, for example, the EMR management feature must
-                be as high-integrity as possible to satisfy government regulations. Simply replacing the EMR service
-                for all users in one ‘big-bang’ presents unreasonable risk which may result in inaccurate records
-                capture or deletion. Second, even on a service-by-service basis, if issues with new revisions of a
-                service are encountered, rolling back production to previous revisions of the service will likely
-                result in undesired downtime (Skowronski et al).</p>
-              <p>With the understanding that their deployment technique must change, ChartHealth’s technical
-                leadership undertakes a review of the modern deployment techniques and finds a plethora of options.
-              </p>
-            </section>
-          </div>
+  <!-- One -->
+  <section id="one" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>1. Introduction & Use Case</h2>
+          <p>Canary deployment is a technique that allows revisions of an application or service, referred to as the
+            canary, to be analyzed using a subset of the real network traffic. This deployment technique minimizes
+            potential errors and risks for the majority of users by targeting a minority of the user base. (Çeliku
+            1) Canary deployments are sophisticated, require considerable configuration, and can be time consuming
+            to both implement and analyze.</p>
+          <p>Aria is a tool which allows users to simplify the creation, configuration, and analysis of canary
+            deployments. Aria automates much of the onerous infrastructure management while providing the user with
+            the safety and data analysis benefits of canary deploys. Thus, Aria allows the user to focus on
+            configuration which meaningfully impacts analysis of changes to production software.</p>
         </div>
-      </section>
-    </section>
-
-    <!-- Two -->
-    <section id="two" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>2. Modern Deployments</h2>
-            <p>In the context of microservice architectures, the goal of modern deployment practices is to achieve
-              small and frequent service revision releases which result in zero downtime. While each of the many
-              unique deployment techniques share this characteristic, the approaches can be distinguished by their
-              tradeoffs.</p>
-            <p>With the understanding that a modern deployment strategy must be employed to facilitate deployment of
-              revisions on a service-by-service basis, ChartHealth begins exploring the landscape of modern
-              deployments. The company specifically seeks to understand which of the deployment types are most
-              commonly employed. ChartHealth contacts multiple companies which provide deployment solution products
-              and requests usage data from those suppliers.</p>
-            <center>
-              <img style="padding-bottom: 20px; display: block; margin-left: -12%;" width="70%" height="70%"
-                src="./images/aria_visuals/pngs/vamp_and_harness_surveys.png"
-                alt="Bar graph depicting Vamp and Harness modern deployment usage surveys.">
-            </center>
-            <p>The above chart was compiled from customer surveys conducted by two market-leading providers of
-              Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that
-              the four most common deployment techniques between the customer bases of both companies are: big bang,
-              rolling, blue/green, and canary.(Vamp)(Harness)</p>
-            <section id="section21">
-              <h3 id="two.one">2.1 Rolling Deployment</h3>
-              <video style="padding-bottom: 13px; margin-left: -1%;" width="765px" height="125px" autoplay muted loop>
-                <source src="./images/aria_visuals/videos/rolling_deployment.mp4">
+        <div class="inner">
+          <section id="section11">
+            <h3>1.1 Hypothetical</h3>
+            <p>To better understand the use case for Aria, consider ChartHealth – a hypothetical company that
+              provides an electronic medical record software. ChartHealth’s product manages sensitive patient
+              information with a user base spanning hundreds of health care facilities nationally. The ChartHealth
+              product includes features such as: reading/writing to electronic medical records (EMR), aggregation of
+              patient statistics, and data science models used to identify trends across EMRs.</p>
+            <img class="image fit" style="width: 100%;" src="./images/aria_visuals/pngs/charthealth.png"
+              alt="Screenshot showing ChartHealth's homepage.">
+            <p>Recently, ChartHeath has expanded its business to include facilities in most US states spanning from
+              Hawaii to Maine. Additionally, ChartHealth’s software product has grown in complexity due to feature
+              additions as demanded by customers and evolving regulations. These additions have resulted in a rapid
+              growth of both the number of developers employed by the company and size of the product codebase. As a
+              result of expansion to facilities across five time zones, ChartHealth’s product must now have
+              practically zero downtime in order to not lose business to competitors offering similar products.</p>
+            <img class="image fit" style="width: 90%;" src="./images/aria_visuals/pngs/monolith_to_microservices.png"
+              alt="Diagram showing ChartHealth's migration from monolith to microservices architecture.">
+            <p>In order to meet these new challenges, ChartHealth has decided to migrate their current on-site
+              monolith architecture to a cloud-based microservice architecture. As a result of the planned
+              migration, the company’s monolithic product codebase has been split into multiple services owned and
+              operated by different teams of developers.</p>
+          </section>
+          <section id="section12">
+            <h3>1.2 The Problem with Traditional Deployments</h3>
+            <div class="text-animation">
+              <p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a
+                traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or
+                large parts of an application in one operation. The inherent downsides to big-bang deployments
+                include: exposure of all users to issues due to software changes, longer delays between deployments,
+                extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able
+                to manage these downsides prior to the recent expansion, when it’s smaller developer team could more
+                easily manage and comprehend the entire codebase.</p>
+              <video width="309px" height="447px" style="margin-left: 2em; margin-bottom: 2%;" autoplay muted loop>
+                <source src="./images/aria_visuals/videos/traditional_deployment.mp4">
               </video>
-              <p>Rolling deployments introduce service revisions by incrementally replacing the current production
-                service code on each of multiple nodes within the architecture. This type of deployment is only
-                applicable if there are multiple instances of the same service operating in production. An
-                interesting, and perhaps desirable, aspect of rolling deployments is that the current production and
-                new revision of a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling
-                deployments can also target specific user groups according to region, IP address, and a variety of
-                other traffic differentiators.</p>
-              <table class="proscons">
-                <tr>
-                  <th>PROS</th>
-                  <th>CONS</th>
-                </tr>
-                <tr>
-                  <td>Rollout status transparency and control</td>
-                  <td>Extended deployment timeframe</td>
-                </tr>
-                <tr>
-                  <td>Risk limited to a subset of users</td>
-                  <td>Not suitable for all-or-nothing changes</td>
-                </tr>
-              </table>
-            </section>
-          </div>
-          <div class="inner">
-            <section id="section22">
-              <h3 id="two.two">2.2 Blue/Green Deployment</h3>
-              <div class="text-animation">
-                <p>Blue/green deployments require two environments: blue and green. The first environment, green
-                  within the above diagram, is the current production environment. The second blue environment is an
-                  almost exact replica of the green (production) environment. The only difference between their
-                  content is the revision of the target service. After the newly introduced blue domain has completed
-                  initialization, a network switch or load
-                  balancer routes 100% of the incoming network traffic to either blue or green environments
-                  exclusively.</p>
-                <video width="448px" height="380px" autoplay muted loop>
-                  <source src="./images/aria_visuals/videos/blue_green_deployment.mp4">
-                </video>
-              </div>
-              <p>As the deployment progresses, the traffic router redirects traffic to and from the blue or green
-                domains on an as needed basis. At any point in time, only one of the deployments is processing
-                incoming network traffic. The traffic router can maintain routing to the blue environment if the
-                service revision performance is acceptable. At this point, the blue environment effectively achieves
-                production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
-              <table class="proscons">
-                <tr>
-                  <th>PROS</th>
-                  <th>CONS</th>
-                </tr>
-                <tr>
-                  <td>Instantaneous rollout and rollback</td>
-                  <td>Duplicate production resources required</td>
-                </tr>
-                <tr>
-                  <td>Simple disaster recovery</td>
-                  <td>Entire user-base exposed to service revision issues</td>
-                </tr>
-              </table>
-            </section>
-          </div>
-          <div class="inner">
-            <section id="section23">
-              <h3 id="two.three">2.3 Canary Deployment</h3>
-              <div class="text-animation">
-                <p>This technique involves introducing a revised instance of a service, referred to as the canary,
-                  into the same production environment as the current production version of the service. A load
-                  balancer routes a minority of the incoming network traffic to be served by the canary instance.
-                  During the canary deployment, a majority of the network traffic continues to be served by the
-                  production service. The instance is continually analyzed such that any newly introduced issues can
-                  be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming
-                  network traffic is directed to the canary instance initially, data on its performance is collected
-                  and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis
-                  (Sato).</p>
-                <video width="291px" height="481px" style="margin-left: 2em;" autoplay muted loop>
-                  <source src="./images/aria_visuals/videos/canary_deployment.mp4">
-                </video>
-              </div>
-              <p>The load balancer can divide incoming traffic based on many different criteria including: sticky
-                sessions, geographical region, packet addresses, packet headers, etc. This allows for the canary
-                service to be targeted at specific users or user groups despite executing within the production
-                environment.</p>
-              <table class="proscons">
-                <tr>
-                  <th>PROS</th>
-                  <th>CONS</th>
-                </tr>
-                <tr>
-                  <td>Minimal risk exposure to user-base</td>
-                  <td>Onerous configuration</td>
-                </tr>
-                <tr>
-                  <td>High-fidelity canary analysis</td>
-                  <td>Extended deployment timeframe</td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td>Disaster recovery can be complex</td>
-                </tr>
-              </table>
-            </section>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- Three -->
-    <section id="three" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>3. Choosing the Right Deployment Strategy</h2>
-            <p>First and foremost, a deployment strategy should both align with and serve business goals. For example,
-              a
-              service owner may prioritize zero downtime when rolling out service updates because customers require
-              access to medical information regardless of the time of day. Some of the other considerations may
-              include;
-              cost, engineering skill set, available testing tools, potential schema changes, and others. (Google SRE)
+            </div>
+            <p>In the context of ChartHealth’s planned service-based architecture, there are multiple reasons that
+              the ‘big-bang’ approach is no longer appropriate. First, for example, the EMR management feature must
+              be as high-integrity as possible to satisfy government regulations. Simply replacing the EMR service
+              for all users in one ‘big-bang’ presents unreasonable risk which may result in inaccurate records
+              capture or deletion. Second, even on a service-by-service basis, if issues with new revisions of a
+              service are encountered, rolling back production to previous revisions of the service will likely
+              result in undesired downtime (Skowronski et al).</p>
+            <p>With the understanding that their deployment technique must change, ChartHealth’s technical
+              leadership undertakes a review of the modern deployment techniques and finds a plethora of options.
             </p>
-            <p>Upon reviewing the above described deployment methods, disagreement arose between the ChartHealth
-              developer teams. The team responsible for the Stats service favored the Big Bang approach. The team
-              responsible for the Trends service felt that Blue/Green deployments were more suitable for the
-              development
-              and release cadence of their service. The medical records team, chiefly concerned with data integrity,
-              rejected all deployment types except canary deployment.</p>
-            <object style="width: 100%; margin-bottom: 2%;"
-              data="./images/aria_visuals/svgs/EMRChooseCanary-Deployment Chart.svg" type="image/svg+xml"></object>
-            <p>A major benefit of adopting a microservices architecture is the decoupling that can be achieved between
-              services. Decoupling between services can be expressed in terms of how the service is developed,
-              implemented, and deployed independent of one another (Indrasiri). Thus, although each of the ChartHealth
-              development teams disagree on which deployment technique to utilize, each can be satisfied by adopting
-              the
-              deployment technique of their choosing.</p>
-            <p>Upon reviewing common modern deployments, the ChartHealth EMR service development team elected to adopt
-              canary deployments. The deciding factor was that medical record data integrity is paramount. The
-              development team is first and foremost concerned about minimizing risk of issues being presented by new
-              service revisions which could result in incorrect or missing patient medical data.</p>
-            <section id="section31">
-              <h3 id="three.one">3.1 Canary Analysis</h3>
-              <p>The most encompassing definition of canary deployment may be:</p>
-              <blockquote>deployment which consists of gradually shifting the network traffic [within the production
-                environment] from the old application version to the new application version (Çeliku 13)</blockquote>
-              <p>This language is very broad but may be the only definition which satisfies the myriad implementations
-                across companies. Some organizations implement simplistic deployments which are little more than
-                automated traffic splitters (Mitreski). Others divide HTTP traffic such that individual user sessions
-                are handled by the canary or production service revision exclusively (Tucker). Some implementations
-                combine canary release with other deployment techniques such as Blue/Green (Ehmke).</p>
-              <p>While there are many axes over which canary deployments can be divided, there are two groupings based
-                on historical progression of the technique (Çeliku 2) (CD Foundation). While no formal terminology
-                exists for this variation in canary analysis techniques, these implementations can be referred to as
-                manual canary analysis and automated canary analysis.</p>
-              <div class="inner">
-                <h4 id="three.one.one">3.1.1 Manual Analysis</h4>
-                <object style="width: 100%;" data="./images/aria_visuals/svgs/Manual_Analysis.svg"
-                  type="image/svg+xml"></object>
-                <p>From inception, canary deployment required human intervention at one or more stages of the process.
-                  This manual approach required engineer review of data representing the health of the deployment. In
-                  order to achieve this ‘manual analysis’ approach, tools which summarize canary performance metrics
-                  and/or event logs for human consumption are required. After review, the engineer determines whether
-                  to
-                  continue or halt the canary deployment. Considering this approach as manual canary analysis, the
-                  method was the only available until recently.</p>
-                <h4 id="three.one.two">3.1.2 Automated Analysis</h4>
-                <p>Eventually, statistical techniques improved such that continuous delivery of canary deployments
-                  could
-                  be achieved without human intervention (Graff). While automation of manual canary analysis had
-                  simply
-                  been a matter of implementation, the statistical techniques had lacked the fidelity to properly
-                  determine if a canary deployment was operating at a tolerable level of risk.</p>
-                <object style="width: 100%; margin-bottom: 1rem;"
-                  data="./images/aria_visuals/svgs/Automated_Analysis.svg" type="image/svg+xml"></object>
-                <p>Automated canary analysis utilizes an automated judge. The judge performs statistical analysis of
-                  canary performance metrics stored as time-series data. The judge computes an overall score based on
-                  a
-                  comparison of the metric data against specified priorities, weights, and thresholds. The overall
-                  score
-                  is then compared against a predefined threshold to determine if the canary instance is fit to
-                  replace
-                  the current service revision. The upside of automated canary analysis is a fully automated delivery
-                  pipeline.</p>
-                <p>However, the ChartHealth EMR service developer team recognizes that automated canary analysis
-                  requires a high-degree of trust in the automated system. Given that their priority is focused on
-                  complete fidelity of medical records management, the developer team elects not to utilize automated
-                  canary analysis. However, the team is wants to leverage the advanced statistical techniques utilized
-                  by automated canary analysis to more precisely understand the performance impacts of new revisions
-                  (Vamp).</p>
-              </div>
-            </section>
-          </div>
-          <div class="inner">
-            <section id="section32">
-              <h2 id="three.two">3.2 Survey of Existing Solutions</h2>
-              <p>Armed with a more detailed understanding of the type of canary deployment it is seeking, ChartHealth
-                then takes inventory of the products and open source solutions which facilitate canary deployments.
-              </p>
-              <p>ChartHealth discovers that the existing solutions can be divided into three categories which can be
-                referred to as: platform services, orchestrator plugins, and standalone solutions.</p>
-              <object style="width: 100%;" data="./images/aria_visuals/svgs/3ProductCategories.svg"
-                type="image/svg+xml"></object>
-              <p>Platform services are solutions constructed from managed services offered by infrastructure
-                providers.
-                While the infrastructure services provider abstracts away the low level details of infrastructure
-                creation and management, it is the responsibility of the user (in this instance a ChartHealth
-                engineer)
-                to define and manage the infrastructure at a high level. The user composes and deploys the instances
-                which house the canary service(s) and performance observability products. Of the three categories,
-                platform services require ChartHealth’s EMR services developer team to have a DevOps skill set in
-                addition to software engineering. Examples of canary deployments which utilize platform services
-                include
-                implementations by companies such as HolidayCheck (McAllister), and Klarna (Mitreski).</p>
-              <p>Orchestrator plugins are another category of solutions. These are third-party plugins such as
-                Serverless, Argo Rollouts, and Kong Canary Release. These plugins are designed to integrate into
-                control-plane orchestration products such as Kubernetes or Istio. The options for tailoring a canary
-                deployments using plugin products are constrained by the limitations of the control plane itself,
-                usually resulting in more primitive canary deployments. ChartHealth immediately recognizes that one of
-                the major limitations of these solutions is the inherent requirement that the control plane product
-                must
-                be utilized as well. Control plane products are high in overhead, especially considering ChartHealth’s
-                microservice architecture is not as complex as the environments that control planes are meant to
-                manage.
-              </p>
-              <p>The standalone category refers to software-as-a-service (SaaS) or open-source platforms. These
-                products
-                can integrate with control plane orchestrators but can also perform canary deployments independently.
-                Canary releases are not the focus of but rather one of many features offered by these products. Some
-                products, such as those offered by Octopus Deploy and Vamp, are paid-for SaaS solutions. The
-                open-source
-                solution in this category is Spinnaker. Like its SaaS equivalents, Spinnaker is a comprehensive
-                product
-                which offers many more features than canary deployments but requires a significant time investment to
-                setup and maintain. Within this category, Spinnaker and Vamp are unique products in that both offer
-                automated canary analysis.</p>
-              <h4 id="three.two.one">3.2.1 Evaluating Exisitng Solutions</h4>
-              <p>After surveying available canary deployment solutions, the ChartHeath EMR service developer team has
-                decided that none are quite the right fit for their needs. They are not interested in platform
-                services
-                products because ChartHeath’s software engineering organization lacks DevOps experience. ChartHealth
-                does not stand alone in this regard. A DevOps survey conducted by Atlassian and CITE Research found
-                that
-                46% of companies have 3 years or less of DevOps experience, and that 37% of companies reported that
-                the
-                barrier to DevOps implementation is due to a lack of employee skills (Atlassian). For these reasons,
-                ChartHealth does not believe its engineering staff is currently capable of managing a platform service
-                solution.</p>
-              <object style="width: 80%; display: block; margin: 0 auto 0;"
-                data="./images/aria_visuals/svgs/DevOps Stats.svg" type="image/svg+xml"></object>
-              <p>The development team also decided against orchestrator plugin solutions due to the overhead of
-                implementing a control plane product. ChartHealth’s planned three service architecture does not
-                justify
-                a control product more complex than the microservice architecture itself.</p>
-              <p>Ideally, the development team would choose to implement Spinnaker in order to further reduce
-                deployment
-                risk by utilizing the Kayenta automated canary analysis package. Spinnaker allows for configuration of
-                canary deployments via a streamlined UI. However, similar to the orchestrator plugin solutions, the
-                standalone solutions are too complex relative to the task of deploying the lone EMR service within a
-                wider architecture.</p>
-              <p>While none of the other existing solutions satisfy ChartHealth’s EMR service development team, this
-                use
-                case is precisely that which Aria is meant to address.</p>
-            </section>
-          </div>
-      </section>
-    </section>
-
-    <!-- Four -->
-    <section id="four" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>4. Introducing Aria</h2>
-            <p>Because the existing third-party solutions don't fit the needs of the ChartHealth engineering team,
-              they have chosen to use Aria, a canary deployment & infrastructure management tool.</p>
-            <div class="inner">
-              <section id="section41">
-                <h3 id="four.one">4.1 What is Aria?</h3>
-                <p>Aria is an open-source, self-hosted canary deployment tool that helps developers quickly manage
-                  the
-                  lifecycle of canary deployments. Aria focuses the user on application specific configuration to
-                  achieve a high fidelity automated analysis of the deployment performance.</p>
-                <object style="width: 110%;" data="./images/aria_visuals/svgs/Aria Overview Arch.svg"
-                  type="image/svg+xml"></object>
-                <p>Aria provides a user-interface (UI) based application that allows engineers to easily configure,
-                  deploy, review status of, and destroy the above described resources within their production or
-                  staging environment of choice. As of the first iteration of the tool, Aria inserts the canary
-                  analysis infrastructure to Virtual Private Clouds (VPCs) provided by Amazon Web Services (AWS).
-                  More
-                  specifically, Aria inserts infrastructure such that network traffic is routed by an existing
-                  application load balancer (ALB) to be served by the Aria defined canary instances.</p>
-                <p>Each Aria managed deployment is composed of three instances: canary, baseline, and monitor. A
-                  specified subset of incoming production traffic is redirected from the production infrastructure
-                  to
-                  the canary and baseline instances. The monitoring instance contains tooling for both performance
-                  metrics and canary specific analysis enabling side-by-side comparison of the current and a
-                  revision
-                  to the production application.</p>
-                <img style="width: 140%; margin: -12%; margin-left: -35%;"
-                  src="./images/aria_visuals/pngs/Infrastructure_Isometric.png" />
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section42">
-                <h3 id="four.two">4.2 Where Aria Fits</h3>
-                <ul class="alt">
-                  <li>
-                    <p>When comparing Aria with other alternatives like existing 3rd-party solutions and platform
-                      services, Aria stands out in multiple ways.</p>
-                  </li>
-                  <li>
-                    <div style="display: flex;">
-                      <p>First, Aria shines by <strong>self-provisioning</strong> all the necessary resources needed
-                        to achieve advanced statistical analysis utilizing Kayenta. Furthermore, Aria deploys
-                        monitoring services Prometheus and Grafana, allowing users a clear view into the current
-                        state of the deployment.</p>
-                      <img style="width: 60%; height: 60%;" src="./images/aria_visuals/pngs/Analysis Tools.png" />
-                    </div>
-                  </li>
-                  <li>
-                    <p>Second, Aria was built with <strong>accessibility</strong> in mind. As opposed to other
-                      canary deployment tools that have an overwhelming amount of configuration and unclear
-                      documentation, Aria displays a simple single page UI that facilitates deployment creation and
-                      configuration. The UI focuses on meaningful configuration analysis and select targeting of a
-                      subset of the user-base per deployment. </p>
-                  </li>
-                  <li>
-                    <p>Third, Aria is <strong>open-source</strong>. Companies that want to experiment with canary
-                      deployments may not want to invest in third-party solutions which can be quite costly or
-                      cannot
-                      be customized.</p>
-                  </li>
-                </ul>
-                <p>Taking all these together, Aria, being easy to use, free, and abstracting much of the
-                  complexity
-                  that comes with a canary deployment, is a perfect fit for a small company like ChartHealth that
-                  wants to get its feet wet with canary deployments and advanced canary analysis. Being able to
-                  create
-                  and destroy all of the resources necessary to deploy a canary with just a few clicks allows
-                  developers to explore canary deployment and analysis without having to invest too much effort
-                  and
-                  time.</p>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section43">
-                <h3 id="four.three">4.3 Why Choose Aria?</h3>
-                <p>Deploying infrastructure and configuration in support of advanced statistical analysis of canary
-                  deployments is both tedious and complex. To implement this approach, developers must be concerned
-                  with traffic splitting rules; how to configure the traffic weights, and how to set up traffic
-                  monitoring and analysis. In addition to configuration, engineering teams must also provision the
-                  infrastructure associated with the deployment and setup observability tools in concert with that
-                  infrastructure. With Aria, infrastructure creation and tedious configuration is automated and
-                  abstracted behind an intuitive UI. Furthermore, if any issues arise with the canary instance,
-                  traffic can be easily removed from the canary, rolling back to the previous pre-canary stable
-                  environment. With these tasks addressed by Aria, developers are more willing to try canary
-                  deployments and can benefit from its data analysis features.</p>
-                <object style="width: 90%; margin-bottom: 5%; margin-top: -2%; margin-left: 7%;"
-                  data="./images/aria_visuals/svgs/AriaVsCompetitors.svg" type="image/svg+xml"></object>
-                <p>Aria was built specifically to lower the barrier for developers that want to try canary
-                  deployments
-                  and analysis tools. It is simple to configure the canary settings and to use Aria’s
-                  straightforward
-                  UI in order to meaningfully configure and manage canary deployment infrastructure. Rolling back is
-                  easy if the new service revision is performing poorly -- with just a click of a button.</p>
-              </section>
-            </div>
-            <div class="inner">
-              <section id="section44">
-                <h3 id="four.four">4.4 Using Aria</h3>
-                <p>Aria use can be broken down into three main UI interactions which correspond to the lifecycle of
-                  an
-                  Aria canary deployment. First, a user configures the infrastructure to be deployed to the
-                  accessible
-                  environment (VPC) of their choice. Once the application has been deployed, the user has the
-                  ability
-                  to view the status and health of individual Aria deployments. Lastly, with one click, the user can
-                  tear down the Aria canary deployment such that the initial state of the environment is restored.
-                </p>
-                <h4 id="four.four.one">4.4.1 Local Environment Setup</h4>
-                <p>In order to interface with AWS services, Aria requires that the user’s local development
-                  environment include the AWS CDK Toolkit, AWS CLI, and their AWS account credentials. Aria is
-                  launched by invoking <code>npm start</code> terminal command which subsequently launches the UI
-                  and the
-                  backend
-                  API processes.
-                  Upon launching the Aria UI, the user is prompted to select one of the locally defined AWS
-                  profiles.
-                  Aria automatically fetches all relevant AWS resource data, Aria deployments, and status
-                  information
-                  accessible by the selected AWS profile.</p>
-                <h4 id="four.four.two">4.4.2 Configuration & Creation</h4>
-                <img id="creation" style="width: 80%; display: block; margin: 0 1em 5%;"
-                  src="./images/aria_visuals/gifs/cropped_faster_medium.gif" alt="Aria Creation GIF" />
-                <p>Along with giving the canary a title and description. The user is
-                  presented with a Aria deployment
-                  creation form. Within the form, traffic splitting can be configured by selecting a traffic weight
-                  and rule priority. Optional settings, such as sticky sessions which enables re-routing of users to
-                  the same target group on subsequent requests, can also be toggled on/off. The user can also
-                  specify
-                  under what conditions traffic will be forwarded to the new canary and baseline target groups.
-                  Finally, the user provides the docker image and docker-compose files that specify how the Docker
-                  containers should be run on the new instances. The canary can then be deployed with one click.
-                </p>
-                <h4 id="four.four.three">4.4.3 Management</h4>
-                <p>Once deployed, the user can view the statuses of the provisioned instances along with their event
-                  logs in a simple and streamlined dashboard. This information can be accessed via the ‘Status’ menu
-                  item in the sidebar. The displayed table conveys the state, status, and target health of all the
-                  three provisioned instances that were created for each of the Aria deployments. Each entry within
-                  the status table also contains a link to view the event logs of that instance.</p>
-                <p>Within the summary of each deployment, accessible via the ’Deployment’ sidebar menu item, are
-                  links
-                  to the Prometheus, Grafana, Kayenta and Referee monitoring tools. These tools are automatically
-                  configured and created by Aria when the canary is provisioned, and are automatically set-up to
-                  monitor the canary and baseline instances. </p>
-                <img style="width: 90%; height: 90%; display: block; margin: -4% auto 1%;"
-                  src="./images/aria_visuals/pngs/Aria_Mgmt.png" />
-                <h4 id="four.four.four">4.4.4 Teardown</h4>
-                <p>When the user is satisfied with the canary deployment progress, the canary, baseline, and
-                  monitoring instances can be torn down with one easy click of the ‘Destroy’ button. This button can
-                  be accessed within the deployment specific summary. After destroying an Aria deployment, the
-                  production environment is restored to its previous state wherein all incoming network traffic is
-                  routed to the current production service.</p>
-              </section>
-            </div>
-          </div>
+          </section>
         </div>
-      </section>
-    </section>
-
-    <!-- Five -->
-    <section id="five" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>5. Technial Deep Dive</h2>
-            <section id="section51">
-              <h3 id="five.one">5.1 AWS CloudFormation, CDK, and SDK</h3>
-              <p>Aria interacts with an existing AWS environment through the use of AWS CloudFormation (CFN), the
-                AWS Cloud Development Kit (CDK), and the AWS Software Development Kit (SDK). </p>
-              <object style="width: 90%; display: block; margin: -2% auto 5%;"
-                data="./images/aria_visuals/svgs/CDK SDK CFN.svg" type="image/svg+xml"></object>
-              <p>AWS CloudFormation is an infrastructure-as-code (IaC) tool allowing for the provisioning and
-                configuration of AWS resource stacks based on developer-defined templates. AWS CDK builds on
-                CloudFormation by allowing users to express their desired stack programmatically in terms of code,
-                which can be then translated into a CloudFormation template. The template is then used to
-                provision, deploy, and destroy the resources comprising an Aria deployment’s canary
-                infrastructure. </p>
-              <p>While the CDK is specialized for deploying and destroying resources, there are some tasks for
-                which it is not well-suited. The AWS SDK is a more low-level and flexible tool for building
-                applications that can interact with a variety of AWS services. Aria uses the SDK for all AWS tasks
-                which cannot be done easily (or at all) with the CDK. Some examples of these Aria tasks include
-                fetching AWS profiles from a user’s local data, fetching resource and configuration info
-                associated with those profiles, and configuring an existing AWS Application Load Balancer to route
-                traffic to canary infrastructure.
-              </p>
-            </section>
-            <section id="section52">
-              <h3 id="five.two">5.2 Traffic Routing with AWS Application Load Balancers</h3>
-              <p>A canary deployment requires that some amount of traffic be split between the production version
-                of an application and the canary version. Traffic routing is typically accomplished via a load
-                balancer, an application that receives network traffic and redistributes it equitably between a
-                number of servers. Aria implements traffic routing by making use of the capabilities of an AWS
-                Application Load Balancer (or ALB).</p>
-              <p>Aria is designed to work with AWS production environments where an existing ALB routes traffic to
-                instances of a production application. The ALB routes traffic at the application layer and
-                provides a rich feature set for routing HTTP/HTTPS traffic.</p>
-              <object style="width: 50%; display: block; margin-left: auto; margin: -2% auto 5%; "
-                data="./images/aria_visuals/svgs/Default ALB.svg" type="image/svg+xml"></object>
-              <p>ALBs have one or more listeners, which are defined by a port and protocol, such as HTTP traffic
-                on port 80. Each listener also has one or more rules. When a listener receives a piece of traffic,
-                it applies each rule in order of priority. If a piece of traffic meets the condition to trigger a
-                rule, a specific action (such as forwarding or redirecting the request) occurs.
-              </p>
-              <p>Aria canary deployments create a new rule on an existing ALB listener. By setting this rule at a
-                high priority, it can supersede the normal behavior of the listener. Traffic that triggers the
-                Aria rule is forwarded to three target groups. One contains the production version of the
-                application, one the baseline version of the application, and one the canary version of the
-                application (the baseline and canary target groups receive equal amounts of traffic). Aria also
-                configures the listener to perform a health check on a path specified by the user; this means that
-                the canary infrastructure won’t receive traffic until it is ready and responsive. Finally, when
-                Aria destroys a canary deployment, it destroys the rule it put on the ALB listener, which then
-                resumes the routing behavior it exhibited prior to the Aria deployment.
-              </p>
-              <object style="width: 60%; display: block; margin: -2% auto 5%; "
-                data="./images/aria_visuals/svgs/ALB with Aria Rule.svg" type="image/svg+xml"></object>
-              <p>The rules that Aria creates can be conditionally applied, so canary traffic can be limited to by
-                filters such as a particular HTTP request method, HTTP header value, or URL path pattern. Sticky
-                sessions can also be implemented, ensuring that users from a given IP address will always return
-                to the version of the application they were originally routed to. Refreshing the browser will not
-                suddenly take a user from the canary application to the production version.
-              </p>
-            </section>
-            <section id="section53">
-              <h3 id="five.three">5.3 Baseline and Canary Instances</h3>
-              <p>Canary deployments require a new canary version of an application, but It is also considered good
-                practice to deploy a baseline version of the application as well. The baseline application is
-                identical to the production application, but instances running it are created alongside canary
-                instances. This minimizes time-sensitive variance in performance between the old and new versions
-                of the software. Comparing a baseline and a canary results in a better analysis than by
-                comparing the existing production instances and the canary.
-              </p>
-              <object style="width: 55%; display: block; margin: -2% auto 5%;"
-                data="./images/aria_visuals/svgs/Baseline_Canary.svg" type="image/svg+xml"></object>
-              <p>Aria deploys the baseline and canary applications to AWS EC2 instances. These instances are
-                automatically configured with both Docker and Docker Compose. For both the baseline and canary
-                versions, the user prepares Docker image files (as tarball archives) and Docker Compose files
-                which are transferred to the instances and used to initialize the applications.
-              </p>
-              <p>Aria also installs the application Node Exporter on each of these instances. Node Exporter is
-                further described below. </p>
-            </section>
-            <section id="section54">
-              <h3 id="five.four">5.4 Monitor Instance</h3>
-              <p>The final resource deployed by Aria is the Monitor Instance. This EC2 instance holds a suite of
-                monitoring and analysis tools to help the user investigate their canary application.</p>
-              <object style="width: 60%; display: block; margin: -2% auto 5%;"
-                data="./images/aria_visuals/svgs/monitor instance.svg" type="image/svg+xml"></object>
-              <p>Like the Baseline and Canary instances, Aria also installs Docker and Docker Compose. All of the
-                tools are containerized and run as part of an interconnected Docker network. Each tool is
-                immediately ready to use. The tools fall into two categories: monitoring and analysis. Monitoring
-                tools collect, store, and display metrics data generated by the applications in the canary
-                infrastructure. In contrast, analysis tools process those metrics to provide insight and
-                recommendations regarding the canary.
-              </p>
-            </section>
-            <section id="section55">
-              <h3 id="five.five">5.5 Monitoring with Prometheus and Graphana</h3>
-              <p>Prometheus is a popular open-source time-series database used to log metrics from targets. The
-                Prometheus server operates on an HTTP pull model, scraping metrics from targets at configured
-                intervals by making HTTP requests. These metrics are stored on disc as time series data which may
-                then be queried and visualized in the Prometheus front-end using the PromQL query language.
-                Prometheus can identify targets through service discovery, and Aria automatically configures
-                Prometheus to allow it to begin collecting metrics from deployed baseline and canary EC2 instances
-                immediately. </p>
-              <p>In addition to Prometheus, Aria also installs Grafana, a graphical interface and dashboard
-                builder. An Aria user may configure Grafana to display rich visualizations of multiple queries,
-                able to compare the baseline and canary instances at a glance.
-              </p>
-              <p>Prometheus collects metrics by pulling from HTTP endpoints. These endpoints can exist on two
-                kinds of targets: an exporter, or an instrumented application. Aria supports both.
-              </p>
-              <object style="width: 100%; display: block; margin: -2% auto 5%;"
-                data="./images/aria_visuals/svgs/Canary and Monitor.svg" type="image/svg+xml"></object>
-              <p>An exporter is a stand-alone application that collects metrics and exposes them for Prometheus to
-                use. Aria automatica installs an exporter called Node Exporter on the baseline and canary
-                instances it deploys. Node exporter exposes hardware and operating system metrics monitored by
-                Unix-based systems.
-              </p>
-              <p>The other kind of Prometheus target is an instrumented application. Developers may incorporate a
-                Prometheus client library into their application, calculating metrics and exposing them on an HTTP
-                endpoint. For example, an instrumented web application may expose metrics about the time to
-                service a request, the number of requests over a given time, or the rate of request failure. Aria
-                can configure Prometheus to scrape the endpoints of an already instrumented application.
-              </p>
-            </section>
-            <section id="section56">
-              <h3 id="five.six">5.6 Analysis with Kayenta and Referee</h3>
-              <p>For analysis, Aria offers Kayenta and its graphical front-end Referee. Kayenta is a statistical
-                judge which can be used to accurately determine the health of a canary application by comparing
-                the metrics of the canary and the baseline instances. While a human engineer may be able to judge
-                a canary by examining the metrics themselves, using a statistical judge helps filter signals from
-                noise, providing a more objective assessment.
-              </p>
-              <object style="width: 85%; display: block; margin: -2% auto 5%;"
-                data="./images/aria_visuals/svgs/all three instances.svg" type="image/svg+xml"></object>
-              <p>Kayenta was originally created as a component of Spinnaker, a continuous delivery platform
-                created by Netflix. While Spinnaker allows Kayenta to automatically judge and promote canary’s to
-                production without human intervention, Aria instead offers Kayenta as a supplemental tool for
-                users who wish to explore advanced canary analysis.
-              </p>
-              <p>Kayenta interacts with metrics provided by Prometheus. A user manually configures an analysis to
-                examine one or more metrics over a given time period. They may also weigh the relative importance
-                of those metrics (for example, a user may consider application memory usage more important than
-                request response time). Kayenta performs the analysis and returns a numerical score and a verdict
-                of healthy or unhealthy for the canary. Users may send requests to the Kayenta API, or make use of
-                the Referee front-end.
-              </p>
-              <object style="width: 60%; display: block; margin: -2% auto 5%;"
-                data="./images/aria_visuals/svgs/kayenta config.svg" type="image/svg+xml"></object>
-            </section>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- Six -->
-    <section id="six" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>6. Engineering Decisions and Tradeoffs</h2>
-            <P>The development team encountered several engineering challenges while building Aria. These challenges
-              resulted in several impactful decisions which influenced the Aria capabilities and limitations.</P>
-            <section id="section61">
-              <h3 id="six.one">6.1 Infrastructure-as-Code Tooling</h3>
-              <h4 id="six.one.one">6.1.1 IaC Landscape</h4>
-              <p>As mentioned above, infrastructure-as-code (IaC) tooling is utilized by Aria to manage its canary
-                analysis infrastructure. Aria specifically utilizes the AWS CDK to define its infrastructure as
-                TypeScript classes. Most IaC tooling solutions define infrastructure in a templating language format
-                like YAML or JSON. These tools are either first-party solutions offered by major cloud
-                infrastructure
-                providers (AWS, GCP, etc) or are third-party tools which utilize first-party APIs to manage
-                infrastructure (Terraform, Pulumi, etc). When researching tools the Aria development team focused on
-                the popular products: AWS CDK, Terraform, and Pulumi.</p>
-              <p>The choice of IaC tooling was significant for Aria because a majority of the Aria server code-base
-                is
-                dedicated to interfacing with, addressing the limitations of, or leveraging the benefits of the
-                selected IaC tool.</p>
-              <h4 id="six.one.two">6.1.2 Aria IaC Tooling Selection</h4>
-              <p>One of Aria’s initial design goals was to focus on AWS support because AWS is the leading
-                infrastructure service provider at ~30% market share (Canalys). In light of this design goal, the
-                Aria
-                team initially gravitated towards CDK adoption because CDK is natively supported by AWS. After
-                further
-                investigation, the team found that the biggest benefit of the platform native support is that AWS
-                utilizes the CFN service to manage deployed resources. The CFN implements its own persistent
-                database
-                for managing groups of deployed resources (i.e. stacks). This is a major benefit that freed Aria
-                from
-                the need of a database to store its own deployment meta-information. While Pulumi does support a
-                variety of programming languages, neither Pulumi nor Terraform provide an AWS CFN interface. Another
-                major benefit unique to CDK is that the tool allows for programmatic definition of resource stacks.
-                This allows CDK resource definitions to utilize software mechanisms (loops, if/else statements,
-                etc),
-                to be testable, and leverage software versioning techniques.</p>
-              <object style="width: 100%; margin: 0 auto 5%;" data="./images/aria_visuals/svgs/IaC Comparison.svg"
-                type="image/svg+xml"></object>
-              <p>However, selection of AWS CDK as the IaC tooling of choice wasn’t automatic. Compared to Pulumi and
-                Terraform, a major downside of the AWS CDK is its lack of multi-platform support. Both Terraform and
-                Pulumi support deploying to multiple cloud providers using a single infrastructure definition
-                template. This benefit would have theoretically allowed future iterations of Aria to add support for
-                additional cloud providers such as GCP and Azure without modifying the Aria resource definition
-                template. But these providers do offer the Azure Resource Manager and Google Cloud Deployment
-                Manager
-                products that allow for groups of resources to be managed in a manner similar to AWS CFN stacks.
-                Preferring to leverage resource grouping services, the Aria team accepted the additional complexity
-                of
-                implementing native tooling for each provider individually in favor of utilizing a single provider
-                agnostic tool.</p>
-              <p>Another major downside is that the AWS CDK is relatively immature. The CDK is the most recently
-                introduced of all the tooling solutions considered, where Terraform is the oldest (introduced 2014).
-                A
-                brief review of the AWS forums revealed CDK has many outstanding open issues. The expectation was
-                that
-                Terraform would be a much more stable tool due to its longevity and popularity. Although, based on
-                the
-                high level of AWS CDK community adoption, it was the Aria team’s expectation that AWS will continue
-                to
-                support the CDK. It was also acknowledged that development time would likely be longer than if Aria
-                leveraged Terraform due to open issues or poor documentation. While the team was able to
-                successfully
-                develop Aria using the AWS CDK, the development of that tooling did indeed last longer than
-                initially
-                anticipated due to CDK limitations.</p>
-              <p></p>
-              <h4 id="six.one.three">6.1.3 Addressing CDK Limitations</h4>
-              <p>AWS CDK provides little support for interfacing with and configuring existing infrastructure. While
-                the CDK does implement classes which can represent existing resources, those resources are meant to
-                be
-                defined within a local stack template file. This aspect of the CDK was troublesome for the team
-                because Aria requires interfacing with resources defined outside the CDK such as; private networks,
-                load balancers, instances, routing rules, etc.</p>
-              <p>In order to address this CDK shortcoming, the Aria team developed a library of functions
-                incorporating the AWS Software Development Kit (SDK). These functions focus on fetching and
-                formatting
-                the existing resource information such that the CDK can deploy to existing private networks and
-                route
-                traffic to newly added Aria infrastructure. </p>
-              <object style="width: 65%; display: block; margin: -3% auto 5%;"
-                data="./images/aria_visuals/svgs/TechChallenges-StacksA.svg" type="image/svg+xml"></object>
-              <p>Another limitation of the CDK is that individual CFN stacks are meant to be exclusive to a single
-                class declaration (i.e. local template file). While this one-to-one relationship is supported by the
-                CDK CLI commands, programmatic reuse of the class declaration isn’t supported out-of-the-box.
-                Bypassing the CDK CLI, Aria implements a parent “wrapper” class which exposes CDK core library
-                methods
-                and defines additional supplemental methods. This wrapper class allows for the class defining the
-                Aria
-                stack to be reused without invoking the CLI commands either as a child process or via the terminal.
-                These additional methods allow the CDK to escape the one-to-one template to stack relationship by
-                re-synthesizing the local template file for each stack deployment and destruction on an as-needed
-                basis. In other words, Aria overcomes the CDK restraints by defining a group of resources within a
-                class which can be reused for each Aria deployment.</p>
-              <object style="width: 65%; display: block; margin: -5% auto 5%;"
-                data="./images/aria_visuals/svgs/TechChallenges-StacksB.svg" type="image/svg+xml"></object>
-            </section>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- Seven -->
-    <section id="seven" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>7. Future Work</h2>
-            <p>Going forward, there are features and functionality that we, Aria’s development team, would like Aria
-              to support. Below are a sampling of the pending features and functions.</p>
-            <section id="section71">
-              <h3 id="seven.one">6.1 Modify Exisitng Routing Rules</h3>
-              <p>Aria's current implementation allows users to configure the initial traffic weights of the canary
-                instances prior to Aria infrastructure deployment. However, in order to provide even more
-                flexibility, we would like to provide users the ability to modify the traffic routing rule(s) for
-                existing Aria deployments.
-              </p>
-            </section>
-          </div>
-          <div class="inner">
-            <section id="section72">
-              <h3 id="seven.two">6.2 AWS API Gateway Support</h3>
-              <p>Currently, Aria deployments can only be initiated if the user’s existing infrastructure implements
-                an application load balancer. However, many service-based architectures utilize the AWS API Gateway
-                services to route traffic. We would like to extend Aria’s capability to add support for canary
-                deployments where the user’s architecture utilizes an API Gateway.
-              </p>
-            </section>
-          </div>
-          <div class="inner">
-            <section id="section73">
-              <h3 id="seven.three">6.3 GCP & Azure Support</h3>
-              <p>While AWS is currently the largest of the big three cloud computing providers, Microsoft Azure and
-                Google Cloud still command a sizable share of the market. The next major step would be for Aria to
-                support deployments to Microsoft Azure and Google Cloud. </p>
-            </section>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- Eight -->
-    <section id="eight" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>8. References</h2>
-            <ol>
-              <li><a href="http://atlassian.com/whitepapers/devops-survey-2020">Atlassian. “Atlassian Survey 2020 -
-                  DevOps Trends.” Atlassian, 2020. Accessed 8 December 2021.</a></li>
-              <li><a href="https://www.canalys.com/newsroom/global-cloud-services-q3-2021">Canalys. “Global cloud
-                  services spend hits record US$49.4 billion in Q3 2021.” Canalys, 28 October 2021. Accessed 26
-                  December 2021.</a></li>
-              <li><a
-                  href="https://cd.foundation/case-studies/spinnaker-case-studies/how-avast-scaled-its-continuous-delivery-with-spinnaker/">CD
-                  Foundation. “Case Study: How Avast Scaled its Continuous Delivery with Spinnaker.” CD Foundation,
-                  CD Foundation, 10 2019. Accessed 8 December 2021.</a></li>
-              <li><a href="http://urn.nb.no/URN:NBN:no-89905">Çeliku, Lea. Towards Continuity-as-Code. MS Thesis.
-                  University of Oslo, 2021.</a></li>
-              <li><a
-                  href="http://medium.com/adobetech/how-we-automated-canary-analysis-for-deployments-6a7ff88e4b7e">Ehmke,
-                  Martin. “How We Automated Canary Analysis for Deployments | by Martin Ehmke | Adobe Tech Blog.”
-                  Adobe Tech Blog, medium.com, 19 November 2019. Accessed 8 December 2021.</a></li>
-              <li><a href="https://martinfowler.com/bliki/BlueGreenDeployment.html">Fowler, Martin.
-                  “BlueGreenDeployment.” Martin Fowler, 1 March 2010. Accessed 2 December 2021.</a></li>
-              <li><a href="https://cloud.google.com/architecture/application-deployment-and-testing-strategies">Google
-                  SRE. “Application deployment and testing strategies.” Cloud Architecture Center, Google, 5
-                  February 2020. Accessed 8 December 2021.</a></li>
-              <li><a
-                  href="https://netflixtechblog.com/automated-canary-analysis-at-netflix-with-kayenta-3260bc7acc69">Graff,
-                  Michael. “Automated Canary Analysis at Netflix with Kayenta | by Netflix Technology Blog.” Netflix
-                  TechBlog, The Netflix Tech Blog, 10 April 2018. Accessed 8 December 2021.</a></li>
-              <li><a href="https://kasunpanorama.blogspot.com/2015/11/microservices-in-practice.html">Indrasiri,
-                  Kasun. “Kasun's Blog: Microservices in Practice.” Kasun's Blog, 28 11 2015. Accessed 8 December
-                  2021.</a></li>
-              <li><a
-                  href="https://traefik.io/blog/canary-releases-with-traefik-on-gke-at-holidaycheck-d3c0928f1e02/">McAllister,
-                  Neil. “Canary Releases with Traefik on GKE at HolidayCheck.” Traefik Labs, 21 May 2019. Accessed
-                  8 December 2021.</a></li>
-              <li><a
-                  href="https://engineering.klarna.com/simple-canary-releases-in-aws-how-and-why-bf051a47fb3f">Mitreski,
-                  Mite. “Simple canary releases in AWS: how and why?” Klarna Engineering, 6 February 2017.
-                  Accessed 8 December 2021.</a></li>
-              <li><a href="https://martinfowler.com/bliki/CanaryRelease.html">Sato, Danilo. “CanaryRelease.” Martin
-                  Fowler, 25 June 2014. Accessed 2 December 2021.</a></li>
-              <li><a href="https://blog.vamp.io/the-state-of-cloud-native-release-orchestration-2021/">Vamp.
-                  “Vamp.io Introduces Research Report The 2021 State of Cloud-Native Release Orchestration.” The
-                  Vamp Blog, 26 January 2021. Accessed 2 December 2021.</a></li>
-              <li><a href=" https://cms.harness.io/uploads/Continuous_Delivery_Insights_2020_f66596af70.pdf">Lamm,
-                  Dan. “Continuous Delivery Insights 2020.” harness.io. Accessed 9 December 2021.</a></li>
-            </ol>
-          </div>
-      </section>
-    </section>
-
-    <!-- Nine -->
-    <section id="nine" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>9. Presentation</h2>
-            <iframe width="736" height="414" src="https://www.youtube.com/embed/-5fDtvnahjw"
-              title="YouTube video player" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
-          </div>
-      </section>
-    </section>
-
-
-    <!-- Ten -->
-    <section id="ten" class="wrapper style1 spotlights">
-      <section>
-        <div class="content">
-          <div class="inner">
-            <h2>10. Meet the Team</h2>
-            <p>Aria was built by a small team of dedicated individuals.</p>
-          </div>
-          <div class="box alt">
-            <div class="row gtr-uniform">
-              <div class="col-3 center">
-                <img class="image fit align" src="./images/team_photos/sam.jpeg" alt="Sam Graham" />
-                <p>Sam Graham</p>
-                <div class="row center">
-                  <a href="mailto:segrah@gmail.com">
-                    <img src="./images/email_icon-32.png" alt="">
-                  </a>
-                  <a href="https://github.com/samgrah">
-                    <img src="./images/GH-icons/GH-32px.png" alt="Sam Graham GitHub">
-                  </a>
-                  <a href="https://www.linkedin.com/in/samgr">
-                    <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Sam Graham LinkedIn">
-                  </a>
-                </div>
-              </div>
-              <div class="col-3 center">
-                <img class="image fit align" src="./images/team_photos/yue.jpg" alt="Yue Yan" />
-                <p>Yue Yan</p>
-                <div class="row center">
-                  <a href="mailto:s.yueyan92@gmail.com">
-                    <img src="./images/email_icon-32.png" alt="">
-                  </a>
-                  <a href="https://github.com/syueyan">
-                    <img src="./images/GH-icons/GH-32px.png" alt="Yue Yan Github">
-                  </a>
-                  <a href="https://www.linkedin.com/in/syueyan">
-                    <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Yue Yan LinkedIn">
-                  </a>
-                </div>
-              </div>
-              <div class="col-3 center">
-                <img class="image fit align" src="./images/team_photos/caleb.jpeg" alt="" />
-                <p>Caleb Heath</p>
-                <div class="row center">
-                  <a href="mailto:caleb.heath@gmail.com">
-                    <img src="./images/email_icon-32.png" alt="email">
-                  </a>
-                  <a href="https://github.com/caleblayneheath">
-                    <img src="./images/GH-icons/GH-32px.png" alt="GitHub">
-                  </a>
-                  <a href="https://www.linkedin.com/in/caleblayneheath/">
-                    <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="LinkedIn">
-                  </a>
-                </div>
-              </div>
-              <div class="col-3 center">
-                <img class="image fit align" src="./images/team_photos/tzvi.png" alt="" />
-                <p>Tzvi Hamerman</p>
-                <div class="row center">
-                  <a href="mailto:hershyhamerman@gmail.com">
-                    <img src="./images/email_icon-32.png" alt="email">
-                  </a>
-                  <a href="https://github.com/Tzvi-H">
-                    <img src="./images/GH-icons/GH-32px.png" alt="GitHub">
-                  </a>
-                  <a href="https://www.linkedin.com/in/tzvihamerman/">
-                    <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="LinkedIn">
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-    </div>
-
-    <!-- Footer -->
-    <footer id="footer" class="wrapper style1-alt">
-      <div class="inner">
       </div>
-    </footer>
+    </section>
+  </section>
 
-    <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.scrollex.min.js"></script>
-    <script src="assets/js/jquery.scrolly.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
+  <!-- Two -->
+  <section id="two" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>2. Modern Deployments</h2>
+          <p>In the context of microservice architectures, the goal of modern deployment practices is to achieve
+            small and frequent service revision releases which result in zero downtime. While each of the many
+            unique deployment techniques share this characteristic, the approaches can be distinguished by their
+            tradeoffs.</p>
+          <p>With the understanding that a modern deployment strategy must be employed to facilitate deployment of
+            revisions on a service-by-service basis, ChartHealth begins exploring the landscape of modern
+            deployments. The company specifically seeks to understand which of the deployment types are most
+            commonly employed. ChartHealth contacts multiple companies which provide deployment solution products
+            and requests usage data from those suppliers.</p>
+          <center>
+            <img style="padding-bottom: 20px; display: block; margin-left: -12%;" width="70%" height="70%"
+              src="./images/aria_visuals/pngs/vamp_and_harness_surveys.png"
+              alt="Bar graph depicting Vamp and Harness modern deployment usage surveys.">
+          </center>
+          <p>The above chart was compiled from customer surveys conducted by two market-leading providers of
+            Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that
+            the four most common deployment techniques between the customer bases of both companies are: big bang,
+            rolling, blue/green, and canary.(Vamp)(Harness)</p>
+          <section id="section21">
+            <h3 id="two.one">2.1 Rolling Deployment</h3>
+            <video style="padding-bottom: 13px; margin-left: -1%;" width="765px" height="125px" autoplay muted loop>
+              <source src="./images/aria_visuals/videos/rolling_deployment.mp4">
+            </video>
+            <p>Rolling deployments introduce service revisions by incrementally replacing the current production
+              service code on each of multiple nodes within the architecture. This type of deployment is only
+              applicable if there are multiple instances of the same service operating in production. An
+              interesting, and perhaps desirable, aspect of rolling deployments is that the current production and
+              new revision of a service can coexist simultaneously for extended time periods (Çeliku 12). Rolling
+              deployments can also target specific user groups according to region, IP address, and a variety of
+              other traffic differentiators.</p>
+            <table class="proscons">
+              <tr>
+                <th>PROS</th>
+                <th>CONS</th>
+              </tr>
+              <tr>
+                <td>Rollout status transparency and control</td>
+                <td>Extended deployment timeframe</td>
+              </tr>
+              <tr>
+                <td>Risk limited to a subset of users</td>
+                <td>Not suitable for all-or-nothing changes</td>
+              </tr>
+            </table>
+          </section>
+        </div>
+        <div class="inner">
+          <section id="section22">
+            <h3 id="two.two">2.2 Blue/Green Deployment</h3>
+            <div class="text-animation">
+              <p>Blue/green deployments require two environments: blue and green. The first environment, green
+                within the above diagram, is the current production environment. The second blue environment is an
+                almost exact replica of the green (production) environment. The only difference between their
+                content is the revision of the target service. After the newly introduced blue domain has completed
+                initialization, a network switch or load
+                balancer routes 100% of the incoming network traffic to either blue or green environments
+                exclusively.</p>
+              <video width="448px" height="380px" autoplay muted loop>
+                <source src="./images/aria_visuals/videos/blue_green_deployment.mp4">
+              </video>
+            </div>
+            <p>As the deployment progresses, the traffic router redirects traffic to and from the blue or green
+              domains on an as needed basis. At any point in time, only one of the deployments is processing
+              incoming network traffic. The traffic router can maintain routing to the blue environment if the
+              service revision performance is acceptable. At this point, the blue environment effectively achieves
+              production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
+            <table class="proscons">
+              <tr>
+                <th>PROS</th>
+                <th>CONS</th>
+              </tr>
+              <tr>
+                <td>Instantaneous rollout and rollback</td>
+                <td>Duplicate production resources required</td>
+              </tr>
+              <tr>
+                <td>Simple disaster recovery</td>
+                <td>Entire user-base exposed to service revision issues</td>
+              </tr>
+            </table>
+          </section>
+        </div>
+        <div class="inner">
+          <section id="section23">
+            <h3 id="two.three">2.3 Canary Deployment</h3>
+            <div class="text-animation">
+              <p>This technique involves introducing a revised instance of a service, referred to as the canary,
+                into the same production environment as the current production version of the service. A load
+                balancer routes a minority of the incoming network traffic to be served by the canary instance.
+                During the canary deployment, a majority of the network traffic continues to be served by the
+                production service. The instance is continually analyzed such that any newly introduced issues can
+                be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming
+                network traffic is directed to the canary instance initially, data on its performance is collected
+                and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis
+                (Sato).</p>
+              <video width="291px" height="481px" style="margin-left: 2em;" autoplay muted loop>
+                <source src="./images/aria_visuals/videos/canary_deployment.mp4">
+              </video>
+            </div>
+            <p>The load balancer can divide incoming traffic based on many different criteria including: sticky
+              sessions, geographical region, packet addresses, packet headers, etc. This allows for the canary
+              service to be targeted at specific users or user groups despite executing within the production
+              environment.</p>
+            <table class="proscons">
+              <tr>
+                <th>PROS</th>
+                <th>CONS</th>
+              </tr>
+              <tr>
+                <td>Minimal risk exposure to user-base</td>
+                <td>Onerous configuration</td>
+              </tr>
+              <tr>
+                <td>High-fidelity canary analysis</td>
+                <td>Extended deployment timeframe</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Disaster recovery can be complex</td>
+              </tr>
+            </table>
+          </section>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Three -->
+  <section id="three" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>3. Choosing the Right Deployment Strategy</h2>
+          <p>First and foremost, a deployment strategy should both align with and serve business goals. For example,
+            a
+            service owner may prioritize zero downtime when rolling out service updates because customers require
+            access to medical information regardless of the time of day. Some of the other considerations may
+            include;
+            cost, engineering skill set, available testing tools, potential schema changes, and others. (Google SRE)
+          </p>
+          <p>Upon reviewing the above described deployment methods, disagreement arose between the ChartHealth
+            developer teams. The team responsible for the Stats service favored the Big Bang approach. The team
+            responsible for the Trends service felt that Blue/Green deployments were more suitable for the
+            development
+            and release cadence of their service. The medical records team, chiefly concerned with data integrity,
+            rejected all deployment types except canary deployment.</p>
+          <object style="width: 100%; margin-bottom: 2%;"
+            data="./images/aria_visuals/svgs/EMRChooseCanary-Deployment Chart.svg" type="image/svg+xml"></object>
+          <p>A major benefit of adopting a microservices architecture is the decoupling that can be achieved between
+            services. Decoupling between services can be expressed in terms of how the service is developed,
+            implemented, and deployed independent of one another (Indrasiri). Thus, although each of the ChartHealth
+            development teams disagree on which deployment technique to utilize, each can be satisfied by adopting
+            the
+            deployment technique of their choosing.</p>
+          <p>Upon reviewing common modern deployments, the ChartHealth EMR service development team elected to adopt
+            canary deployments. The deciding factor was that medical record data integrity is paramount. The
+            development team is first and foremost concerned about minimizing risk of issues being presented by new
+            service revisions which could result in incorrect or missing patient medical data.</p>
+          <section id="section31">
+            <h3 id="three.one">3.1 Canary Analysis</h3>
+            <p>The most encompassing definition of canary deployment may be:</p>
+            <blockquote>deployment which consists of gradually shifting the network traffic [within the production
+              environment] from the old application version to the new application version (Çeliku 13)</blockquote>
+            <p>This language is very broad but may be the only definition which satisfies the myriad implementations
+              across companies. Some organizations implement simplistic deployments which are little more than
+              automated traffic splitters (Mitreski). Others divide HTTP traffic such that individual user sessions
+              are handled by the canary or production service revision exclusively (Tucker). Some implementations
+              combine canary release with other deployment techniques such as Blue/Green (Ehmke).</p>
+            <p>While there are many axes over which canary deployments can be divided, there are two groupings based
+              on historical progression of the technique (Çeliku 2) (CD Foundation). While no formal terminology
+              exists for this variation in canary analysis techniques, these implementations can be referred to as
+              manual canary analysis and automated canary analysis.</p>
+            <div class="inner">
+              <h4 id="three.one.one">3.1.1 Manual Analysis</h4>
+              <object style="width: 100%;" data="./images/aria_visuals/svgs/Manual_Analysis.svg"
+                type="image/svg+xml"></object>
+              <p>From inception, canary deployment required human intervention at one or more stages of the process.
+                This manual approach required engineer review of data representing the health of the deployment. In
+                order to achieve this ‘manual analysis’ approach, tools which summarize canary performance metrics
+                and/or event logs for human consumption are required. After review, the engineer determines whether
+                to
+                continue or halt the canary deployment. Considering this approach as manual canary analysis, the
+                method was the only available until recently.</p>
+              <h4 id="three.one.two">3.1.2 Automated Analysis</h4>
+              <p>Eventually, statistical techniques improved such that continuous delivery of canary deployments
+                could
+                be achieved without human intervention (Graff). While automation of manual canary analysis had
+                simply
+                been a matter of implementation, the statistical techniques had lacked the fidelity to properly
+                determine if a canary deployment was operating at a tolerable level of risk.</p>
+              <object style="width: 100%; margin-bottom: 1rem;" data="./images/aria_visuals/svgs/Automated_Analysis.svg"
+                type="image/svg+xml"></object>
+              <p>Automated canary analysis utilizes an automated judge. The judge performs statistical analysis of
+                canary performance metrics stored as time-series data. The judge computes an overall score based on
+                a
+                comparison of the metric data against specified priorities, weights, and thresholds. The overall
+                score
+                is then compared against a predefined threshold to determine if the canary instance is fit to
+                replace
+                the current service revision. The upside of automated canary analysis is a fully automated delivery
+                pipeline.</p>
+              <p>However, the ChartHealth EMR service developer team recognizes that automated canary analysis
+                requires a high-degree of trust in the automated system. Given that their priority is focused on
+                complete fidelity of medical records management, the developer team elects not to utilize automated
+                canary analysis. However, the team is wants to leverage the advanced statistical techniques utilized
+                by automated canary analysis to more precisely understand the performance impacts of new revisions
+                (Vamp).</p>
+            </div>
+          </section>
+        </div>
+        <div class="inner">
+          <section id="section32">
+            <h2 id="three.two">3.2 Survey of Existing Solutions</h2>
+            <p>Armed with a more detailed understanding of the type of canary deployment it is seeking, ChartHealth
+              then takes inventory of the products and open source solutions which facilitate canary deployments.
+            </p>
+            <p>ChartHealth discovers that the existing solutions can be divided into three categories which can be
+              referred to as: platform services, orchestrator plugins, and standalone solutions.</p>
+            <object style="width: 100%;" data="./images/aria_visuals/svgs/3ProductCategories.svg"
+              type="image/svg+xml"></object>
+            <p>Platform services are solutions constructed from managed services offered by infrastructure
+              providers.
+              While the infrastructure services provider abstracts away the low level details of infrastructure
+              creation and management, it is the responsibility of the user (in this instance a ChartHealth
+              engineer)
+              to define and manage the infrastructure at a high level. The user composes and deploys the instances
+              which house the canary service(s) and performance observability products. Of the three categories,
+              platform services require ChartHealth’s EMR services developer team to have a DevOps skill set in
+              addition to software engineering. Examples of canary deployments which utilize platform services
+              include
+              implementations by companies such as HolidayCheck (McAllister), and Klarna (Mitreski).</p>
+            <p>Orchestrator plugins are another category of solutions. These are third-party plugins such as
+              Serverless, Argo Rollouts, and Kong Canary Release. These plugins are designed to integrate into
+              control-plane orchestration products such as Kubernetes or Istio. The options for tailoring a canary
+              deployments using plugin products are constrained by the limitations of the control plane itself,
+              usually resulting in more primitive canary deployments. ChartHealth immediately recognizes that one of
+              the major limitations of these solutions is the inherent requirement that the control plane product
+              must
+              be utilized as well. Control plane products are high in overhead, especially considering ChartHealth’s
+              microservice architecture is not as complex as the environments that control planes are meant to
+              manage.
+            </p>
+            <p>The standalone category refers to software-as-a-service (SaaS) or open-source platforms. These
+              products
+              can integrate with control plane orchestrators but can also perform canary deployments independently.
+              Canary releases are not the focus of but rather one of many features offered by these products. Some
+              products, such as those offered by Octopus Deploy and Vamp, are paid-for SaaS solutions. The
+              open-source
+              solution in this category is Spinnaker. Like its SaaS equivalents, Spinnaker is a comprehensive
+              product
+              which offers many more features than canary deployments but requires a significant time investment to
+              setup and maintain. Within this category, Spinnaker and Vamp are unique products in that both offer
+              automated canary analysis.</p>
+            <h4 id="three.two.one">3.2.1 Evaluating Exisitng Solutions</h4>
+            <p>After surveying available canary deployment solutions, the ChartHeath EMR service developer team has
+              decided that none are quite the right fit for their needs. They are not interested in platform
+              services
+              products because ChartHeath’s software engineering organization lacks DevOps experience. ChartHealth
+              does not stand alone in this regard. A DevOps survey conducted by Atlassian and CITE Research found
+              that
+              46% of companies have 3 years or less of DevOps experience, and that 37% of companies reported that
+              the
+              barrier to DevOps implementation is due to a lack of employee skills (Atlassian). For these reasons,
+              ChartHealth does not believe its engineering staff is currently capable of managing a platform service
+              solution.</p>
+            <object style="width: 80%; display: block; margin: 0 auto 0;"
+              data="./images/aria_visuals/svgs/DevOps Stats.svg" type="image/svg+xml"></object>
+            <p>The development team also decided against orchestrator plugin solutions due to the overhead of
+              implementing a control plane product. ChartHealth’s planned three service architecture does not
+              justify
+              a control product more complex than the microservice architecture itself.</p>
+            <p>Ideally, the development team would choose to implement Spinnaker in order to further reduce
+              deployment
+              risk by utilizing the Kayenta automated canary analysis package. Spinnaker allows for configuration of
+              canary deployments via a streamlined UI. However, similar to the orchestrator plugin solutions, the
+              standalone solutions are too complex relative to the task of deploying the lone EMR service within a
+              wider architecture.</p>
+            <p>While none of the other existing solutions satisfy ChartHealth’s EMR service development team, this
+              use
+              case is precisely that which Aria is meant to address.</p>
+          </section>
+        </div>
+    </section>
+  </section>
+
+  <!-- Four -->
+  <section id="four" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>4. Introducing Aria</h2>
+          <p>Because the existing third-party solutions don't fit the needs of the ChartHealth engineering team,
+            they have chosen to use Aria, a canary deployment & infrastructure management tool.</p>
+          <div class="inner">
+            <section id="section41">
+              <h3 id="four.one">4.1 What is Aria?</h3>
+              <p>Aria is an open-source, self-hosted canary deployment tool that helps developers quickly manage
+                the
+                lifecycle of canary deployments. Aria focuses the user on application specific configuration to
+                achieve a high fidelity automated analysis of the deployment performance.</p>
+              <object style="width: 110%;" data="./images/aria_visuals/svgs/Aria Overview Arch.svg"
+                type="image/svg+xml"></object>
+              <p>Aria provides a user-interface (UI) based application that allows engineers to easily configure,
+                deploy, review status of, and destroy the above described resources within their production or
+                staging environment of choice. As of the first iteration of the tool, Aria inserts the canary
+                analysis infrastructure to Virtual Private Clouds (VPCs) provided by Amazon Web Services (AWS).
+                More
+                specifically, Aria inserts infrastructure such that network traffic is routed by an existing
+                application load balancer (ALB) to be served by the Aria defined canary instances.</p>
+              <p>Each Aria managed deployment is composed of three instances: canary, baseline, and monitor. A
+                specified subset of incoming production traffic is redirected from the production infrastructure
+                to
+                the canary and baseline instances. The monitoring instance contains tooling for both performance
+                metrics and canary specific analysis enabling side-by-side comparison of the current and a
+                revision
+                to the production application.</p>
+              <img style="width: 140%; margin: -12%; margin-left: -35%;"
+                src="./images/aria_visuals/pngs/Infrastructure_Isometric.png" />
+            </section>
+          </div>
+          <div class="inner">
+            <section id="section42">
+              <h3 id="four.two">4.2 Where Aria Fits</h3>
+              <ul class="alt">
+                <li>
+                  <p>When comparing Aria with other alternatives like existing 3rd-party solutions and platform
+                    services, Aria stands out in multiple ways.</p>
+                </li>
+                <li>
+                  <div style="display: flex;">
+                    <p>First, Aria shines by <strong>self-provisioning</strong> all the necessary resources needed
+                      to achieve advanced statistical analysis utilizing Kayenta. Furthermore, Aria deploys
+                      monitoring services Prometheus and Grafana, allowing users a clear view into the current
+                      state of the deployment.</p>
+                    <img style="width: 60%; height: 60%;" src="./images/aria_visuals/pngs/Analysis Tools.png" />
+                  </div>
+                </li>
+                <li>
+                  <p>Second, Aria was built with <strong>accessibility</strong> in mind. As opposed to other
+                    canary deployment tools that have an overwhelming amount of configuration and unclear
+                    documentation, Aria displays a simple single page UI that facilitates deployment creation and
+                    configuration. The UI focuses on meaningful configuration analysis and select targeting of a
+                    subset of the user-base per deployment. </p>
+                </li>
+                <li>
+                  <p>Third, Aria is <strong>open-source</strong>. Companies that want to experiment with canary
+                    deployments may not want to invest in third-party solutions which can be quite costly or
+                    cannot
+                    be customized.</p>
+                </li>
+              </ul>
+              <p>Taking all these together, Aria, being easy to use, free, and abstracting much of the
+                complexity
+                that comes with a canary deployment, is a perfect fit for a small company like ChartHealth that
+                wants to get its feet wet with canary deployments and advanced canary analysis. Being able to
+                create
+                and destroy all of the resources necessary to deploy a canary with just a few clicks allows
+                developers to explore canary deployment and analysis without having to invest too much effort
+                and
+                time.</p>
+            </section>
+          </div>
+          <div class="inner">
+            <section id="section43">
+              <h3 id="four.three">4.3 Why Choose Aria?</h3>
+              <p>Deploying infrastructure and configuration in support of advanced statistical analysis of canary
+                deployments is both tedious and complex. To implement this approach, developers must be concerned
+                with traffic splitting rules; how to configure the traffic weights, and how to set up traffic
+                monitoring and analysis. In addition to configuration, engineering teams must also provision the
+                infrastructure associated with the deployment and setup observability tools in concert with that
+                infrastructure. With Aria, infrastructure creation and tedious configuration is automated and
+                abstracted behind an intuitive UI. Furthermore, if any issues arise with the canary instance,
+                traffic can be easily removed from the canary, rolling back to the previous pre-canary stable
+                environment. With these tasks addressed by Aria, developers are more willing to try canary
+                deployments and can benefit from its data analysis features.</p>
+              <object style="width: 90%; margin-bottom: 5%; margin-top: -2%; margin-left: 7%;"
+                data="./images/aria_visuals/svgs/AriaVsCompetitors.svg" type="image/svg+xml"></object>
+              <p>Aria was built specifically to lower the barrier for developers that want to try canary
+                deployments
+                and analysis tools. It is simple to configure the canary settings and to use Aria’s
+                straightforward
+                UI in order to meaningfully configure and manage canary deployment infrastructure. Rolling back is
+                easy if the new service revision is performing poorly -- with just a click of a button.</p>
+            </section>
+          </div>
+          <div class="inner">
+            <section id="section44">
+              <h3 id="four.four">4.4 Using Aria</h3>
+              <p>Aria use can be broken down into three main UI interactions which correspond to the lifecycle of
+                an
+                Aria canary deployment. First, a user configures the infrastructure to be deployed to the
+                accessible
+                environment (VPC) of their choice. Once the application has been deployed, the user has the
+                ability
+                to view the status and health of individual Aria deployments. Lastly, with one click, the user can
+                tear down the Aria canary deployment such that the initial state of the environment is restored.
+              </p>
+              <h4 id="four.four.one">4.4.1 Local Environment Setup</h4>
+              <p>In order to interface with AWS services, Aria requires that the user’s local development
+                environment include the AWS CDK Toolkit, AWS CLI, and their AWS account credentials. Aria is
+                launched by invoking <code>npm start</code> terminal command which subsequently launches the UI
+                and the
+                backend
+                API processes.
+                Upon launching the Aria UI, the user is prompted to select one of the locally defined AWS
+                profiles.
+                Aria automatically fetches all relevant AWS resource data, Aria deployments, and status
+                information
+                accessible by the selected AWS profile.</p>
+              <h4 id="four.four.two">4.4.2 Configuration & Creation</h4>
+              <img id="creation" style="width: 80%; display: block; margin: 0 1em 5%;"
+                src="./images/aria_visuals/gifs/cropped_faster_medium.gif" alt="Aria Creation GIF" />
+              <p>Along with giving the canary a title and description. The user is
+                presented with a Aria deployment
+                creation form. Within the form, traffic splitting can be configured by selecting a traffic weight
+                and rule priority. Optional settings, such as sticky sessions which enables re-routing of users to
+                the same target group on subsequent requests, can also be toggled on/off. The user can also
+                specify
+                under what conditions traffic will be forwarded to the new canary and baseline target groups.
+                Finally, the user provides the docker image and docker-compose files that specify how the Docker
+                containers should be run on the new instances. The canary can then be deployed with one click.
+              </p>
+              <h4 id="four.four.three">4.4.3 Management</h4>
+              <p>Once deployed, the user can view the statuses of the provisioned instances along with their event
+                logs in a simple and streamlined dashboard. This information can be accessed via the ‘Status’ menu
+                item in the sidebar. The displayed table conveys the state, status, and target health of all the
+                three provisioned instances that were created for each of the Aria deployments. Each entry within
+                the status table also contains a link to view the event logs of that instance.</p>
+              <p>Within the summary of each deployment, accessible via the ’Deployment’ sidebar menu item, are
+                links
+                to the Prometheus, Grafana, Kayenta and Referee monitoring tools. These tools are automatically
+                configured and created by Aria when the canary is provisioned, and are automatically set-up to
+                monitor the canary and baseline instances. </p>
+              <img style="width: 90%; height: 90%; display: block; margin: -4% auto 1%;"
+                src="./images/aria_visuals/pngs/Aria_Mgmt.png" />
+              <h4 id="four.four.four">4.4.4 Teardown</h4>
+              <p>When the user is satisfied with the canary deployment progress, the canary, baseline, and
+                monitoring instances can be torn down with one easy click of the ‘Destroy’ button. This button can
+                be accessed within the deployment specific summary. After destroying an Aria deployment, the
+                production environment is restored to its previous state wherein all incoming network traffic is
+                routed to the current production service.</p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Five -->
+  <section id="five" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>5. Technial Deep Dive</h2>
+          <section id="section51">
+            <h3 id="five.one">5.1 AWS CloudFormation, CDK, and SDK</h3>
+            <p>Aria interacts with an existing AWS environment through the use of AWS CloudFormation (CFN), the
+              AWS Cloud Development Kit (CDK), and the AWS Software Development Kit (SDK). </p>
+            <object style="width: 90%; display: block; margin: -2% auto 5%;"
+              data="./images/aria_visuals/svgs/CDK SDK CFN.svg" type="image/svg+xml"></object>
+            <p>AWS CloudFormation is an infrastructure-as-code (IaC) tool allowing for the provisioning and
+              configuration of AWS resource stacks based on developer-defined templates. AWS CDK builds on
+              CloudFormation by allowing users to express their desired stack programmatically in terms of code,
+              which can be then translated into a CloudFormation template. The template is then used to
+              provision, deploy, and destroy the resources comprising an Aria deployment’s canary
+              infrastructure. </p>
+            <p>While the CDK is specialized for deploying and destroying resources, there are some tasks for
+              which it is not well-suited. The AWS SDK is a more low-level and flexible tool for building
+              applications that can interact with a variety of AWS services. Aria uses the SDK for all AWS tasks
+              which cannot be done easily (or at all) with the CDK. Some examples of these Aria tasks include
+              fetching AWS profiles from a user’s local data, fetching resource and configuration info
+              associated with those profiles, and configuring an existing AWS Application Load Balancer to route
+              traffic to canary infrastructure.
+            </p>
+          </section>
+          <section id="section52">
+            <h3 id="five.two">5.2 Traffic Routing with AWS Application Load Balancers</h3>
+            <p>A canary deployment requires that some amount of traffic be split between the production version
+              of an application and the canary version. Traffic routing is typically accomplished via a load
+              balancer, an application that receives network traffic and redistributes it equitably between a
+              number of servers. Aria implements traffic routing by making use of the capabilities of an AWS
+              Application Load Balancer (or ALB).</p>
+            <p>Aria is designed to work with AWS production environments where an existing ALB routes traffic to
+              instances of a production application. The ALB routes traffic at the application layer and
+              provides a rich feature set for routing HTTP/HTTPS traffic.</p>
+            <object style="width: 50%; display: block; margin-left: auto; margin: -2% auto 5%; "
+              data="./images/aria_visuals/svgs/Default ALB.svg" type="image/svg+xml"></object>
+            <p>ALBs have one or more listeners, which are defined by a port and protocol, such as HTTP traffic
+              on port 80. Each listener also has one or more rules. When a listener receives a piece of traffic,
+              it applies each rule in order of priority. If a piece of traffic meets the condition to trigger a
+              rule, a specific action (such as forwarding or redirecting the request) occurs.
+            </p>
+            <p>Aria canary deployments create a new rule on an existing ALB listener. By setting this rule at a
+              high priority, it can supersede the normal behavior of the listener. Traffic that triggers the
+              Aria rule is forwarded to three target groups. One contains the production version of the
+              application, one the baseline version of the application, and one the canary version of the
+              application (the baseline and canary target groups receive equal amounts of traffic). Aria also
+              configures the listener to perform a health check on a path specified by the user; this means that
+              the canary infrastructure won’t receive traffic until it is ready and responsive. Finally, when
+              Aria destroys a canary deployment, it destroys the rule it put on the ALB listener, which then
+              resumes the routing behavior it exhibited prior to the Aria deployment.
+            </p>
+            <object style="width: 60%; display: block; margin: -2% auto 5%; "
+              data="./images/aria_visuals/svgs/ALB with Aria Rule.svg" type="image/svg+xml"></object>
+            <p>The rules that Aria creates can be conditionally applied, so canary traffic can be limited to by
+              filters such as a particular HTTP request method, HTTP header value, or URL path pattern. Sticky
+              sessions can also be implemented, ensuring that users from a given IP address will always return
+              to the version of the application they were originally routed to. Refreshing the browser will not
+              suddenly take a user from the canary application to the production version.
+            </p>
+          </section>
+          <section id="section53">
+            <h3 id="five.three">5.3 Baseline and Canary Instances</h3>
+            <p>Canary deployments require a new canary version of an application, but It is also considered good
+              practice to deploy a baseline version of the application as well. The baseline application is
+              identical to the production application, but instances running it are created alongside canary
+              instances. This minimizes time-sensitive variance in performance between the old and new versions
+              of the software. Comparing a baseline and a canary results in a better analysis than by
+              comparing the existing production instances and the canary.
+            </p>
+            <object style="width: 55%; display: block; margin: -2% auto 5%;"
+              data="./images/aria_visuals/svgs/Baseline_Canary.svg" type="image/svg+xml"></object>
+            <p>Aria deploys the baseline and canary applications to AWS EC2 instances. These instances are
+              automatically configured with both Docker and Docker Compose. For both the baseline and canary
+              versions, the user prepares Docker image files (as tarball archives) and Docker Compose files
+              which are transferred to the instances and used to initialize the applications.
+            </p>
+            <p>Aria also installs the application Node Exporter on each of these instances. Node Exporter is
+              further described below. </p>
+          </section>
+          <section id="section54">
+            <h3 id="five.four">5.4 Monitor Instance</h3>
+            <p>The final resource deployed by Aria is the Monitor Instance. This EC2 instance holds a suite of
+              monitoring and analysis tools to help the user investigate their canary application.</p>
+            <object style="width: 60%; display: block; margin: -2% auto 5%;"
+              data="./images/aria_visuals/svgs/monitor instance.svg" type="image/svg+xml"></object>
+            <p>Like the Baseline and Canary instances, Aria also installs Docker and Docker Compose. All of the
+              tools are containerized and run as part of an interconnected Docker network. Each tool is
+              immediately ready to use. The tools fall into two categories: monitoring and analysis. Monitoring
+              tools collect, store, and display metrics data generated by the applications in the canary
+              infrastructure. In contrast, analysis tools process those metrics to provide insight and
+              recommendations regarding the canary.
+            </p>
+          </section>
+          <section id="section55">
+            <h3 id="five.five">5.5 Monitoring with Prometheus and Graphana</h3>
+            <p>Prometheus is a popular open-source time-series database used to log metrics from targets. The
+              Prometheus server operates on an HTTP pull model, scraping metrics from targets at configured
+              intervals by making HTTP requests. These metrics are stored on disc as time series data which may
+              then be queried and visualized in the Prometheus front-end using the PromQL query language.
+              Prometheus can identify targets through service discovery, and Aria automatically configures
+              Prometheus to allow it to begin collecting metrics from deployed baseline and canary EC2 instances
+              immediately. </p>
+            <p>In addition to Prometheus, Aria also installs Grafana, a graphical interface and dashboard
+              builder. An Aria user may configure Grafana to display rich visualizations of multiple queries,
+              able to compare the baseline and canary instances at a glance.
+            </p>
+            <p>Prometheus collects metrics by pulling from HTTP endpoints. These endpoints can exist on two
+              kinds of targets: an exporter, or an instrumented application. Aria supports both.
+            </p>
+            <object style="width: 100%; display: block; margin: -2% auto 5%;"
+              data="./images/aria_visuals/svgs/Canary and Monitor.svg" type="image/svg+xml"></object>
+            <p>An exporter is a stand-alone application that collects metrics and exposes them for Prometheus to
+              use. Aria automatica installs an exporter called Node Exporter on the baseline and canary
+              instances it deploys. Node exporter exposes hardware and operating system metrics monitored by
+              Unix-based systems.
+            </p>
+            <p>The other kind of Prometheus target is an instrumented application. Developers may incorporate a
+              Prometheus client library into their application, calculating metrics and exposing them on an HTTP
+              endpoint. For example, an instrumented web application may expose metrics about the time to
+              service a request, the number of requests over a given time, or the rate of request failure. Aria
+              can configure Prometheus to scrape the endpoints of an already instrumented application.
+            </p>
+          </section>
+          <section id="section56">
+            <h3 id="five.six">5.6 Analysis with Kayenta and Referee</h3>
+            <p>For analysis, Aria offers Kayenta and its graphical front-end Referee. Kayenta is a statistical
+              judge which can be used to accurately determine the health of a canary application by comparing
+              the metrics of the canary and the baseline instances. While a human engineer may be able to judge
+              a canary by examining the metrics themselves, using a statistical judge helps filter signals from
+              noise, providing a more objective assessment.
+            </p>
+            <object style="width: 85%; display: block; margin: -2% auto 5%;"
+              data="./images/aria_visuals/svgs/all three instances.svg" type="image/svg+xml"></object>
+            <p>Kayenta was originally created as a component of Spinnaker, a continuous delivery platform
+              created by Netflix. While Spinnaker allows Kayenta to automatically judge and promote canary’s to
+              production without human intervention, Aria instead offers Kayenta as a supplemental tool for
+              users who wish to explore advanced canary analysis.
+            </p>
+            <p>Kayenta interacts with metrics provided by Prometheus. A user manually configures an analysis to
+              examine one or more metrics over a given time period. They may also weigh the relative importance
+              of those metrics (for example, a user may consider application memory usage more important than
+              request response time). Kayenta performs the analysis and returns a numerical score and a verdict
+              of healthy or unhealthy for the canary. Users may send requests to the Kayenta API, or make use of
+              the Referee front-end.
+            </p>
+            <object style="width: 60%; display: block; margin: -2% auto 5%;"
+              data="./images/aria_visuals/svgs/kayenta config.svg" type="image/svg+xml"></object>
+          </section>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Six -->
+  <section id="six" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>6. Engineering Decisions and Tradeoffs</h2>
+          <P>The development team encountered several engineering challenges while building Aria. These challenges
+            resulted in several impactful decisions which influenced the Aria capabilities and limitations.</P>
+          <section id="section61">
+            <h3 id="six.one">6.1 Infrastructure-as-Code Tooling</h3>
+            <h4 id="six.one.one">6.1.1 IaC Landscape</h4>
+            <p>As mentioned above, infrastructure-as-code (IaC) tooling is utilized by Aria to manage its canary
+              analysis infrastructure. Aria specifically utilizes the AWS CDK to define its infrastructure as
+              TypeScript classes. Most IaC tooling solutions define infrastructure in a templating language format
+              like YAML or JSON. These tools are either first-party solutions offered by major cloud
+              infrastructure
+              providers (AWS, GCP, etc) or are third-party tools which utilize first-party APIs to manage
+              infrastructure (Terraform, Pulumi, etc). When researching tools the Aria development team focused on
+              the popular products: AWS CDK, Terraform, and Pulumi.</p>
+            <p>The choice of IaC tooling was significant for Aria because a majority of the Aria server code-base
+              is
+              dedicated to interfacing with, addressing the limitations of, or leveraging the benefits of the
+              selected IaC tool.</p>
+            <h4 id="six.one.two">6.1.2 Aria IaC Tooling Selection</h4>
+            <p>One of Aria’s initial design goals was to focus on AWS support because AWS is the leading
+              infrastructure service provider at ~30% market share (Canalys). In light of this design goal, the
+              Aria
+              team initially gravitated towards CDK adoption because CDK is natively supported by AWS. After
+              further
+              investigation, the team found that the biggest benefit of the platform native support is that AWS
+              utilizes the CFN service to manage deployed resources. The CFN implements its own persistent
+              database
+              for managing groups of deployed resources (i.e. stacks). This is a major benefit that freed Aria
+              from
+              the need of a database to store its own deployment meta-information. While Pulumi does support a
+              variety of programming languages, neither Pulumi nor Terraform provide an AWS CFN interface. Another
+              major benefit unique to CDK is that the tool allows for programmatic definition of resource stacks.
+              This allows CDK resource definitions to utilize software mechanisms (loops, if/else statements,
+              etc),
+              to be testable, and leverage software versioning techniques.</p>
+            <object style="width: 100%; margin: 0 auto 5%;" data="./images/aria_visuals/svgs/IaC Comparison.svg"
+              type="image/svg+xml"></object>
+            <p>However, selection of AWS CDK as the IaC tooling of choice wasn’t automatic. Compared to Pulumi and
+              Terraform, a major downside of the AWS CDK is its lack of multi-platform support. Both Terraform and
+              Pulumi support deploying to multiple cloud providers using a single infrastructure definition
+              template. This benefit would have theoretically allowed future iterations of Aria to add support for
+              additional cloud providers such as GCP and Azure without modifying the Aria resource definition
+              template. But these providers do offer the Azure Resource Manager and Google Cloud Deployment
+              Manager
+              products that allow for groups of resources to be managed in a manner similar to AWS CFN stacks.
+              Preferring to leverage resource grouping services, the Aria team accepted the additional complexity
+              of
+              implementing native tooling for each provider individually in favor of utilizing a single provider
+              agnostic tool.</p>
+            <p>Another major downside is that the AWS CDK is relatively immature. The CDK is the most recently
+              introduced of all the tooling solutions considered, where Terraform is the oldest (introduced 2014).
+              A
+              brief review of the AWS forums revealed CDK has many outstanding open issues. The expectation was
+              that
+              Terraform would be a much more stable tool due to its longevity and popularity. Although, based on
+              the
+              high level of AWS CDK community adoption, it was the Aria team’s expectation that AWS will continue
+              to
+              support the CDK. It was also acknowledged that development time would likely be longer than if Aria
+              leveraged Terraform due to open issues or poor documentation. While the team was able to
+              successfully
+              develop Aria using the AWS CDK, the development of that tooling did indeed last longer than
+              initially
+              anticipated due to CDK limitations.</p>
+            <p></p>
+            <h4 id="six.one.three">6.1.3 Addressing CDK Limitations</h4>
+            <p>AWS CDK provides little support for interfacing with and configuring existing infrastructure. While
+              the CDK does implement classes which can represent existing resources, those resources are meant to
+              be
+              defined within a local stack template file. This aspect of the CDK was troublesome for the team
+              because Aria requires interfacing with resources defined outside the CDK such as; private networks,
+              load balancers, instances, routing rules, etc.</p>
+            <p>In order to address this CDK shortcoming, the Aria team developed a library of functions
+              incorporating the AWS Software Development Kit (SDK). These functions focus on fetching and
+              formatting
+              the existing resource information such that the CDK can deploy to existing private networks and
+              route
+              traffic to newly added Aria infrastructure. </p>
+            <object style="width: 65%; display: block; margin: -3% auto 5%;"
+              data="./images/aria_visuals/svgs/TechChallenges-StacksA.svg" type="image/svg+xml"></object>
+            <p>Another limitation of the CDK is that individual CFN stacks are meant to be exclusive to a single
+              class declaration (i.e. local template file). While this one-to-one relationship is supported by the
+              CDK CLI commands, programmatic reuse of the class declaration isn’t supported out-of-the-box.
+              Bypassing the CDK CLI, Aria implements a parent “wrapper” class which exposes CDK core library
+              methods
+              and defines additional supplemental methods. This wrapper class allows for the class defining the
+              Aria
+              stack to be reused without invoking the CLI commands either as a child process or via the terminal.
+              These additional methods allow the CDK to escape the one-to-one template to stack relationship by
+              re-synthesizing the local template file for each stack deployment and destruction on an as-needed
+              basis. In other words, Aria overcomes the CDK restraints by defining a group of resources within a
+              class which can be reused for each Aria deployment.</p>
+            <object style="width: 65%; display: block; margin: -5% auto 5%;"
+              data="./images/aria_visuals/svgs/TechChallenges-StacksB.svg" type="image/svg+xml"></object>
+          </section>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Seven -->
+  <section id="seven" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>7. Future Work</h2>
+          <p>Going forward, there are features and functionality that we, Aria’s development team, would like Aria
+            to support. Below are a sampling of the pending features and functions.</p>
+          <section id="section71">
+            <h3 id="seven.one">6.1 Modify Exisitng Routing Rules</h3>
+            <p>Aria's current implementation allows users to configure the initial traffic weights of the canary
+              instances prior to Aria infrastructure deployment. However, in order to provide even more
+              flexibility, we would like to provide users the ability to modify the traffic routing rule(s) for
+              existing Aria deployments.
+            </p>
+          </section>
+        </div>
+        <div class="inner">
+          <section id="section72">
+            <h3 id="seven.two">6.2 AWS API Gateway Support</h3>
+            <p>Currently, Aria deployments can only be initiated if the user’s existing infrastructure implements
+              an application load balancer. However, many service-based architectures utilize the AWS API Gateway
+              services to route traffic. We would like to extend Aria’s capability to add support for canary
+              deployments where the user’s architecture utilizes an API Gateway.
+            </p>
+          </section>
+        </div>
+        <div class="inner">
+          <section id="section73">
+            <h3 id="seven.three">6.3 GCP & Azure Support</h3>
+            <p>While AWS is currently the largest of the big three cloud computing providers, Microsoft Azure and
+              Google Cloud still command a sizable share of the market. The next major step would be for Aria to
+              support deployments to Microsoft Azure and Google Cloud. </p>
+          </section>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Eight -->
+  <section id="eight" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>8. References</h2>
+          <ol>
+            <li><a href="http://atlassian.com/whitepapers/devops-survey-2020">Atlassian. “Atlassian Survey 2020 -
+                DevOps Trends.” Atlassian, 2020. Accessed 8 December 2021.</a></li>
+            <li><a href="https://www.canalys.com/newsroom/global-cloud-services-q3-2021">Canalys. “Global cloud
+                services spend hits record US$49.4 billion in Q3 2021.” Canalys, 28 October 2021. Accessed 26
+                December 2021.</a></li>
+            <li><a
+                href="https://cd.foundation/case-studies/spinnaker-case-studies/how-avast-scaled-its-continuous-delivery-with-spinnaker/">CD
+                Foundation. “Case Study: How Avast Scaled its Continuous Delivery with Spinnaker.” CD Foundation,
+                CD Foundation, 10 2019. Accessed 8 December 2021.</a></li>
+            <li><a href="http://urn.nb.no/URN:NBN:no-89905">Çeliku, Lea. Towards Continuity-as-Code. MS Thesis.
+                University of Oslo, 2021.</a></li>
+            <li><a
+                href="http://medium.com/adobetech/how-we-automated-canary-analysis-for-deployments-6a7ff88e4b7e">Ehmke,
+                Martin. “How We Automated Canary Analysis for Deployments | by Martin Ehmke | Adobe Tech Blog.”
+                Adobe Tech Blog, medium.com, 19 November 2019. Accessed 8 December 2021.</a></li>
+            <li><a href="https://martinfowler.com/bliki/BlueGreenDeployment.html">Fowler, Martin.
+                “BlueGreenDeployment.” Martin Fowler, 1 March 2010. Accessed 2 December 2021.</a></li>
+            <li><a href="https://cloud.google.com/architecture/application-deployment-and-testing-strategies">Google
+                SRE. “Application deployment and testing strategies.” Cloud Architecture Center, Google, 5
+                February 2020. Accessed 8 December 2021.</a></li>
+            <li><a
+                href="https://netflixtechblog.com/automated-canary-analysis-at-netflix-with-kayenta-3260bc7acc69">Graff,
+                Michael. “Automated Canary Analysis at Netflix with Kayenta | by Netflix Technology Blog.” Netflix
+                TechBlog, The Netflix Tech Blog, 10 April 2018. Accessed 8 December 2021.</a></li>
+            <li><a href="https://kasunpanorama.blogspot.com/2015/11/microservices-in-practice.html">Indrasiri,
+                Kasun. “Kasun's Blog: Microservices in Practice.” Kasun's Blog, 28 11 2015. Accessed 8 December
+                2021.</a></li>
+            <li><a
+                href="https://traefik.io/blog/canary-releases-with-traefik-on-gke-at-holidaycheck-d3c0928f1e02/">McAllister,
+                Neil. “Canary Releases with Traefik on GKE at HolidayCheck.” Traefik Labs, 21 May 2019. Accessed
+                8 December 2021.</a></li>
+            <li><a
+                href="https://engineering.klarna.com/simple-canary-releases-in-aws-how-and-why-bf051a47fb3f">Mitreski,
+                Mite. “Simple canary releases in AWS: how and why?” Klarna Engineering, 6 February 2017.
+                Accessed 8 December 2021.</a></li>
+            <li><a href="https://martinfowler.com/bliki/CanaryRelease.html">Sato, Danilo. “CanaryRelease.” Martin
+                Fowler, 25 June 2014. Accessed 2 December 2021.</a></li>
+            <li><a href="https://blog.vamp.io/the-state-of-cloud-native-release-orchestration-2021/">Vamp.
+                “Vamp.io Introduces Research Report The 2021 State of Cloud-Native Release Orchestration.” The
+                Vamp Blog, 26 January 2021. Accessed 2 December 2021.</a></li>
+            <li><a href=" https://cms.harness.io/uploads/Continuous_Delivery_Insights_2020_f66596af70.pdf">Lamm,
+                Dan. “Continuous Delivery Insights 2020.” harness.io. Accessed 9 December 2021.</a></li>
+          </ol>
+        </div>
+    </section>
+  </section>
+
+  <!-- Nine -->
+  <section id="nine" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>9. Presentation</h2>
+          <iframe width="736" height="414" src="https://www.youtube.com/embed/-5fDtvnahjw" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+    </section>
+  </section>
+
+
+  <!-- Ten -->
+  <section id="ten" class="wrapper style1 spotlights">
+    <section>
+      <div class="content">
+        <div class="inner">
+          <h2>10. Meet the Team</h2>
+          <p>Aria was built by a small team of dedicated individuals.</p>
+        </div>
+        <div class="box alt">
+          <div class="row gtr-uniform">
+            <div class="col-3 center">
+              <img class="image fit align" src="./images/team_photos/sam.jpeg" alt="Sam Graham" />
+              <p>Sam Graham</p>
+              <div class="row center">
+                <a href="mailto:segrah@gmail.com">
+                  <img src="./images/email_icon-32.png" alt="">
+                </a>
+                <a href="https://github.com/samgrah">
+                  <img src="./images/GH-icons/GH-32px.png" alt="Sam Graham GitHub">
+                </a>
+                <a href="https://www.linkedin.com/in/samgr">
+                  <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Sam Graham LinkedIn">
+                </a>
+              </div>
+            </div>
+            <div class="col-3 center">
+              <img class="image fit align" src="./images/team_photos/yue.jpg" alt="Yue Yan" />
+              <p>Yue Yan</p>
+              <div class="row center">
+                <a href="mailto:s.yueyan92@gmail.com">
+                  <img src="./images/email_icon-32.png" alt="">
+                </a>
+                <a href="https://github.com/syueyan">
+                  <img src="./images/GH-icons/GH-32px.png" alt="Yue Yan Github">
+                </a>
+                <a href="https://www.linkedin.com/in/syueyan">
+                  <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="Yue Yan LinkedIn">
+                </a>
+              </div>
+            </div>
+            <div class="col-3 center">
+              <img class="image fit align" src="./images/team_photos/caleb.jpeg" alt="" />
+              <p>Caleb Heath</p>
+              <div class="row center">
+                <a href="mailto:caleb.heath@gmail.com">
+                  <img src="./images/email_icon-32.png" alt="email">
+                </a>
+                <a href="https://github.com/caleblayneheath">
+                  <img src="./images/GH-icons/GH-32px.png" alt="GitHub">
+                </a>
+                <a href="https://www.linkedin.com/in/caleblayneheath/">
+                  <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="LinkedIn">
+                </a>
+              </div>
+            </div>
+            <div class="col-3 center">
+              <img class="image fit align" src="./images/team_photos/tzvi.png" alt="" />
+              <p>Tzvi Hamerman</p>
+              <div class="row center">
+                <a href="mailto:hershyhamerman@gmail.com">
+                  <img src="./images/email_icon-32.png" alt="email">
+                </a>
+                <a href="https://github.com/Tzvi-H">
+                  <img src="./images/GH-icons/GH-32px.png" alt="GitHub">
+                </a>
+                <a href="https://www.linkedin.com/in/tzvihamerman/">
+                  <img src="./images/LinkedIn-Logos/LI-In-Bug-BW-mini.png" alt="LinkedIn">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer" class="wrapper style1-alt">
+    <div class="inner">
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
 
 </body>
 
