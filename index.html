@@ -108,7 +108,7 @@
             href="https://opensource.org/licenses/MIT">Open Source Initiative.</a></p>
         <ul class="actions">
           <li><a href="#one" class="button scrolly">Read the writeup</a></li>
-          <li><a href="/documentation" id="documentation" class="button scrolly">Documentation</a></li>
+          <li><a href="#nine" id="documentation" class="button scrolly">View Presentation</a></li>
         </ul>
       </div>
     </section>
@@ -121,7 +121,7 @@
             <h2>1. Introduction & Use Case</h2>
             <p>Canary deployment is a technique that allows revisions of an application or service, referred to as the
               canary, to be analyzed using a subset of the real network traffic. This deployment technique minimizes
-              potential errors and risks for the majority of users by targeting a minority of the user base. (Çeliku
+              potential errors and risks for the majority of users by targeting a minority of the user base (Çeliku).
               1) Canary deployments are sophisticated, require considerable configuration, and can be time consuming
               to both implement and analyze.</p>
             <p>Aria is a tool which allows users to simplify the creation, configuration, and analysis of canary
@@ -154,14 +154,14 @@
             </section>
             <section id="section12">
               <h3>1.2 The Problem with Traditional Deployments</h3>
-              <div class="text-animation">
-                <p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a
-                  traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or
-                  large parts of an application in one operation. The inherent downsides to big-bang deployments
-                  include: exposure of all users to issues due to software changes, longer delays between deployments,
-                  extensive testing of the entire codebase per deployment. (Skowronski et al.). ChartHealth was able
-                  to manage these downsides prior to the recent expansion, when it’s smaller developer team could more
-                  easily manage and comprehend the entire codebase.</p>
+              <p>When deploying a new revision of software to the monolithic architecture, ChartHealth utilized a
+                traditional ‘big-bang’ software deployment technique. Big-bang software deployments update whole or
+                large parts of an application in one operation. The inherent downsides to big-bang deployments
+                include: exposure of all users to issues due to software changes, longer delays between deployments,
+                extensive testing of the entire codebase per deployment (Skowronski et al.). ChartHealth was able
+                to manage these downsides prior to the recent expansion, when its smaller developer team could more
+                easily manage and comprehend the entire codebase.</p>
+              <div class="video">
                 <video width="309px" height="447px" style="margin-left: 2em; margin-bottom: 2%;" autoplay muted loop>
                   <source src="./images/aria_visuals/videos/traditional_deployment.mp4">
                 </video>
@@ -205,7 +205,7 @@
             <p>The above chart was compiled from customer surveys conducted by two market-leading providers of
               Continuous Integration and Deployment (CI/CD) products: Harness and Vamp. Both surveys indicated that
               the four most common deployment techniques between the customer bases of both companies are: big bang,
-              rolling, blue/green, and canary.(Vamp)(Harness)</p>
+              rolling, blue/green, and canary(Vamp)(Harness).</p>
             <section id="section21">
               <h3 id="two.one">2.1 Rolling Deployment</h3>
               <video style="padding-bottom: 13px; margin-left: -1%;" width="765px" height="125px" autoplay muted loop>
@@ -237,14 +237,14 @@
           <div class="inner">
             <section id="section22">
               <h3 id="two.two">2.2 Blue/Green Deployment</h3>
-              <div class="text-animation">
-                <p>Blue/green deployments require two environments: blue and green. The first environment, green
-                  within the above diagram, is the current production environment. The second blue environment is an
-                  almost exact replica of the green (production) environment. The only difference between their
-                  content is the revision of the target service. After the newly introduced blue domain has completed
-                  initialization, a network switch or load
-                  balancer routes 100% of the incoming network traffic to either blue or green environments
-                  exclusively.</p>
+              <p>Blue/green deployments require two environments: blue and green. The first environment, green
+                within the above diagram, is the current production environment. The second blue environment is an
+                almost exact replica of the green (production) environment. The only difference between their
+                content is the revision of the target service. After the newly introduced blue domain has completed
+                initialization, a network switch or load
+                balancer routes 100% of the incoming network traffic to either blue or green environments
+                exclusively.</p>
+              <div class="video">
                 <video width="448px" height="380px" autoplay muted loop>
                   <source src="./images/aria_visuals/videos/blue_green_deployment.mp4">
                 </video>
@@ -253,7 +253,7 @@
                 domains on an as needed basis. At any point in time, only one of the deployments is processing
                 incoming network traffic. The traffic router can maintain routing to the blue environment if the
                 service revision performance is acceptable. At this point, the blue environment effectively achieves
-                production status and the ‘older’ green domain can be destroyed. (Fowler)</p>
+                production status and the ‘older’ green domain can be destroyed (Fowler).</p>
               <table class="proscons">
                 <tr>
                   <th>PROS</th>
@@ -273,16 +273,16 @@
           <div class="inner">
             <section id="section23">
               <h3 id="two.three">2.3 Canary Deployment</h3>
-              <div class="text-animation">
-                <p>This technique involves introducing a revised instance of a service, referred to as the canary,
-                  into the same production environment as the current production version of the service. A load
-                  balancer routes a minority of the incoming network traffic to be served by the canary instance.
-                  During the canary deployment, a majority of the network traffic continues to be served by the
-                  production service. The instance is continually analyzed such that any newly introduced issues can
-                  be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming
-                  network traffic is directed to the canary instance initially, data on its performance is collected
-                  and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis
-                  (Sato).</p>
+              <p>This technique involves introducing a revised instance of a service, referred to as the canary,
+                into the same production environment as the current production version of the service. A load
+                balancer routes a minority of the incoming network traffic to be served by the canary instance.
+                During the canary deployment, a majority of the network traffic continues to be served by the
+                production service. The instance is continually analyzed such that any newly introduced issues can
+                be detected without impacting the majority of the user base (Çeliku 13). A small amount of incoming
+                network traffic is directed to the canary instance initially, data on its performance is collected
+                and analyzed, and the amount of traffic diverted may be increased or decreased based on the analysis
+                (Sato).</p>
+              <div class="video">
                 <video width="291px" height="481px" style="margin-left: 2em;" autoplay muted loop>
                   <source src="./images/aria_visuals/videos/canary_deployment.mp4">
                 </video>
@@ -326,7 +326,7 @@
               service owner may prioritize zero downtime when rolling out service updates because customers require
               access to medical information regardless of the time of day. Some of the other considerations may
               include;
-              cost, engineering skill set, available testing tools, potential schema changes, and others. (Google SRE)
+              cost, engineering skill set, available testing tools, potential schema changes, and others (Google SRE).
             </p>
             <p>Upon reviewing the above described deployment methods, disagreement arose between the ChartHealth
               developer teams. The team responsible for the Stats service favored the Big Bang approach. The team
@@ -392,7 +392,7 @@
                 <p>However, the ChartHealth EMR service developer team recognizes that automated canary analysis
                   requires a high-degree of trust in the automated system. Given that their priority is focused on
                   complete fidelity of medical records management, the developer team elects not to utilize automated
-                  canary analysis. However, the team is wants to leverage the advanced statistical techniques utilized
+                  canary analysis. However, the team wants to leverage the advanced statistical techniques utilized
                   by automated canary analysis to more precisely understand the performance impacts of new revisions
                   (Vamp).</p>
               </div>
@@ -470,6 +470,7 @@
                 case is precisely that which Aria is meant to address.</p>
             </section>
           </div>
+        </div>
       </section>
     </section>
 
@@ -607,7 +608,7 @@
                   the same target group on subsequent requests, can also be toggled on/off. The user can also
                   specify
                   under what conditions traffic will be forwarded to the new canary and baseline target groups.
-                  Finally, the user provides the docker image and docker-compose files that specify how the Docker
+                  Finally, the user provides the Docker image and Docker-Compose files that specify how the Docker
                   containers should be run on the new instances. The canary can then be deployed with one click.
                 </p>
                 <h4 id="four.four.three">4.4.3 Management</h4>
@@ -711,8 +712,8 @@
               <object style="width: 55%; display: block; margin: -2% auto 5%;"
                 data="./images/aria_visuals/svgs/Baseline_Canary.svg" type="image/svg+xml"></object>
               <p>Aria deploys the baseline and canary applications to AWS EC2 instances. These instances are
-                automatically configured with both Docker and Docker Compose. For both the baseline and canary
-                versions, the user prepares Docker image files (as tarball archives) and Docker Compose files
+                automatically configured with both Docker and Docker-Compose. For both the baseline and canary
+                versions, the user prepares Docker image files (as tarball archives) and Docker-Compose files
                 which are transferred to the instances and used to initialize the applications.
               </p>
               <p>Aria also installs the application Node Exporter on each of these instances. Node Exporter is
@@ -724,8 +725,9 @@
                 monitoring and analysis tools to help the user investigate their canary application.</p>
               <object style="width: 60%; display: block; margin: -2% auto 5%;"
                 data="./images/aria_visuals/svgs/monitor instance.svg" type="image/svg+xml"></object>
-              <p>Like the Baseline and Canary instances, Aria also installs Docker and Docker Compose. All of the
-                tools are containerized and run as part of an interconnected Docker network. Each tool is
+              <p>Like the Baseline and Canary instances, Aria also utilizes Docker and Docker-Compose to install the
+                monitoring and analysis tooling onto the monitoring instance.
+                These tools are each containerized and orchestrated via Docker network. Each tool is
                 immediately ready to use. The tools fall into two categories: monitoring and analysis. Monitoring
                 tools collect, store, and display metrics data generated by the applications in the canary
                 infrastructure. In contrast, analysis tools process those metrics to provide insight and
@@ -750,11 +752,11 @@
               </p>
               <object style="width: 100%; display: block; margin: -2% auto 5%;"
                 data="./images/aria_visuals/svgs/Canary and Monitor.svg" type="image/svg+xml"></object>
-              <p>An exporter is a stand-alone application that collects metrics and exposes them for Prometheus to
-                use. Aria automatica installs an exporter called Node Exporter on the baseline and canary
-                instances it deploys. Node exporter exposes hardware and operating system metrics monitored by
-                Unix-based systems.
-              </p>
+              <p>An exporter is a stand-alone application that collects and exposes metrics to be captured by a metrics
+                data store. Node exporter exposes hardware and operating system metrics monitored by
+                Unix-based systems. Aria automatically installs an exporter called Node Exporter on the baseline and
+                canary
+                instances. The metrics for each of those instances is then captured and stored by Prometheus.</p>
               <p>The other kind of Prometheus target is an instrumented application. Developers may incorporate a
                 Prometheus client library into their application, calculating metrics and exposing them on an HTTP
                 endpoint. For example, an instrumented web application may expose metrics about the time to
@@ -867,7 +869,7 @@
                 the CDK does implement classes which can represent existing resources, those resources are meant to
                 be
                 defined within a local stack template file. This aspect of the CDK was troublesome for the team
-                because Aria requires interfacing with resources defined outside the CDK such as; private networks,
+                because Aria requires interfacing with resources defined outside the CDK such as: private networks,
                 load balancers, instances, routing rules, etc.</p>
               <p>In order to address this CDK shortcoming, the Aria team developed a library of functions
                 incorporating the AWS Software Development Kit (SDK). These functions focus on fetching and
@@ -906,7 +908,7 @@
             <p>Going forward, there are features and functionality that we, Aria’s development team, would like Aria
               to support. Below are a sampling of the pending features and functions.</p>
             <section id="section71">
-              <h3 id="seven.one">6.1 Modify Exisitng Routing Rules</h3>
+              <h3 id="seven.one">7.1 Modify Exisitng Routing Rules</h3>
               <p>Aria's current implementation allows users to configure the initial traffic weights of the canary
                 instances prior to Aria infrastructure deployment. However, in order to provide even more
                 flexibility, we would like to provide users the ability to modify the traffic routing rule(s) for
@@ -916,7 +918,7 @@
           </div>
           <div class="inner">
             <section id="section72">
-              <h3 id="seven.two">6.2 AWS API Gateway Support</h3>
+              <h3 id="seven.two">7.2 AWS API Gateway Support</h3>
               <p>Currently, Aria deployments can only be initiated if the user’s existing infrastructure implements
                 an application load balancer. However, many service-based architectures utilize the AWS API Gateway
                 services to route traffic. We would like to extend Aria’s capability to add support for canary
@@ -926,7 +928,7 @@
           </div>
           <div class="inner">
             <section id="section73">
-              <h3 id="seven.three">6.3 GCP & Azure Support</h3>
+              <h3 id="seven.three">7.3 GCP & Azure Support</h3>
               <p>While AWS is currently the largest of the big three cloud computing providers, Microsoft Azure and
                 Google Cloud still command a sizable share of the market. The next major step would be for Aria to
                 support deployments to Microsoft Azure and Google Cloud. </p>
@@ -987,6 +989,7 @@
                   Dan. “Continuous Delivery Insights 2020.” harness.io. Accessed 9 December 2021.</a></li>
             </ol>
           </div>
+        </div>
       </section>
     </section>
 
@@ -1080,22 +1083,22 @@
         </div>
       </section>
     </section>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer" class="wrapper style1-alt">
+    <div class="inner">
     </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer id="footer" class="wrapper style1-alt">
-      <div class="inner">
-      </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.scrollex.min.js"></script>
-    <script src="assets/js/jquery.scrolly.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
 
 </body>
 

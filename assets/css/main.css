@@ -140,9 +140,10 @@ ul {
   list-style: none;
 }
 
-video {
-  max-width: 100%;
-  height: auto;
+.video {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
 }
 
 blockquote,
