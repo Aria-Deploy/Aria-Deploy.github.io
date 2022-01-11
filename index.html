@@ -74,6 +74,7 @@
             <a href="#six">6. Engineering Decisions & Tradeoffs</a>
             <ul class="subsection">
               <li><a href="#section61">6.1 Infrastructure-as-Code Tooling</a></li>
+              <li><a href="#section62">6.2 Aria Service Deployment Pipeline</a></li>
             </ul>
           </li>
           <li>
@@ -894,6 +895,85 @@
               <object style="width: 65%; display: block; margin: -5% auto 5%;"
                 data="./images/aria_visuals/svgs/TechChallenges-StacksB.svg" type="image/svg+xml"></object>
             </section>
+            <section id="section62">
+              <h3 id="six.two">6.2 Aria Service Deployment Pipeline</h3>
+              <p>As mentioned above, Aria utilizes the CDK to implement a custom service (or application) deployment
+                pipeline. From the outside looking in, this may be a confusing design choice. AWS offers multiple
+                services which can provision infrastructure, equip monitoring, and automatically install applications on
+                that infrastructure. However, due to the following factors and upstream design choices, the Aria
+                development team chose a DIY approach.
+              </p>
+              <h4 id="six.two.one">6.2.1 Metrics Exporter Contstraint</h4>
+              <p>In order to collect instance level performance metrics (CPU utilization, memory usage, etc) which
+                represents the saturation category of the four golden signals (Google SRE), there are essentially two
+                collection approaches which support Aria’s use case: utilize AWS Cloudwatch or instrument instances with
+                a metrics exporter. In many aspects, AWS CloudWatch would be an option superior to a third-party
+                exporter. This is because AWS CloudWatch is a flexible service which allows on the fly definition
+                enablement of metrics collection, supports access (IAM) roles directly, and provides metric storage by
+                default. However, Kayenta, the canary analysis tool, doesn’t provide an interface to the CloudWatch data
+                store. Given that Aria chose to utilize Prometheus for metrics data storage, both of the EC2 instances
+                would need a CloudWatch agent installed. Furthermore, while CloudWatch is a more fully featured service
+                than third-party exporters, many of the third-party exporters export more instance level metrics than
+                CloudWatch does out of the box, by an order of magnitude. The biggest downside to third-party exporters
+                is that each EC2 instance must be instrumented with an exporter. But in the context of Aria’s use case,
+                the CloudWatch agent must also be installed on a per instance basis, which negates CloudWatches
+                advantage. Thus, because third-party exporters access and exporter a larger number of metrics, providing
+                the end user more analysis options, Aria opted not to utilize AWS CloudWatch. The instance deployment
+                method utilized then needed to accommodate a third-party exporter in addition to installation of the
+                service process itself.
+              </p>
+              <h4 id="six.two.two">6.2.2 Process(es) Isolation Contstraint</h4>
+              <p>Utilization of a third-party metrics exporter then exposed another constraint applicable to the service
+                deployment: isolation. In addition to installing the third-party exporter on the service instance, the
+                development team initially planned to utilize a reverse-proxy server to export HTTP metrics. Given that
+                both these tools require installation on the EC2 instance, in addition to the service itself, the design
+                team’s primary concern was such that potential conflicts could arise between installed services (e.g.
+                directory naming, ports, etc). In order to avoid this potential issue, the team decided it best to
+                utilize containers for the service instance(s).
+              </p>
+              <p>The Aria development team recognized that utilizing containers brings its own limitations and
+                complications. For example, most container services build containers from images. What format of image
+                would Aria support? AWS AMIs? Docker images? On what platform would the image be stored (e.g. AWS ECR,
+                Docker Hub, GitLab, etc) and would that platform be privately or publicly accessible? In order to make
+                Aria as accessible as possible for the user, the team decided that the user should package and provide
+                their service code as an image file.
+              </p>
+              <h4 id="six.two.three">6.2.3 Applicable Deployment Services</h4>
+              <object
+                style="display: block; width: 80%; height: auto; margin-bottom: 2%; margin-left: auto; margin-right: auto;"
+                data="./images/aria_visuals/svgs/Service Deployments Venn Diagram.svg" type="image/svg+xml"></object>
+              <h4 id="six.two.four">6.2.4 Custom Deployment Pipeline</h4>
+              <p>AWS provides multiple services which can handle the deployment of user applications including; Elastic
+                BeanStalk (EBS), CodeDeploy, Elastic Container Service (ECS), and Amazon Machine Image (AMI). When
+                applying the three constraints listed above, none of the AWS services quite meet all of Aria’s needs.
+                While EBS is very flexible and fully featured, it expects container images to be hosted by a storage
+                service and doesn’t support local images. The major downside of the CodeDeploy service, from Aria’s
+                perspective is that it has limited capabilities to deploy new infrastructure (like autoscaling groups)
+                on which the canary services and analysis tooling executes. The major downside of ECS is that, while
+                multiple containers can be created in the same instance, the service doesn’t allow for programs to be
+                installed at the EC2 instance level (metrics exporter). In light of all the constraints, the Aria
+                development team utilized CDK features to construct a custom deployment pipeline. While this approach
+                was the most difficult to implement, it did offer the most flexible solution.</p>
+              <h4 id="six.two.5">6.2.5 Custom Deployment Pipeline</h4>
+              <p>The Aria development team chose Docker as the container technology used for the custom deployment
+                pipeline because, to date, it is the industry standard for containerized applications. The natural
+                choice would be to implement bash scripts such that the ec2 instances could pull the container images
+                stored in a public registry. However, there are many different registries which support Docker images
+                and the user's images may be private or not stored in a registry at all.</p>
+              <p>To address this issue, the Aria deployment pipeline is architected such that users provide a tar
+                archive created from a docker image. Any docker image can be converted into a local tar archive file by
+                invoking the <code>docker save</code> terminal command. Using this approach, once a tar archive is
+                transferred onto
+                the ec2 instance, it is converted back into a Docker image and a container is created from that file.
+                However, while the CDK provides the functionality to execute a user script immediately following EC2
+                instance deployment, there isn’t native functionality for the transfer of files onto the instance.</p>
+              <object
+                style="display: block; width: 100%; height: auto; margin-bottom: 2%; margin-left: auto; margin-right: auto;"
+                data="./images/aria_visuals/svgs/Deployment Pipeline.svg" type="image/svg+xml"></object>
+              <p>This shortcoming of the CDK was addressed by transferring the user's tar files as assets to a temporary
+                aws s3 storage bucket and then copying the tar file to the desired instanced immediately after
+                deployment. In this way, configure the ec2 instances to download those tar files assets from the s3
+                bucket and convert them back into docker images and run containers from them.</p>
           </div>
         </div>
       </section>
