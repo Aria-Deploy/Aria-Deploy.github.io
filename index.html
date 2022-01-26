@@ -939,10 +939,6 @@
                 their service code as an image file.
               </p>
               <h4 id="six.two.three">6.2.3 Applicable Deployment Services</h4>
-              <object
-                style="display: block; width: 80%; height: auto; margin-bottom: 2%; margin-left: auto; margin-right: auto;"
-                data="./images/aria_visuals/svgs/Service Deployments Venn Diagram.svg" type="image/svg+xml"></object>
-              <h4 id="six.two.four">6.2.4 Custom Deployment Pipeline</h4>
               <p>AWS provides multiple services which can handle the deployment of user applications including; Elastic
                 BeanStalk (EBS), CodeDeploy, Elastic Container Service (ECS), and Amazon Machine Image (AMI). When
                 applying the three constraints listed above, none of the AWS services quite meet all of Aria’s needs.
@@ -954,7 +950,10 @@
                 installed at the EC2 instance level (metrics exporter). In light of all the constraints, the Aria
                 development team utilized CDK features to construct a custom deployment pipeline. While this approach
                 was the most difficult to implement, it did offer the most flexible solution.</p>
-              <h4 id="six.two.5">6.2.5 Custom Deployment Pipeline</h4>
+              <object
+                style="display: block; width: 80%; height: auto; margin-bottom: 2%; margin-left: auto; margin-right: auto;"
+                data="./images/aria_visuals/svgs/Service Deployments Venn Diagram.svg" type="image/svg+xml"></object>
+              <h4 id="six.two.5">6.2.4 Custom Deployment Pipeline</h4>
               <p>The Aria development team chose Docker as the container technology used for the custom deployment
                 pipeline because, to date, it is the industry standard for containerized applications. The natural
                 choice would be to implement bash scripts such that the ec2 instances could pull the container images
